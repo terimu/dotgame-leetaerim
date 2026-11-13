@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "active": true,
+  "skill": "ralplan",
+  "keyword": "/skill:ralplan",
+  "phase": "planner",
+  "activated_at": "2026-11-13T03:15:25.852Z",
+  "updated_at": "2026-11-13T03:15:25.852Z",
+  "source": "gjc-skill-invocation",
+  "session_id": "01a1d2e6-c7cb-736c-87aa-67ab2feabe40",
+  "initialized_mode": "ralplan",
+  "initialized_state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2e6-c7cb-736c-87aa-67ab2feabe40/state/ralplan-state.json",
+  "active_skills": [
+    {
+      "skill": "ralplan",
+      "phase": "planner",
+      "active": true,
+      "activated_at": "2026-11-13T03:15:25.852Z",
+      "updated_at": "2026-11-13T03:15:25.852Z",
+      "session_id": "01a1d2e6-c7cb-736c-87aa-67ab2feabe40"
+    }
+  ],
+  "source_state_revision": 2,
+  "state_revision": 2
+}

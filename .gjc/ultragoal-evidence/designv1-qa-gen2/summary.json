@@ -1,0 +1,45 @@
+{
+ "doc": "git show 5d61645:GAME_DESIGN.md",
+ "commands": [
+  "cd /Users/leetaerim/Downloads/dotgame-taerim && git show 5d61645:GAME_DESIGN.md > /tmp/designv1-qa/gen2/v1.md && git show f286e96:GAME_DESIGN.md > /tmp/designv1-qa/gen2/v0.md",
+  "cd /tmp/designv1-qa/gen2 && node c1.js > out1.txt",
+  "node c2.js > out2.txt",
+  "node c3.js > out3.txt",
+  "node c4.js > out4.txt; node c4b.js > out4b.txt",
+  "node c5.js > out5.txt",
+  "node c6.js > out6.txt"
+ ],
+ "checks": {
+  "1": {
+   "verdict": "PASS",
+   "blocking": false,
+   "evidence": "3 sprites 16 rows x16; bear used \".456\", floor \"01\", wall \"234\"; palette 8 unique valid hex, indices 0-7; 0 FAIL lines (out1.txt)"
+  },
+  "2": {
+   "verdict": "PASS",
+   "blocking": false,
+   "evidence": "16/16 reference-impl scenarios match doc rows; no blocking divergence; low-risk gaps D1,D3,D4 (modifier keys/preventDefault/key vs code) (out2.txt)"
+  },
+  "3": {
+   "verdict": "PASS",
+   "blocking": false,
+   "evidence": "L1 (32,32) margins 32/32/32/32; L2 (16,32) right16 bottom32; L3 (0,0); all within 352x288; screen row consistent (288+32=320). Non-blocking: L2 offset/size not written in doc (rule is general) (out3.txt)"
+  },
+  "4": {
+   "verdict": "PASS (non-blocking flags)",
+   "blocking": false,
+   "evidence": "CR<1.5: margin-line 1.39, floor-line 1.31, wall-highlight-bear-body 1.05. Criterion-7 category pairs: margin/floor 1.81, floor/wall 1.85, margin/wall 3.36, floor/bear 3.73, wall/bear 2.01, margin/bear 6.76 (all >=1.5). Flagged pairs: 0-4 only touches where wall sprite top row (all idx4) borders margin, wall tile still reads via face; 1-4 bear outline on floor, bear silhouette still reads via body 5 (3.73); 3-5 never adjacent in R1. Weakest category pair floor/wall 1.85 and margin/floor 1.81: distinguishable but modest (out4.txt,out4b.txt)"
+  },
+  "5": {
+   "verdict": "PASS",
+   "blocking": false,
+   "evidence": "every ch.9 chapter number (2,4,5,6) and quoted row name resolves; 7 criteria numbered 1..7; \"4장 곰·바닥·벽\" is shorthand for ch4 title 오브젝트 + rows 곰/바닥/벽 (non-blocking naming) (out5.txt)"
+  },
+  "6": {
+   "verdict": "PASS",
+   "blocking": false,
+   "evidence": "L1 grid byte-identical to spec map 1 (69 bytes, 7x9, no CR/trailing ws); all v0 numeric tokens present in v1; only 한 칸 이동 시간 100 ms row replaced by 이동 후 입력 쿨다운 100 ms (out6.txt)"
+  }
+ },
+ "overall": "PASS, no blocking findings"
+}

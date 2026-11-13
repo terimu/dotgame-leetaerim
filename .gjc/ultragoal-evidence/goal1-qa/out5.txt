@@ -1,0 +1,23 @@
+ok   8 palette hex parsed from ch.6: #0b0e1a #2f3d66 #7a6248 #b09a80 #3d2817 #d08a3c #f0d8b0 #f2efe0
+ok   index.html: hex literals ["#0b0e1a"] all in ch.6
+ok   index.html: no rgb()/hsl()
+ok   src/main.js: hex literals [] all in ch.6
+ok   src/main.js: no rgb()/hsl()
+ok   src/logic.js: hex literals [] all in ch.6
+ok   src/logic.js: no rgb()/hsl()
+ok   main.js no named colors
+ok   no package.json
+ok   no src/strings.js
+ok   no node_modules/lockfile
+ok   SPRITE_BEAR == ch.4 bear block
+ok   SPRITE_FLOOR == ch.4 floor block
+ok   SPRITE_WALL == ch.4 wall block
+ok   PALETTE == ch.6 table
+ok   LEVEL1 == ch.5 grid
+ok   levels.js exports only LEVEL1: LEVEL1
+numeric literals in main.js: 2,8,16,0,1,0,1,0,0,0,0,0,1,0,1
+ok   main.js has no re-typed ch.2 numbers (352/320/288/100/32)
+ok   logic.js: "100" appears exactly once
+ok   only performance.now time source (no Date/timers/rAF)
+ok   main.js uses performance.now()
+failures 0

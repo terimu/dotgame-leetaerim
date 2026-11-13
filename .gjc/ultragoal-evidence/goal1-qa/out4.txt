@@ -1,0 +1,29 @@
+ok   canvas sized 352x320
+ok   getElementById("game"), getContext("2d")
+ok   initial draw once (1 frames)
+ok   first op of frame fills full 352x320 with #0b0e1a
+ok   initial fillStyles subset of ch.6 palette: #0b0e1a,#3d2817,#b09a80,#7a6248,#2f3d66,#d08a3c,#f0d8b0
+ok   index 7 (reserved) unused
+ok   margin + HUD strip pixels all #0b0e1a (simulated pixel buffer)
+ok   no unpainted pixel
+ok   initial frame pixel-identical to doc-derived expectation (diff=0); includes map origin (32,32), bear over floor at (1,1), bear above floor
+ok   last op of frame is a bear pixel (drawn last)
+ok   repeat=true ignored: bear {"col":1,"row":1} expected 1,1, frames 1
+ok   repeat=true after a real move ignored (even 500ms later): bear {"col":2,"row":1} expected 2,1, frames 2
+ok   two keys 0 ms apart move once: bear {"col":2,"row":1} expected 2,1, frames 2
+ok   two keys 50 ms apart move once: bear {"col":2,"row":1} expected 2,1, frames 2
+ok   99 ms ignored: bear {"col":2,"row":1} expected 2,1, frames 2
+ok   100 ms accepted: bear {"col":2,"row":2} expected 2,2, frames 3
+ok   101 ms accepted: bear {"col":2,"row":2} expected 2,2, frames 3
+ok   wall bump no cooldown: bump ArrowUp @1000 then Right @1001 moves: bear {"col":2,"row":1} expected 2,1, frames 3
+ok   wall bump same ms as move: Left bump @0 then Right @0: bear {"col":2,"row":1} expected 2,1, frames 3
+ok   non-arrow no cooldown: Space/a/Enter @1000 then Right @1001: bear {"col":2,"row":1} expected 2,1, frames 5
+ok   first input at t=0 accepted: bear {"col":1,"row":2} expected 1,2, frames 2
+ok   cooldown anchored to last real move, not to ignored input: move@0, ignored@60, accepted@100: bear {"col":2,"row":2} expected 2,2, frames 3
+ok   cooldown not extended by bump: move@0, bump(Up)@100... then Down@150 rejected? (0->100 move ok; bump@150 up wall? ): bear {"col":4,"row":1} expected 4,1, frames 4
+ok   walk into right wall from (7,1): bump no-op: bear {"col":7,"row":1} expected 7,1, frames 10
+ok   prototype key via event: __proto__/constructor/toString ignored: bear {"col":1,"row":1} expected 1,1, frames 5
+ok   5-move path: every redrawn frame pixel-identical to expected (bad=0); frames=6
+ok   all fillStyles over whole session are palette hexes
+ok   repeat=true does not redraw
+failures 0

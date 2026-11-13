@@ -1,0 +1,155 @@
+ok  곰: block found
+ok  bear rows=16 got 16
+ok  bear row0 len=16 got 16
+ok  bear row0 chars ok
+ok  bear row1 len=16 got 16
+ok  bear row1 chars ok
+ok  bear row2 len=16 got 16
+ok  bear row2 chars ok
+ok  bear row3 len=16 got 16
+ok  bear row3 chars ok
+ok  bear row4 len=16 got 16
+ok  bear row4 chars ok
+ok  bear row5 len=16 got 16
+ok  bear row5 chars ok
+ok  bear row6 len=16 got 16
+ok  bear row6 chars ok
+ok  bear row7 len=16 got 16
+ok  bear row7 chars ok
+ok  bear row8 len=16 got 16
+ok  bear row8 chars ok
+ok  bear row9 len=16 got 16
+ok  bear row9 chars ok
+ok  bear row10 len=16 got 16
+ok  bear row10 chars ok
+ok  bear row11 len=16 got 16
+ok  bear row11 chars ok
+ok  bear row12 len=16 got 16
+ok  bear row12 chars ok
+ok  bear row13 len=16 got 16
+ok  bear row13 chars ok
+ok  bear row14 len=16 got 16
+ok  bear row14 chars ok
+ok  bear row15 len=16 got 16
+ok  bear row15 chars ok
+bear used: .456
+ok  bear index 4 in palette
+ok  bear index 5 in palette
+ok  bear index 6 in palette
+ok  바닥: block found
+ok  floor rows=16 got 16
+ok  floor row0 len=16 got 16
+ok  floor row0 chars ok
+ok  floor row1 len=16 got 16
+ok  floor row1 chars ok
+ok  floor row2 len=16 got 16
+ok  floor row2 chars ok
+ok  floor row3 len=16 got 16
+ok  floor row3 chars ok
+ok  floor row4 len=16 got 16
+ok  floor row4 chars ok
+ok  floor row5 len=16 got 16
+ok  floor row5 chars ok
+ok  floor row6 len=16 got 16
+ok  floor row6 chars ok
+ok  floor row7 len=16 got 16
+ok  floor row7 chars ok
+ok  floor row8 len=16 got 16
+ok  floor row8 chars ok
+ok  floor row9 len=16 got 16
+ok  floor row9 chars ok
+ok  floor row10 len=16 got 16
+ok  floor row10 chars ok
+ok  floor row11 len=16 got 16
+ok  floor row11 chars ok
+ok  floor row12 len=16 got 16
+ok  floor row12 chars ok
+ok  floor row13 len=16 got 16
+ok  floor row13 chars ok
+ok  floor row14 len=16 got 16
+ok  floor row14 chars ok
+ok  floor row15 len=16 got 16
+ok  floor row15 chars ok
+floor used: 01
+ok  floor index 1 in palette
+ok  floor index 0 in palette
+ok  floor no transparent
+ok  벽: block found
+ok  wall rows=16 got 16
+ok  wall row0 len=16 got 16
+ok  wall row0 chars ok
+ok  wall row1 len=16 got 16
+ok  wall row1 chars ok
+ok  wall row2 len=16 got 16
+ok  wall row2 chars ok
+ok  wall row3 len=16 got 16
+ok  wall row3 chars ok
+ok  wall row4 len=16 got 16
+ok  wall row4 chars ok
+ok  wall row5 len=16 got 16
+ok  wall row5 chars ok
+ok  wall row6 len=16 got 16
+ok  wall row6 chars ok
+ok  wall row7 len=16 got 16
+ok  wall row7 chars ok
+ok  wall row8 len=16 got 16
+ok  wall row8 chars ok
+ok  wall row9 len=16 got 16
+ok  wall row9 chars ok
+ok  wall row10 len=16 got 16
+ok  wall row10 chars ok
+ok  wall row11 len=16 got 16
+ok  wall row11 chars ok
+ok  wall row12 len=16 got 16
+ok  wall row12 chars ok
+ok  wall row13 len=16 got 16
+ok  wall row13 chars ok
+ok  wall row14 len=16 got 16
+ok  wall row14 chars ok
+ok  wall row15 len=16 got 16
+ok  wall row15 chars ok
+wall used: 234
+ok  wall index 4 in palette
+ok  wall index 3 in palette
+ok  wall index 2 in palette
+ok  wall no transparent
+ok  palette 8 rows idx 0-7
+ok  hex valid 0 #0b0e1a
+ok  hex valid 1 #2f3d66
+ok  hex valid 2 #7a6248
+ok  hex valid 3 #b09a80
+ok  hex valid 4 #3d2817
+ok  hex valid 5 #d08a3c
+ok  hex valid 6 #f0d8b0
+ok  hex valid 7 #f2efe0
+ok  8 unique hex
+ok  distinct 0,1
+ok  distinct 0,2
+ok  distinct 0,3
+ok  distinct 0,4
+ok  distinct 0,5
+ok  distinct 0,6
+ok  distinct 0,7
+ok  distinct 1,2
+ok  distinct 1,3
+ok  distinct 1,4
+ok  distinct 1,5
+ok  distinct 1,6
+ok  distinct 1,7
+ok  distinct 2,3
+ok  distinct 2,4
+ok  distinct 2,5
+ok  distinct 2,6
+ok  distinct 2,7
+ok  distinct 3,4
+ok  distinct 3,5
+ok  distinct 3,6
+ok  distinct 3,7
+ok  distinct 4,5
+ok  distinct 4,6
+ok  distinct 4,7
+ok  distinct 5,6
+ok  distinct 5,7
+ok  distinct 6,7
+wall idx 2,3,4 each used? 2:true,3:true,4:true
+VERDICT PASS

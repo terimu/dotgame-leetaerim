@@ -1,0 +1,64 @@
+{
+  "active": false,
+  "version": 2,
+  "current_phase": "complete",
+  "skill": "ultragoal",
+  "cwd": "/Users/leetaerim/Downloads/dotgame-taerim",
+  "updated_at": "2026-11-13T04:55:29.815Z",
+  "session_id": "01a1d2ef-1375-746f-beaa-db9bc74143f9",
+  "receipt": {
+    "version": 1,
+    "skill": "ultragoal",
+    "owner": "gjc-runtime",
+    "command": "gjc ultragoal (reconcile)",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/state/ultragoal-state.json",
+    "mutated_at": "2026-11-13T04:55:29.815Z",
+    "fresh_until": "2026-11-13T05:25:29.815Z",
+    "status": "fresh",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T04:55:29.815Z",
+    "verb": "reconcile",
+    "from_phase": "active",
+    "to_phase": "complete",
+    "forced": true,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "fe5acd64223b0e5f5e5b29868425a6c8d2b59be97c7d6868c99d93dc3f3d71ed",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/state/ultragoal-state.json",
+      "computed_at": "2026-11-13T04:55:29.815Z"
+    }
+  },
+  "status": "complete",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "goal-1: bear moves one tile at a time on the level-1 map",
+      "status": "complete"
+    }
+  ],
+  "counts": {
+    "pending": 0,
+    "active": 0,
+    "complete": 1,
+    "failed": 0,
+    "blocked": 0,
+    "review_blocked": 0,
+    "superseded": 0
+  },
+  "ledger_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/ultragoal/ledger.jsonl",
+  "brief_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/ultragoal/brief.md",
+  "goals_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/ultragoal/goals.json",
+  "gjc_objective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "nudge_budget": 6,
+  "nudge_count": 6,
+  "nudge_remaining": 0,
+  "nudge_goal_id": "G001",
+  "nudge_target_kind": "final_aggregate_receipt",
+  "latestLedgerEvent": {
+    "event": "goal_checkpointed",
+    "goalId": "G001",
+    "timestamp": "2026-11-13T04:55:29.806Z",
+    "evidence": "goal-1 implemented per plan 5(b)/5(c): index.html, src/{levels,sprites,logic,main}.js, test/logic.test.js, plus test/index.js (user-ordered shim, beyond the plan's file list, so 'node --test test/' passes 17 tests on Node 24; AGENTS.md unchanged) and the 7 ch.9 lines marked [x] 사람 브라우저 확인 2026-11-13. Completion evidence: the human confirmed GAME_DESIGN.md ch.9 criteria 1-7 in a real browser on 2026-11-13 (user statement); machine evidence is supporting only: node --test test/ 17/17, 5179 doc-derived logic checks, fake-DOM main.js harness, levels/sprites/palette byte-identical to ch.4/5/6, cohort architect CLEAR/APPROVE, cleaner 0 blocking, terminal critic OKAY. Disclosures: bare 'node --test' runs the tests twice (34) because test/index.js re-imports; 6 pause attempts were refused by the nudge budget (6/6) before the human_blocked pause gate passed; browser behavior is not machine-verified."
+  },
+  "state_revision": 13
+}

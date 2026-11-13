@@ -1,0 +1,26 @@
+L1 9x7=288x224 offset=(32,32) right=32 bottom=32
+ok   L1 integer offset
+ok   L1 inside 352x288
+ok   L1 equals doc-stated/plan value 32,32
+ok   L1 inside 352x320 canvas and above HUD (y<288)
+ok   L1 margin 32 on all four sides
+L2 10x7=320x224 offset=(16,32) right=16 bottom=32
+ok   L2 integer offset
+ok   L2 inside 352x288
+ok   L2 equals doc-stated/plan value 16,32
+ok   L2 inside 352x320 canvas and above HUD (y<288)
+L3 11x9=352x288 offset=(0,0) right=0 bottom=0
+ok   L3 integer offset
+ok   L3 inside 352x288
+ok   L3 equals doc-stated/plan value 0,0
+ok   L3 inside 352x320 canvas and above HUD (y<288)
+| 화면 크기 | 352 px × 320 px. 맵 표시 영역 352 × 288 px (레벨 3 맵 전체가 들어감), 아래 32 px는 HUD | 에이전트 제안 |
+ok   screen row: 352x320, map area 352x288, HUD 32
+ok   288+32=320
+| 맵 위치 | 맵 표시 영역(352 × 288 px) 안에서 맵을 가로·세로 가운데에 둔다. 맵 왼쪽 위 오프셋 = ((352 − 맵 폭) / 2, (288 − 맵 높이) / 2) px. 레벨 1(288 × 224 px)은 (32, 32)이고 사방 32 px 여백이 생긴다. 레벨 3(352 × 288 px)은 (0, 0)이라 영역을 꽉 채운다. 여백과 HUD 띠의 색은 6장 `배경`이다 | 에이전트 제안 |
+ok   position row numbers match computed
+ok   NOTE: pos row omits L2 (16,32) — rule general, L2 value not stated in doc
+L2 (16,32) stated in doc? false
+ok   cell-count row
+L2 10x7 present in doc as number? false
+VERDICT PASS

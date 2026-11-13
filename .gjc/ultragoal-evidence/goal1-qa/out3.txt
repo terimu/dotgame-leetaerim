@@ -1,0 +1,14 @@
+walkable cells 35 (expect 9*7 interior 7*5=35)
+random walk moved 4133 of 5000 final { col: 4, row: 3 }
+key ['ArrowUp'] -> {"col":3,"row":2} (informational; KeyboardEvent.key is always string)
+canAcceptMove(NaN,0) = false
+canAcceptMove(0,NaN) = false
+canAcceptMove(NaN,NaN) = false
+canAcceptMove(Infinity,0) = false
+canAcceptMove(0,Infinity) = true
+canAcceptMove(Infinity,Infinity) = false
+canAcceptMove(-Infinity,-Infinity) = false
+canAcceptMove(0,-5) = false
+canAcceptMove(0,-Infinity) = false
+checks 5179 failures 1
+FAIL moved on key ArrowUp

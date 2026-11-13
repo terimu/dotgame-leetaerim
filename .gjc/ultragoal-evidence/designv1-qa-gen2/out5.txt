@@ -1,0 +1,35 @@
+chapters: 1,2,3,4,5,6,7,8,9,10
+table first-col: 항목 / 방향키 조작 / 이동 후 입력 쿨다운 / 입력 / 벽 막힘 / 타일 크기 / 맵 칸 수 / 화면 크기 / 맵 위치 / 오브젝트 / 곰 / 바닥 / 벽 / 인덱스 / 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7
+citation: 2장 "화면 크기" 행
+ok   chapter 2 exists
+ok   row "화면 크기" is a ch.2 table row
+citation: 2장 "맵 칸 수"·"타일 크기" 행
+ok   chapter 2 exists
+ok   row "맵 칸 수" is a ch.2 table row
+ok   row "타일 크기" is a ch.2 table row
+citation: 5장 레벨 1 격자, 4장 곰·바닥·벽
+ok   chapter 5 exists
+ok   chapter 4 exists
+citation: 2장 "방향키 조작"·"입력" 행
+ok   chapter 2 exists
+ok   row "방향키 조작" is a ch.2 table row
+ok   row "입력" is a ch.2 table row
+citation: 2장 "이동 후 입력 쿨다운" 행
+ok   chapter 2 exists
+ok   row "이동 후 입력 쿨다운" is a ch.2 table row
+citation: 2장 "벽 막힘" 행, 5장 레벨 1 격자 테두리 `#`
+ok   chapter 2 exists
+ok   chapter 5 exists
+ok   row "벽 막힘" is a ch.2 table row
+citation: 4장, 6장 팔레트
+ok   chapter 4 exists
+ok   chapter 6 exists
+citation: 코드의 hex가 6장 hex와 같은지
+ok   chapter 6 exists
+ok   ch4 "곰·바닥·벽" = rows 곰/바닥/벽 in ch4 table
+ok   ch6 팔레트 heading
+ok   ch5 "레벨 1 격자" bullet exists
+ok   verification method refs 1 and 2
+criteria numbered 1,2,3,4,5,6,7
+ok   numbered 1..7
+VERDICT PASS

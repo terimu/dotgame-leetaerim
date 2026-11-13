@@ -1,0 +1,26 @@
+ok   start B at (1,1) got {"x":1,"y":1} want {"x":1,"y":1}
+ok   left at (1,1) got ["blocked",{"x":1,"y":1}] want ["blocked",{"x":1,"y":1}]
+ok   up at (1,1) t=0 (first input accepted semantics, but wall) got ["blocked",{"x":1,"y":1}] want ["blocked",{"x":1,"y":1}]
+ok   wall bump then immediate valid move t=0 (bump no cooldown) got ["moved",{"x":2,"y":1}] want ["moved",{"x":2,"y":1}]
+ok   first input at t=0 moves got ["moved",{"x":2,"y":1}] want ["moved",{"x":2,"y":1}]
+ok   repeat ignored got ["ignored-repeat",{"x":2,"y":1}] want ["ignored-repeat",{"x":2,"y":1}]
+ok   two keys 0ms apart: 2nd ignored got ["ignored-cooldown",{"x":1,"y":2}] want ["ignored-cooldown",{"x":1,"y":2}]
+ok   99ms ignored got ["ignored-cooldown",{"x":1,"y":2}] want ["ignored-cooldown",{"x":1,"y":2}]
+ok   99ms ignored did not extend cooldown; 100ms accepted got ["moved",{"x":2,"y":2}] want ["moved",{"x":2,"y":2}]
+ok   exactly 100 inclusive got ["moved",{"x":1,"y":3}] want ["moved",{"x":1,"y":3}]
+ok   (7,1) right is wall got ["blocked",{"x":7,"y":1}] want ["blocked",{"x":7,"y":1}]
+ok   onto L (2,2) allowed got ["moved",{"x":2,"y":2},"L"] want ["moved",{"x":2,"y":2},"L"]
+ok   (7,5) down wall got ["blocked"] want ["blocked"]
+ok   non-arrow key got ["ignored-nonarrow","ignored-nonarrow",{"x":1,"y":1}] want ["ignored-nonarrow","ignored-nonarrow",{"x":1,"y":1}]
+ok   non-arrow during cooldown does not matter; walls in cooldown no effect got ["ignored-cooldown",{"x":2,"y":1}] want ["ignored-cooldown",{"x":2,"y":1}]
+ok   blocked bump during cooldown does not extend; move at 100 got ["moved",{"x":2,"y":2}] want ["moved",{"x":2,"y":2}]
+--- Divergence points (doc text under-specifies) ---
+D1 Time source at the instant of comparison: doc says performance.now() only, but not whether sampled inside the keydown handler vs event.timeStamp (both are DOMHighResTimeStamp on same origin; low risk).
+D2 Input during cooldown that would ALSO be a wall bump: both ignored; no observable difference. No divergence.
+D3 Ignored-during-cooldown inputs: doc says "무시" -> no buffering/queueing; implementers could buffer but text says ignore. Low risk.
+D4 Modifier-key combos (Shift/Ctrl/Meta + arrow) and non-event.key vs event.code matching (ArrowLeft key name vs WASD): doc says only 방향키; WASD/numpad excluded implicitly. Not stated whether preventDefault on arrows (page scroll). Low risk, non-blocking.
+D5 event.repeat during cooldown vs after: ignored in both cases; and a repeat does not reset cooldown. Doc silent on whether a repeat event counts as "input" for cooldown purposes, but since ignored => no cooldown effect. No divergence.
+D6 Cooldown measured from move time; fractional performance.now(): 99.9 ignored, 100.0 accepted, consistent with "100 ms 이상".
+D7 Multi-key at 0ms apart: depends on event order, which key wins is browser/OS order; doc only requires exactly one tile (criterion 5). No divergence on count.
+D8 Cooldown across window blur/keyup: no rule; irrelevant.
+VERDICT PASS

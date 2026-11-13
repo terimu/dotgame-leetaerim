@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "brief": "Source plan: .gjc/_session-01a1d2ef-1375-746f-beaa-db9bc74143f9/plans/ralplan/01a1d2ef-1375-746f-beaa-db9bc74143f9/pending-approval.md sections 5(b), 5(c), 9, 12 (read them). design-v1 (GAME_DESIGN.md v1, commit 5d61645) is human-approved. Constraints: use GAME_DESIGN.md v1 numbers and the ch.5 level-1 grid verbatim; build NOTHING that is not in GAME_DESIGN.md v1; do not edit GAME_DESIGN.md or AGENTS.md; no package.json/npm/bundler/external files; sprites are palette-index arrays in src/sprites.js, colors only the ch.6 hex; map copied verbatim into src/levels.js; src/logic.js is pure (no canvas/DOM); src/strings.js is NOT created. DO NOT COMMIT and do NOT checkpoint complete: when implementation is done, stop and report to the human in the form \"index.html을 열어 9장 수용 기준 N번을 보라\" (completion requires the human to confirm 9장 criteria 1-7 in a browser).\n\n@goal: goal-1: bear moves one tile at a time on the level-1 map\nImplement plan 5(b): index.html (one 352x320 canvas, module script src/main.js), src/levels.js (ch.5 level-1 grid verbatim), src/sprites.js (ch.6 8-color hex + ch.4 bear/floor/wall 16x16 index arrays copied from GAME_DESIGN.md), src/logic.js (constants MOVE_COOLDOWN_MS=100, TILE_SIZE=32, SCREEN_WIDTH=352, SCREEN_HEIGHT=320, LEVEL1_COLS=9, LEVEL1_ROWS=7; createState, tileAt, directionDelta, moveBear (blocks only # and out-of-map; L . B walkable), canAcceptMove(lastMoveMs, nowMs) with -Infinity first-input and inclusive >=100), src/main.js (R1 provisional: draw once on load; keydown ignores event.repeat; canAcceptMove with performance.now(); moveBear; update lastMoveMs only when the position actually changed; redraw on keydown; map offset ((352-w)/2,(288-h)/2) = (32,32) for level 1; margin/HUD band = palette index 0; 2x nearest-neighbor sprite upscale (imageSmoothingEnabled=false); bear drawn over floor; L and B cells drawn as floor), and test/logic.test.js per plan 5(c) with expectations hand-derived from the doc numbers/grid (omit the 'wall bump does not start cooldown' row per C1; constants test is only a doc-number tripwire). Acceptance: `node --test test/` passes; no new files beyond the list above; no commit.",
+  "gjcGoalMode": "aggregate",
+  "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "goal-1: bear moves one tile at a time on the level-1 map",
+      "objective": "Implement plan 5(b): index.html (one 352x320 canvas, module script src/main.js), src/levels.js (ch.5 level-1 grid verbatim), src/sprites.js (ch.6 8-color hex + ch.4 bear/floor/wall 16x16 index arrays copied from GAME_DESIGN.md), src/logic.js (constants MOVE_COOLDOWN_MS=100, TILE_SIZE=32, SCREEN_WIDTH=352, SCREEN_HEIGHT=320, LEVEL1_COLS=9, LEVEL1_ROWS=7; createState, tileAt, directionDelta, moveBear (blocks only # and out-of-map; L . B walkable), canAcceptMove(lastMoveMs, nowMs) with -Infinity first-input and inclusive >=100), src/main.js (R1 provisional: draw once on load; keydown ignores event.repeat; canAcceptMove with performance.now(); moveBear; update lastMoveMs only when the position actually changed; redraw on keydown; map offset ((352-w)/2,(288-h)/2) = (32,32) for level 1; margin/HUD band = palette index 0; 2x nearest-neighbor sprite upscale (imageSmoothingEnabled=false); bear drawn over floor; L and B cells drawn as floor), and test/logic.test.js per plan 5(c) with expectations hand-derived from the doc numbers/grid (omit the 'wall bump does not start cooldown' row per C1; constants test is only a doc-number tripwire). Acceptance: `node --test test/` passes; no new files beyond the list above; no commit.",
+      "status": "complete",
+      "createdAt": "2026-11-13T04:28:58.775Z",
+      "updatedAt": "2026-11-13T04:55:29.789Z",
+      "startedAt": "2026-11-13T04:29:02.897Z",
+      "completedAt": "2026-11-13T04:55:29.789Z",
+      "evidence": "goal-1 implemented per plan 5(b)/5(c): index.html, src/{levels,sprites,logic,main}.js, test/logic.test.js, plus test/index.js (user-ordered shim, beyond the plan's file list, so 'node --test test/' passes 17 tests on Node 24; AGENTS.md unchanged) and the 7 ch.9 lines marked [x] 사람 브라우저 확인 2026-11-13. Completion evidence: the human confirmed GAME_DESIGN.md ch.9 criteria 1-7 in a real browser on 2026-11-13 (user statement); machine evidence is supporting only: node --test test/ 17/17, 5179 doc-derived logic checks, fake-DOM main.js harness, levels/sprites/palette byte-identical to ch.4/5/6, cohort architect CLEAR/APPROVE, cleaner 0 blocking, terminal critic OKAY. Disclosures: bare 'node --test' runs the tests twice (34) because test/index.js re-imports; 6 pause attempts were refused by the nudge budget (6/6) before the human_blocked pause gate passed; browser behavior is not machine-verified.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "1b2047d1-871c-478b-ace9-574ff46df2c6",
+        "verifiedAt": "2026-11-13T04:55:29.789Z",
+        "goalId": "G001",
+        "receiptKind": "final-aggregate",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "7ed2e7cf1fa58a5110fe4d2f4195b50130faa82acbd5567a0011df02e6a945d0",
+        "planGeneration": "084f655e6f18661d75eb503db2b48a97ba10385474c0a398350f9798c379cafd",
+        "basis": {
+          "planHashBeforeCheckpoint": "0db262d96e651faaa57169ad14988597d14c6fdca59ced618bc94e24963ce92e",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "766e6b4b-e11a-415f-86d1-a58b8f876849",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T04:55:29.789Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "a843ff583d33fe4b58def69cb6608c740bb7718a6ea47c1917ae1861b15ccb3f"
+        },
+        "checkpointLedgerEventId": "7ff1bae4-fb8d-42c2-8f18-605866e16805"
+      }
+    }
+  ],
+  "createdAt": "2026-11-13T04:28:58.775Z",
+  "updatedAt": "2026-11-13T04:55:29.789Z",
+  "repositoryBinding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "5d616454921af8e8abb297b6a770031209d4bcee",
+    "branch": "main"
+  },
+  "state_revision": 6
+}

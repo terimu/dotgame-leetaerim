@@ -1,0 +1,36 @@
+{
+  "active": true,
+  "version": 2,
+  "current_phase": "planner",
+  "skill": "ralplan",
+  "cwd": "/Users/leetaerim/Downloads/dotgame-taerim",
+  "updated_at": "2026-11-13T03:15:25.852Z",
+  "session_id": "01a1d2e6-c7cb-736c-87aa-67ab2feabe40",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "f286e960d3341bdddedcef9a5030b10447437a91",
+    "branch": "main"
+  },
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-hook",
+    "command": "gjc-skill-invocation",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2e6-c7cb-736c-87aa-67ab2feabe40/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2e6-c7cb-736c-87aa-67ab2feabe40/state/ralplan-state.json",
+    "mutated_at": "2026-11-13T03:15:25.855Z",
+    "fresh_until": "2026-11-13T03:45:25.855Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:2026-11-13T03:15:25.855Z",
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "8c1940c757623f088b7c9a4c8cdfe39aa18689198733b7a2637c452b0585d671",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d2e6-c7cb-736c-87aa-67ab2feabe40/state/ralplan-state.json",
+      "computed_at": "2026-11-13T03:15:25.855Z"
+    }
+  },
+  "state_revision": 1
+}
