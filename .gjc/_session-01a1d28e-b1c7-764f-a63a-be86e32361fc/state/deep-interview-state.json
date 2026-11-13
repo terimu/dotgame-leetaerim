@@ -1,0 +1,2558 @@
+{
+  "active": false,
+  "version": 2,
+  "current_phase": "handoff",
+  "skill": "deep-interview",
+  "cwd": "/Users/leetaerim/Downloads/dotgame-taerim",
+  "updated_at": "2026-11-13T02:35:09.882Z",
+  "session_id": "01a1d28e-b1c7-764f-a63a-be86e32361fc",
+  "threshold": 0.05,
+  "threshold_source": "default",
+  "receipt": {
+    "version": 1,
+    "skill": "deep-interview",
+    "owner": "gjc-state-cli",
+    "command": "gjc state deep-interview handoff --to ralplan",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/deep-interview-state.json",
+    "mutated_at": "2026-11-13T02:35:09.882Z",
+    "fresh_until": "2026-11-13T03:05:09.882Z",
+    "status": "fresh",
+    "mutation_id": "deep-interview:handoff:ralplan:2026-11-13T02:35:09.882Z",
+    "forced": false,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "29660db58069a34c86fce216883319f50d273de3e0a892a9b2a558203b7238d6",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/deep-interview-state.json",
+      "computed_at": "2026-11-13T02:35:09.891Z"
+    }
+  },
+  "last_applied_draft_id": "eef4d599-0134-4357-a654-98b64a024943",
+  "state": {
+    "threshold": 0.05,
+    "threshold_source": "default",
+    "rounds": [
+      {
+        "round_key": "nointerview::r:0::q:round-0-topology",
+        "round": 0,
+        "question_id": "round-0-topology",
+        "question_text": "Round 0 | 구조 확인 | Ambiguity: 아직 채점 전\n\n이 아이디어를 최상위 구성요소 3개로 읽었습니다:\n1. 곰 조작·갈매기 회피: 등대지기 곰이 움직이며 갈매기를 피하는 핵심 플레이\n2. 등불 점등 목표·맵: 꺼진 등불을 찾아 모두 켜는 목표와 그 배치\n3. 밤 제한시간·종료 조건: 밤이 끝나기 전이라는 시간 압박과 성공/실패 판정\n\n잠긴 의도:\n- Artifacts: 화면 하나짜리 도트 게임 (AGENTS.md 기준)\n- Surfaces: 등대지기 곰 캐릭터 조작, 꺼진 등불 점등 목표\n- Integrations: 갈매기 장애물\n- Constraints: 밤이 끝나기 전 제한시간\n\n이 구조가 맞나요? 구성요소를 추가·삭제·병합·분리하거나 보류할 것이 있나요?",
+        "question_hash": "a2db3003a08e0681e43c20a3377999d4",
+        "answer_hash": "2d8675b77a1c579a8590ef85e3591c854c8476f71ca64057168c0d6f1f57c908",
+        "selected_options": [
+          "맞아요"
+        ],
+        "component": "review-topology",
+        "dimension": "topology",
+        "ambiguity_at_ask": 1,
+        "lifecycle": "answered",
+        "answered_at": "2026-11-13T01:40:39.032Z"
+      },
+      {
+        "round_key": "nointerview::r:1::q:round-1-seagull-collision",
+        "round": 1,
+        "question_id": "round-1-seagull-collision",
+        "question_text": "Round 1 | Component: 고·갈매기 회피 | Targeting: Goal Clarity | Why now: 실패 조건이 정해지지 않으면 곡 조작·등불 점등 규칙을 설계할 수 없습니다 | Ambiguity: 채점 전\n\n갈매기에 닿으면 어떻게 되나요?",
+        "question_hash": "3c938609b746a3b63206026822893813",
+        "answer_hash": "3de004d252e4c6db7d2d87316a2621107293da1a76563b530d990b2770fb9df5",
+        "selected_options": [
+          "일정 시간 기절 후 제자리에서 부활"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "goal",
+        "ambiguity_at_ask": 1,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:40:57.371Z",
+        "ambiguity": 0.57,
+        "scores": {
+          "goal": 0.7,
+          "constraints": 0.3,
+          "criteria": 0.2,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.7,
+            "constraints": 0.3,
+            "criteria": 0.2,
+            "context": null,
+            "gaps": {
+              "constraints": "stun duration and night timer length unspecified",
+              "criteria": "no measurable success/fail check"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "goal",
+          "prior_dimension_score": null,
+          "new_dimension_score": 0.7,
+          "prior_ambiguity": 1,
+          "new_ambiguity": 0.57,
+          "evidence": [
+            "seagull contact = stun then respawn in place (no game over)"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit"
+              ],
+              "relationships": [
+                "lit by Bear"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": "N/A"
+        }
+      },
+      {
+        "round_key": "nointerview::r:2::q:round-2-night-deadline",
+        "round": 2,
+        "question_id": "round-2-night-deadline",
+        "question_text": "Round 2 | Component: 밤 제한시간 | Targeting: Success Criteria | Why now: 한 판의 끝이 시간으로 정해져 있지 않으면 '모두 켰다'를 검증할 수 없습니다 | Ambiguity: 57%\n\n한 판의 밤은 대략 몇 초인가요? 그리고 끝났을 때 등이 하나라도 켜져 있으면 승리인가요?",
+        "question_hash": "77662d699286b09f291cf8e6cccf8d3b",
+        "answer_hash": "13a5ec0bafb61ffa9dad56334caad6a2be84856237a31416ea59bd509a195bae",
+        "selected_options": [
+          "정해진 시간 내 모두 켜야 승리"
+        ],
+        "component": "night-deadline",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.57,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:41:26.201Z",
+        "ambiguity": 0.4,
+        "scores": {
+          "goal": 0.75,
+          "constraints": 0.4,
+          "criteria": 0.6,
+          "context": null
+        },
+        "weakest_component_id": "night-deadline",
+        "weakest_dimension": "constraints",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.75,
+            "constraints": 0.4,
+            "criteria": 0.6,
+            "context": null,
+            "gaps": {
+              "constraints": "night timer length unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "night-deadline",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.2,
+          "new_dimension_score": 0.6,
+          "prior_ambiguity": 0.57,
+          "new_ambiguity": 0.4,
+          "evidence": [
+            "win = all lamps lit before the night ends"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit"
+              ],
+              "relationships": [
+                "lit by Bear"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 0.75
+        }
+      },
+      {
+        "round_key": "nointerview::r:3::q:round-3-night-length",
+        "round": 3,
+        "question_id": "round-3-night-length",
+        "question_text": "Round 3 | Component: 밤 제한시간 | Targeting: Constraints | Why now: 승리 조건은 정해졌지만 시간 숫자가 없어 난이도·등 개수·기절 시간을 정할 수 없습니다 | Ambiguity: 40%\n\n한 밤의 길이는 얼마인가요? 그리고 장애물에 맞아 기절하면 시간이 더 남아 있는 것으로 점수를 보정하나요?",
+        "question_hash": "7722682a2f1a450b0c83be40ae4e8e49",
+        "answer_hash": "4a9dad05288942087b494969bd5bbc89e6a0b885710ce001fa120f8527a08f8b",
+        "selected_options": [
+          "약 60초"
+        ],
+        "component": "night-deadline",
+        "dimension": "constraints",
+        "ambiguity_at_ask": 0.4,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:41:42.922Z",
+        "ambiguity": 0.28,
+        "scores": {
+          "goal": 0.8,
+          "constraints": 0.65,
+          "criteria": 0.7,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.8,
+            "constraints": 0.6,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "constraints": "stun duration unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "night-deadline",
+          "affected_dimension": "constraints",
+          "prior_dimension_score": 0.4,
+          "new_dimension_score": 0.8,
+          "prior_ambiguity": 0.4,
+          "new_ambiguity": 0.28,
+          "evidence": [
+            "night length about 60 seconds"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit"
+              ],
+              "relationships": [
+                "lit by Bear"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:4::q:round-4-lamps",
+        "round": 4,
+        "question_id": "round-4-lamps",
+        "question_text": "Round 4 | Component: 등불 | Targeting: Success Criteria | Why now: 승리 조건의 대상인 등불의 개수와 점등 방식이 정해지지 않아 '모두 켰다'를 검증할 수 없습니다 | Ambiguity: 28%\n\n꺼진 등불은 한 판에 발개수가 몇 개이고, 곡이 다가가서 어떻게 켜져요?",
+        "question_hash": "5147c81ecc3fd2333f09030ae0481128",
+        "answer_hash": "63f97d789d8e9aa807ebbc3e28fde641b1fd88d33707a1d382d037059a0b64ad",
+        "selected_options": [
+          "등불 개수는 정해지지 않음 (맵마다 다릅)"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.28,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:43:16.650Z",
+        "ambiguity": 0.34,
+        "scores": {
+          "goal": 0.8,
+          "constraints": 0.65,
+          "criteria": 0.5,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.8,
+            "constraints": 0.6,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "constraints": "stun duration unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.8,
+            "constraints": 0.5,
+            "criteria": 0.4,
+            "context": null,
+            "gaps": {
+              "criteria": "lamp count varies per map; lighting method unanswered"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [
+            "D"
+          ],
+          "trigger_status": "unresolved",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.7,
+          "new_dimension_score": 0.5,
+          "prior_ambiguity": 0.28,
+          "new_ambiguity": 0.34,
+          "evidence": [
+            "multiple maps with varying lamp counts (scope expansion)",
+            "lighting mechanic not stated"
+          ],
+          "disputed_unresolved_rationale": "number of maps and lighting mechanic still open"
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit"
+              ],
+              "relationships": [
+                "lit by Bear"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 0.8
+        }
+      },
+      {
+        "round_key": "nointerview::r:5::q:round-5-lighting",
+        "round": 5,
+        "question_id": "round-5-lighting",
+        "question_text": "Round 5 | Component: 등불 | Targeting: Success Criteria | Why now: 등불을 '켇다'는 동작이 정의되지 않으면 승리 판정을 실행할 수 없습니다 | Ambiguity: 34%\n\n곡이 등불을 켜려면 어떤 동작을 하나요? 그리고 한 등불에 필요한 동작은 작동되나요?",
+        "question_hash": "3757fffb311634befc2483e406787f85",
+        "answer_hash": "7d3eac8229addd4e7dad2e72ea5741c2e2a7a136493bfe5e8e08ecc7365a01a8",
+        "selected_options": [
+          "키를 누르면 켜짐"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.34,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:43:47.529Z",
+        "ambiguity": 0.29,
+        "scores": {
+          "goal": 0.8,
+          "constraints": 0.7,
+          "criteria": 0.6,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.8,
+            "constraints": 0.6,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "constraints": "stun duration unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.8,
+            "constraints": 0.7,
+            "criteria": 0.6,
+            "context": null,
+            "gaps": {
+              "criteria": "lighting key pressed; proximity rule and map count open"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.5,
+          "new_dimension_score": 0.6,
+          "prior_ambiguity": 0.34,
+          "new_ambiguity": 0.29,
+          "evidence": [
+            "pressing a key lights the lamp"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "presses key to light Lamp"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit"
+              ],
+              "relationships": [
+                "lit by Bear key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:6::q:round-6-lamp-range",
+        "round": 6,
+        "question_id": "round-6-lamp-range",
+        "question_text": "Round 6 | Component: 등불 | Targeting: Success Criteria | Why now: 키 입력이 어느 거리에서 작동하는지 정해지지 않으면 점등 검증 테스트를 쓸 수 없습니다 | Ambiguity: 29%\n\n키를 누를 때 곡이 등불에 어떻게 닿아 있어야 하나요?",
+        "question_hash": "da449ebec3cb34ea2607f32b1ddcd715",
+        "answer_hash": "25177c94c75fb8c27e96b53cecb1f68ab904da64123810a57adb2cae81637965",
+        "selected_options": [
+          "곡이 등불이 있는 칸 위에 서 있어야 함"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.29,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:44:44.057Z",
+        "ambiguity": 0.23,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.7,
+          "criteria": 0.75,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "constraints",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.6,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "constraints": "stun duration unspecified; seagull movement unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.7,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {
+              "criteria": "map count unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.6,
+          "new_dimension_score": 0.75,
+          "prior_ambiguity": 0.29,
+          "new_ambiguity": 0.23,
+          "evidence": [
+            "bear must stand on the lamp tile to light it"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:7::q:round-7-stun-duration",
+        "round": 7,
+        "question_id": "round-7-stun-duration",
+        "question_text": "Round 7 | Component: 곰·갈매기 회피 | Targeting: Constraints | Why now: 기절 시간이 정해지지 않으면 갈매기 충돌의 대가를 수치로 검증할 수 없습니다 | Ambiguity: 23%\n\n갈매기에 닿아 기절하는 시간은 얼마인가요?",
+        "question_hash": "8a0695d2bb7791fcca00b5191d39ff90",
+        "answer_hash": "c351c3d4ab04a9535669824f99f51f8032cda958ffe310420cf9b6a12cf38dae",
+        "selected_options": [
+          "약 3초"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "constraints",
+        "ambiguity_at_ask": 0.23,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:45:15.858Z",
+        "ambiguity": 0.18,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.85,
+          "criteria": 0.75,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "criteria": "seagull movement pattern unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.7,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {
+              "criteria": "map count unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "constraints",
+          "prior_dimension_score": 0.6,
+          "new_dimension_score": 0.85,
+          "prior_ambiguity": 0.23,
+          "new_ambiguity": 0.18,
+          "evidence": [
+            "stun lasts about 3 seconds"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:8::q:round-8-map-count",
+        "round": 8,
+        "question_id": "round-8-map-count",
+        "question_text": "Round 8 | Component: 등불 | Targeting: Success Criteria | Why now: 맵이 한 개인지 여러 개인지에 따라 승리 조건과 levels.js 구조가 달라집니다 | Ambiguity: 18%\n\n이 게임에 맵(등대지기 한 번 플레이 단위)이 몇 개 필요하가요?",
+        "question_hash": "6eaf068a453fb0b800d52e8712fc96aa",
+        "answer_hash": "55a32c624850bc92c283ea1c80fd03bf7632bd2f92b6e39b780f90be7cc582c2",
+        "selected_options": [
+          "맵 3개 정도 (순서대로)"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.18,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:45:38.486Z",
+        "ambiguity": 0.15,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.85,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.7,
+            "context": null,
+            "gaps": {
+              "criteria": "seagull movement pattern unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {
+              "criteria": "per-map lamp counts unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [
+            "D"
+          ],
+          "trigger_status": "resolved",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.75,
+          "new_dimension_score": 0.85,
+          "prior_ambiguity": 0.18,
+          "new_ambiguity": 0.15,
+          "evidence": [
+            "three maps played in order"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position"
+              ],
+              "relationships": [
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps in order"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:9::q:round-9-seagull-movement",
+        "round": 9,
+        "question_id": "round-9-seagull-movement",
+        "question_text": "Round 9 | Component: 곰·갈매기 회피 | Targeting: Success Criteria | Why now: 갈매기가 어떤 패턴으로 움직이는지 정해지지 않으면 회피 동작을 테스트할 수 없습니다 | Ambiguity: 15%\n\n갈매기는 어떻게 움직이나요?",
+        "question_hash": "9c3140d6c8223c5f9c8b884012e4e6e3",
+        "answer_hash": "dc4662a1ec74795808937e43663d5ab47fa600a1df2b48c8a65eeb6dbd65b079",
+        "selected_options": [
+          "곰을 향해 무작위로 다가감"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.15,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:47:19.001Z",
+        "ambiguity": 0.18,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.85,
+          "criteria": 0.75,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.65,
+            "context": null,
+            "gaps": {
+              "criteria": "random approach: deterministic test strategy (seed) unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {
+              "criteria": "per-map lamp counts unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.7,
+          "new_dimension_score": 0.65,
+          "prior_ambiguity": 0.15,
+          "new_ambiguity": 0.18,
+          "evidence": [
+            "seagull approaches bear randomly; repeatable testing needs a rule"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement"
+              ],
+              "relationships": [
+                "approaches Bear randomly",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps in order"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:10::q:round-10-lamp-counts",
+        "round": 10,
+        "question_id": "round-10-lamp-counts",
+        "question_text": "Round 10 | Component: 등불 | Targeting: Success Criteria | Why now: 맵마다 등불 개수가 정해지면 '모두 켰다'를 숫자로 검증할 수 있습니다 | Ambiguity: 18%\n\n3개 맵의 등불 개수는 각각 몇 개인가요?",
+        "question_hash": "4f2f1e07e779605ac0313d54864a7c5b",
+        "answer_hash": "11429401290017d303d9fe85f712c186c9f1389760fa51a8f5d3df6a35007691",
+        "selected_options": [
+          "맵마다 다름 (순서대로 증가)"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.18,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:47:41.905Z",
+        "ambiguity": 0.17,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.85,
+          "criteria": 0.8,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.65,
+            "context": null,
+            "gaps": {
+              "criteria": "deterministic test rule for random approach unspecified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.8,
+            "context": null,
+            "gaps": {
+              "criteria": "exact lamp counts per map unspecified; increase in order"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.85,
+          "new_dimension_score": 0.8,
+          "prior_ambiguity": 0.18,
+          "new_ambiguity": 0.17,
+          "evidence": [
+            "lamp count increases map by map"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement"
+              ],
+              "relationships": [
+                "approaches Bear randomly",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps in order"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:11::q:round-11-continue-or-crystallize",
+        "round": 11,
+        "question_id": "round-11-continue-or-crystallize",
+        "question_text": "Round 11 | Component: 전체 | Targeting: 진행 방향 결정 | Why now: 현재 모호도 17%이고 임계치 5%보다 높습니다. 남은 항목(맵 격자 배치, 갈매기 시드, 조작 키)은 질문만으로 닫히지 않으며, 맵 격자는 사용자가 직접 정해야 합니다.\n\n어떻게 진행할까요?",
+        "question_hash": "2ca9a3f61482806b6f4c584beed7a7d2",
+        "answer_hash": "0d7b9dd7db5026fcfe64885659333ddd488fb71877ef034ea64ba321fb79ffec",
+        "selected_options": [
+          "계속 인터뷰 (남은 항목을 다음 라운드에서 질문)"
+        ],
+        "component": "all",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.17,
+        "lifecycle": "answered",
+        "answered_at": "2026-11-13T01:48:39.816Z"
+      },
+      {
+        "round_key": "nointerview::r:11::q:round-11-seagull-determinism",
+        "round": 11,
+        "question_id": "round-11-seagull-determinism",
+        "question_text": "Round 11 | Component: 곡·갈매기 회피 | Targeting: Success Criteria | Why now: 갈매기가 매번 다르게 움직이면 승리·실패 테스트의 기대값이 정해지지 않습니다 | Ambiguity: 17%\n\n갈매기의 무작위 접근을 어떻게 검증할까요?",
+        "question_hash": "b4bf2433929bb7c5258b8c47c1edaa51",
+        "answer_hash": "65cefd3e044a6930f36e177c6ccf36fe1a4eb9a0d2bf90cc3b014ef4827a7f53",
+        "selected_options": [
+          "고정 시드: 같은 입력이면 항상 같은 결과 (테스트 가능)"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.17,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:59:15.981Z",
+        "ambiguity": 0.17,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.8,
+          "criteria": 0.8,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.8,
+            "context": null,
+            "gaps": {
+              "criteria": "exact lamp counts per map and map grid layout unspecified"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.65,
+          "new_dimension_score": 0.85,
+          "prior_ambiguity": 0.17,
+          "new_ambiguity": 0.17,
+          "evidence": [
+            "fixed seed: same input same result"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps in order"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:12::q:round-12-map-grid",
+        "round": 12,
+        "question_id": "round-12-map-grid",
+        "question_text": "Round 12 | Component: 등불 (맵 격자) | Targeting: Success Criteria | Why now: 맵 격자가 정해져야 등불 위치·개수를 정확히 정하고 levels.js를 쓸 수 있습니다 | Ambiguity: 17%\n\n3개 맵의 격자를 어떻게 정할까요? 이 프로젝트는 정해진 사람의 맵 격자를 GAME_DESIGN.md 5장에 넣는 구조라, 제가 임의로 만든 격자는 기획서에 없는 내용이 됩니다.",
+        "question_hash": "1bc1c032d199a34bbffcf88a5fac6ca8",
+        "answer_hash": "00ae1d66ee00377ff5731896e54abac2358b19279d3ed2435ffef27a64a0b57f",
+        "selected_options": [
+          "제가 초안 격자를 제안하고 사용자가 승인"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.17,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T01:59:57.679Z",
+        "ambiguity": 0.17,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.8,
+          "criteria": 0.8,
+          "context": null
+        },
+        "weakest_component_id": "lamps",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {
+              "constraints": "60s scope (per map or total) unspecified"
+            }
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.8,
+            "context": null,
+            "gaps": {
+              "criteria": "map grid not yet approved"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.8,
+          "new_dimension_score": 0.8,
+          "prior_ambiguity": 0.17,
+          "new_ambiguity": 0.17,
+          "evidence": [
+            "user will approve assistant-drafted grids"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps in order"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:13::q:round-13-grid-approval",
+        "round": 13,
+        "question_id": "round-13-grid-approval",
+        "question_text": "Round 13 | Component: 등불 (맵 격자 승인) | Targeting: Success Criteria | Why now: 초안 격자를 승인해야 등불 위치·개수가 확정됩니다 | Ambiguity: 17%\n\n제가 제안한 초안 (B=곡 시작, L=등불, #=벡, .=바닥):\n\n맵 1 (등불 3개, 9×7)\n#########\n#B......#\n#.L...L.#\n#.......#\n#..L....#\n#.......#\n#########\n\n맵 2 (등불 4개, 10×7)\n##########\n#B.......#\n#..L....L#\n#........#\n#.L....L.#\n#........#\n##########\n\n맵 3 (등불 5개, 11×9)\n###########\n#B........#\n#.L.....L.#\n#.........#\n#...L.L...#\n#.........#\n#.L.......#\n#.........#\n###########\n\n이 초안을 승인하시겠습니까?",
+        "question_hash": "83ea85896aaed6430ba1c11758838285",
+        "answer_hash": "710e6e45dbcd2037c8e228d5e47b4197090a4f18f2596fcd4d890c905e1caf64",
+        "selected_options": [
+          "승인 (그대로 확정)"
+        ],
+        "component": "lamps",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.17,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:19:24.710Z",
+        "ambiguity": 0.16,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.8,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "night-deadline",
+        "weakest_dimension": "constraints",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.8,
+            "constraints": 0.8,
+            "criteria": 0.75,
+            "context": null,
+            "gaps": {
+              "constraints": "60s scope (per map or total) unspecified"
+            }
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.8,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "lamps",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.8,
+          "new_dimension_score": 0.85,
+          "prior_ambiguity": 0.17,
+          "new_ambiguity": 0.16,
+          "evidence": [
+            "user approved map grids 1-3 as drafted"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60"
+              ],
+              "relationships": [
+                "bounds Lamp lighting"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:14::q:round-14-timer-scope",
+        "round": 14,
+        "question_id": "round-14-timer-scope",
+        "question_text": "Round 14 | Component: 밤 제한시간 | Targeting: Constraints | Why now: 제한시간이 맵 한 개당인지 전체 게임당인지 정해지지 않으면 실패 조건의 시작점이 달라집니다 | Ambiguity: 16%\n\n약 60초 제한시간은 어떤 범위에 적용되나요?",
+        "question_hash": "c0205459be920061e9954a24001f67ba",
+        "answer_hash": "ecb6c09c18095aef44a2fff99e053c1b3b6981cc7a40e5e9b0c25fc3b3f0091e",
+        "selected_options": [
+          "맵마다 60초 (맵 클리어 후 다음 맵 타이머 리셋)"
+        ],
+        "component": "night-deadline",
+        "dimension": "constraints",
+        "ambiguity_at_ask": 0.16,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:27:56.251Z",
+        "ambiguity": 0.15,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.85,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "constraints",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.85,
+            "constraints": 0.9,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.85,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "night-deadline",
+          "affected_dimension": "constraints",
+          "prior_dimension_score": 0.8,
+          "new_dimension_score": 0.9,
+          "prior_ambiguity": 0.16,
+          "new_ambiguity": 0.15,
+          "evidence": [
+            "60s per map, timer resets on next map"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "avoids Seagull",
+                "stands on Lamp tile to light it"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit when Bear stands on tile and presses key"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:15::q:round-15-controls",
+        "round": 15,
+        "question_id": "round-15-controls",
+        "question_text": "Round 15 | Component: 곰 조작 | Targeting: Constraints | Why now: 이동과 '키 누르기'의 키가 정해지지 않으면 등불 점등 입력 테스트를 쓸 수 없습니다 | Ambiguity: 15%\n\n곡은 어떻게 움직이고, '키'는 어떤 키인가요?",
+        "question_hash": "0dddc90a16aacac195ac5c32559ce12e",
+        "answer_hash": "0fa9dfb77e098f1d91cb7e0e2ef7f364c08f6e935662b00cce669481a385284d",
+        "selected_options": [
+          "방향키(상하좌우) 1칸씩 이동, 점등은 스페이스바"
+        ],
+        "component": "bear-control",
+        "dimension": "constraints",
+        "ambiguity_at_ask": 0.15,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:28:29.178Z",
+        "ambiguity": 0.13,
+        "scores": {
+          "goal": 0.85,
+          "constraints": 0.9,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "goal",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.85,
+            "constraints": 0.9,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.85,
+            "constraints": 0.9,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.85,
+            "constraints": 0.9,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-control",
+          "affected_dimension": "constraints",
+          "prior_dimension_score": 0.85,
+          "new_dimension_score": 0.9,
+          "prior_ambiguity": 0.15,
+          "new_ambiguity": 0.13,
+          "evidence": [
+            "arrow keys move 1 tile; space lights lamp"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "moves 1 tile by arrow key",
+                "presses Space on lamp tile"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit by Bear Space on tile"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:16::q:round-16-seagull-speed",
+        "round": 16,
+        "question_id": "round-16-seagull-speed",
+        "question_text": "Round 16 | Component: 갈매기 회피 | Targeting: Goal | Why now: 갈매기 접근 속도가 없으면 기절 후 부활하고 등불을 켜는 흐름의 난이도를 검증할 수 없습니다 | Ambiguity: 13%\n\n갈매기는 곰에게 얼마나 빨리 다가오나요?",
+        "question_hash": "239992c1248ce3d6c62340ee7fe3008b",
+        "answer_hash": "43517bb4e22d50daf0917a58925971e9d72c3b741b0ea1c1212da94ab781753c",
+        "selected_options": [
+          "곰이 1칸 움직일 때 갈매기는 1칸 (곰과 동일 속도)"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "goal",
+        "ambiguity_at_ask": 0.13,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:29:35.530Z",
+        "ambiguity": 0.12,
+        "scores": {
+          "goal": 0.9,
+          "constraints": 0.9,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.9,
+            "constraints": 0.9,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.9,
+            "constraints": 0.9,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.9,
+            "constraints": 0.9,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "goal",
+          "prior_dimension_score": 0.85,
+          "new_dimension_score": 0.9,
+          "prior_ambiguity": 0.13,
+          "new_ambiguity": 0.12,
+          "evidence": [
+            "seagull moves 1 tile per turn, same speed as bear"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "moves 1 tile by arrow key",
+                "presses Space on lamp tile"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed",
+                "speed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random at same speed",
+                "stuns Bear for 3s"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit by Bear Space on tile"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:17::q:round-17-continue-or-early-exit",
+        "round": 17,
+        "question_id": "round-17-continue-or-early-exit",
+        "question_text": "Round 17 | Component: 전체 | Targeting: 진행 방향 결정 | Why now: 모호도 12%로 임계치 5%보다 높습니다. 남은 항목은 충돌 규칙과 엔딩·재시작 방식입니다 | Ambiguity: 12%\n\n어떻게 진행할까요?",
+        "question_hash": "232c284d32cc90ea049c8e9545a5e6da",
+        "answer_hash": "9858f399e7b38ff0a442276868779ba5928b5344a0829d893464ff944231e32c",
+        "selected_options": [
+          "계속 인터뷰 (남은 2개 항목을 닫음)"
+        ],
+        "component": "all",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.12,
+        "lifecycle": "answered",
+        "answered_at": "2026-11-13T02:30:07.430Z"
+      },
+      {
+        "round_key": "nointerview::r:18::q:round-18-collision",
+        "round": 18,
+        "question_id": "round-18-collision",
+        "question_text": "Round 18 | Component: 곰·갈매기 충돌 | Targeting: Goal | Why now: 갈매기와 곰이 같은 칸이나 인접한 칸에 있을 때 어떻게 판정하는지 정해져야 기절 규칙이 생깁니다 | Ambiguity: 12%\n\n갈매기가 곰이 있는 칸으로 들어오거나 곰이 갈매기에 인접하면 어떻게 되나요?",
+        "question_hash": "b346a355cdeba9253c4655d2eb718b9f",
+        "answer_hash": "4d400bd9a7e04b8e15a1975f596992dfb7d673ddf88134bfdec543dcea131e58",
+        "selected_options": [
+          "같은 칸에 들어오면 기절 (인접은 무시)"
+        ],
+        "component": "bear-seagull-avoidance",
+        "dimension": "goal",
+        "ambiguity_at_ask": 0.12,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:30:41.137Z",
+        "ambiguity": 0.1,
+        "scores": {
+          "goal": 0.9,
+          "constraints": 0.95,
+          "criteria": 0.85,
+          "context": null
+        },
+        "weakest_component_id": "bear-seagull-avoidance",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.9,
+            "constraints": 0.95,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {
+              "criteria": "ending and restart flow not yet specified"
+            }
+          },
+          "night-deadline": {
+            "goal": 0.9,
+            "constraints": 0.9,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.9,
+            "constraints": 0.9,
+            "criteria": 0.85,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "bear-seagull-avoidance",
+          "affected_dimension": "constraints",
+          "prior_dimension_score": 0.9,
+          "new_dimension_score": 0.95,
+          "prior_ambiguity": 0.12,
+          "new_ambiguity": 0.1,
+          "evidence": [
+            "same tile collision stuns bear; adjacency ignored"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "moves 1 tile by arrow key",
+                "presses Space on lamp tile",
+                "stunned when on Seagull tile"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed",
+                "speed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random at same speed",
+                "stuns Bear for 3s on same tile"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit by Bear Space on tile"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:19::q:round-19-ending-restart",
+        "round": 19,
+        "question_id": "round-19-ending-restart",
+        "question_text": "Round 19 | Component: 승리·실패 흐름 | Targeting: Success Criteria | Why now: 엔딩과 재시작 방식이 정해지지 않으면 수락 조건의 마지막 검증을 쓸 수 없습니다 | Ambiguity: 10%\n\n3맵을 모두 클리어하면 어떤 화면이 나오고, 맵이 실패하면 어떻게 되나요?",
+        "question_hash": "9f5440d0bf6a4fc4ba0e674af1d069de",
+        "answer_hash": "1c4a7c539c1779200c3bf8d27f91912232eaba8c48d2d097b00dae0d9d0b5bf4",
+        "selected_options": [
+          "엔딩 화면 텍스트 표시 후 처음(1맵)부터 다시 시작"
+        ],
+        "component": "win-loss-flow",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.1,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:31:27.606Z",
+        "ambiguity": 0.07,
+        "scores": {
+          "goal": 0.95,
+          "constraints": 0.95,
+          "criteria": 0.9,
+          "context": null
+        },
+        "weakest_component_id": "win-loss-flow",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {}
+          },
+          "win-loss-flow": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.9,
+            "context": null,
+            "gaps": {
+              "criteria": "ending text copy unspecified (UI string)"
+            }
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "win-loss-flow",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.85,
+          "new_dimension_score": 0.9,
+          "prior_ambiguity": 0.1,
+          "new_ambiguity": 0.07,
+          "evidence": [
+            "clear all -> ending text; fail -> restart from map 1"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "moves 1 tile by arrow key",
+                "presses Space on lamp tile",
+                "stunned when on Seagull tile"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed",
+                "speed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random at same speed",
+                "stuns Bear for 3s on same tile"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit by Bear Space on tile"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            },
+            {
+              "name": "Ending",
+              "type": "screen",
+              "fields": [
+                "text"
+              ],
+              "relationships": [
+                "shown after clearing all maps"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:20::q:round-20-ending-copy",
+        "round": 20,
+        "question_id": "round-20-ending-copy",
+        "question_text": "Round 20 | Component: 승리·실패 흐름 | Targeting: Success Criteria | Why now: 엔딩 화면에 어떤 문구가 나오는지 정해지지 않으면 수용 기준 9장의 엔딩 항목을 검증할 수 없습니다 | Ambiguity: 7%\n\n모든 맵을 클리어했을 때 엔딩 화면에 표시할 문구는 어떻게 할까요?",
+        "question_hash": "8d98b1b77bb19922b04d544c7a24583d",
+        "answer_hash": "4fd082a85d879c823efda965c19f2e4ac819de975346a69c29434c75150d761d",
+        "selected_options": [
+          "제안 문구 승인: 「등대에 다시 불이 들어왔다. 곰은 아침까지 등불을 지킨다.」"
+        ],
+        "component": "win-loss-flow",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.07,
+        "lifecycle": "scored",
+        "answered_at": "2026-11-13T02:32:13.429Z",
+        "ambiguity": 0.05,
+        "scores": {
+          "goal": 0.95,
+          "constraints": 0.95,
+          "criteria": 0.95,
+          "context": null
+        },
+        "weakest_component_id": "win-loss-flow",
+        "weakest_dimension": "criteria",
+        "component_scores": {
+          "bear-seagull-avoidance": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.95,
+            "context": null,
+            "gaps": {}
+          },
+          "night-deadline": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.95,
+            "context": null,
+            "gaps": {}
+          },
+          "lamps": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.95,
+            "context": null,
+            "gaps": {}
+          },
+          "win-loss-flow": {
+            "goal": 0.95,
+            "constraints": 0.95,
+            "criteria": 0.95,
+            "context": null,
+            "gaps": {}
+          }
+        },
+        "structured_scorer_output": {
+          "triggers": [],
+          "trigger_status": "none",
+          "affected_component": "win-loss-flow",
+          "affected_dimension": "criteria",
+          "prior_dimension_score": 0.9,
+          "new_dimension_score": 0.95,
+          "prior_ambiguity": 0.07,
+          "new_ambiguity": 0.05,
+          "evidence": [
+            "ending copy approved"
+          ]
+        },
+        "ontology": {
+          "entities": [
+            {
+              "name": "Bear",
+              "type": "core",
+              "fields": [
+                "position",
+                "stunned"
+              ],
+              "relationships": [
+                "moves 1 tile by arrow key",
+                "presses Space on lamp tile",
+                "stunned when on Seagull tile"
+              ]
+            },
+            {
+              "name": "Seagull",
+              "type": "external obstacle",
+              "fields": [
+                "position",
+                "movement",
+                "seed",
+                "speed"
+              ],
+              "relationships": [
+                "approaches Bear by fixed-seed random at same speed",
+                "stuns Bear for 3s on same tile"
+              ]
+            },
+            {
+              "name": "Lamp",
+              "type": "core",
+              "fields": [
+                "lit",
+                "tile"
+              ],
+              "relationships": [
+                "lit by Bear Space on tile"
+              ]
+            },
+            {
+              "name": "Night",
+              "type": "time limit",
+              "fields": [
+                "duration_seconds=60",
+                "scope=per map"
+              ],
+              "relationships": [
+                "bounds Lamp lighting per map"
+              ]
+            },
+            {
+              "name": "Map",
+              "type": "container",
+              "fields": [
+                "order",
+                "lamp_count",
+                "grid"
+              ],
+              "relationships": [
+                "contains Lamp",
+                "3 maps approved"
+              ]
+            },
+            {
+              "name": "Ending",
+              "type": "screen",
+              "fields": [
+                "text"
+              ],
+              "relationships": [
+                "shown after clearing all maps"
+              ]
+            }
+          ]
+        },
+        "ontology_stability": {
+          "stability_ratio": 1
+        }
+      },
+      {
+        "round_key": "nointerview::r:21::q:restate-goal",
+        "round": 21,
+        "question_id": "restate-goal",
+        "question_text": "곰은 방향키로 한 칸씩 움직이며 3개 맵을 순서대로 지나고, 맵마다 60초 안에 꺼진 등불 칸에 서서 스페이스바로 모두 켜야 하고, 무작위로 다가오는 갈매기와 같은 칸에 들어가면 약 3초 기절 후 제자리에서 부활한다. 모든 맵을 클리어하면 엔딩 문구를 보여주고, 실패하면 1맵부터 다시 시작한다.\n\n이 한 문장만 보고 같은 결과를 떠올리면 될까요?",
+        "question_hash": "a9c5ba20a9197d769e00a4200f8b59bc",
+        "answer_hash": "b5831cf76460e9a5f7775f598b54c55c2e1fe0ac7228ceed4ccf2d380f1eaea6",
+        "selected_options": [
+          "예, 이대로 확정"
+        ],
+        "component": "all",
+        "dimension": "criteria",
+        "ambiguity_at_ask": 0.05,
+        "lifecycle": "answered",
+        "answered_at": "2026-11-13T02:32:53.182Z"
+      }
+    ],
+    "established_facts": [],
+    "type": "greenfield",
+    "initial_idea": "등대지기 곰이 밤이 끝나기 전에 갈매기를 피해 꺼진 등불을 모두 켠다",
+    "codebase_context": "Repo has AGENTS.md only (no source, no GAME_DESIGN.md). AGENTS.md: single-screen dot game, HTML Canvas 2D + ES modules, zero deps, no build, src/logic.js pure, levels in src/levels.js from GAME_DESIGN.md section 5, colors from GAME_DESIGN.md section 6 (8 hex), GAME_DESIGN.md section 9 = acceptance criteria.",
+    "topology": {
+      "status": "pending",
+      "confirmed_at": null,
+      "components": [],
+      "deferrals": [],
+      "last_targeted_component_id": null
+    },
+    "ontology_snapshots": [],
+    "auto_answered_rounds": [],
+    "lateral_reviews": [],
+    "lateral_panel_failures": 0,
+    "auto_answer_streak": 0,
+    "refined_rounds": [],
+    "closure_overrides": [],
+    "ambiguity_milestone": "initial",
+    "architect_failures": 0,
+    "ambiguity_floor": {
+      "floor": 0,
+      "disputed_fact_count": 0,
+      "unscored_active_component_count": 0,
+      "auto_answer_ratio": 0
+    },
+    "intent_contract": {
+      "version": 1,
+      "items": [
+        {
+          "id": "artifact:single-screen-dot-game",
+          "category": "artifact",
+          "statement": "화면 하나짜리 도트 게임 (AGENTS.md 기준)"
+        },
+        {
+          "id": "constraint:night-deadline",
+          "category": "constraint",
+          "statement": "밤이 끝나기 전 제한시간"
+        },
+        {
+          "id": "integration:seagull-hazard",
+          "category": "integration",
+          "statement": "갈매기 장애물"
+        },
+        {
+          "id": "surface:bear-keeper-control",
+          "category": "surface",
+          "statement": "등대지기 곰 캐릭터 조작"
+        },
+        {
+          "id": "surface:unlit-lamps-goal",
+          "category": "surface",
+          "statement": "꺼진 등불을 모두 켜는 목표"
+        }
+      ],
+      "digest": "635409d953676a7ceea13a312e52e03c4470e2f2f86dd6638b31585dcd87d7ea",
+      "confirmation_round": 0,
+      "confirmation_answer_hash": "2d8675b77a1c579a8590ef85e3591c854c8476f71ca64057168c0d6f1f57c908",
+      "confirmation_evidence": "answer_hash:2d8675b77a1c579a8590ef85e3591c854c8476f71ca64057168c0d6f1f57c908"
+    },
+    "current_ambiguity": 0.05,
+    "restated_goal": "곰은 방향키로 한 칸씩 움직이며 3개 맵을 순서대로 지나고, 맵마다 60초 안에 꺼진 등불 칸에 서서 스페이스바로 모두 켜야 하고, 무작위로 다가오는 갈매기와 같은 칸에 들어가면 약 3초 기절 후 제자리에서 부활한다. 모든 맵을 클리어하면 엔딩 문구를 보여주고, 실패하면 1맵부터 다시 시작한다.",
+    "intent_review": {
+      "status": "not_required",
+      "supporting_substitutions": [],
+      "version": 1,
+      "locked_digest": "635409d953676a7ceea13a312e52e03c4470e2f2f86dd6638b31585dcd87d7ea",
+      "observed_digest": "e8713e361d9b31a23c73ea2c4ed19a652e267a2f2c640bf08c37131efad6a7d8",
+      "removed_locked_ids": []
+    }
+  },
+  "spec_slug": "dotgame-lighthouse",
+  "spec_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/specs/deep-interview-dotgame-lighthouse.md",
+  "spec_sha256": "09a6823c8f4b21bd7035d66d87b6a97e2b3cce577937e0b91f84e12827687c58",
+  "spec_stage": "final",
+  "spec_persisted_at": "2026-11-13T02:33:21.225Z",
+  "handoff_to": "ralplan",
+  "handoff_at": "2026-11-13T02:35:09.882Z",
+  "state_revision": 46
+}

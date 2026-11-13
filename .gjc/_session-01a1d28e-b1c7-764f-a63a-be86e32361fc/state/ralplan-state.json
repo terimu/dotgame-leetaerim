@@ -1,0 +1,50 @@
+{
+  "skill": "ralplan",
+  "active": false,
+  "current_phase": "complete",
+  "version": 2,
+  "mode": "deliberate",
+  "interactive": false,
+  "task": "등대지기 곰 게임 spec 정제: .gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/specs/deep-interview-dotgame-lighthouse.md 을 consensus로 정제하고 pending approval에서 멈출 것. 실행 금지.",
+  "run_id": "01a1d28e-b1c7-764f-a63a-be86e32361fc",
+  "updated_at": "2026-11-13T02:45:26.345Z",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "786971131873964dc4e58ea3d359794758d0ac5e",
+    "branch": "main"
+  },
+  "handoff_from": "deep-interview",
+  "handoff_at": "2026-11-13T02:35:09.882Z",
+  "session_id": "01a1d28e-b1c7-764f-a63a-be86e32361fc",
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-state-cli",
+    "command": "gjc state ralplan clear",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/ralplan-state.json",
+    "mutated_at": "2026-11-13T02:45:26.345Z",
+    "fresh_until": "2026-11-13T03:15:26.345Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:clear:2026-11-13T02:45:26.345Z",
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "f3226d212ac656bac153cbe9d7469b09e4cde3494fd0c060f3b3fdfcc7a38e6e",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d28e-b1c7-764f-a63a-be86e32361fc/state/ralplan-state.json",
+      "computed_at": "2026-11-13T02:45:26.346Z"
+    }
+  },
+  "last_review_verdict": "OKAY",
+  "last_review_verdict_lane": "critic",
+  "last_review_verdict_stage_n": 3,
+  "auto_handoff": {
+    "configuredTarget": "off",
+    "effectiveTarget": "off",
+    "degradationReason": null,
+    "source": "default"
+  },
+  "state_revision": 1
+}
