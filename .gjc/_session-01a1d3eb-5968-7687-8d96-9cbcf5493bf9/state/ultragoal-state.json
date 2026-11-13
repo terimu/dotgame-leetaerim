@@ -1,0 +1,65 @@
+{
+  "version": 2,
+  "skill": "ultragoal",
+  "current_phase": "complete",
+  "active": false,
+  "handoff_from": "ralplan",
+  "handoff_at": "2026-11-13T09:15:37.257Z",
+  "updated_at": "2026-11-13T09:48:04.342Z",
+  "receipt": {
+    "version": 1,
+    "skill": "ultragoal",
+    "owner": "gjc-runtime",
+    "command": "gjc ultragoal (reconcile)",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/ultragoal-state.json",
+    "mutated_at": "2026-11-13T09:48:04.342Z",
+    "fresh_until": "2026-11-13T10:18:04.342Z",
+    "status": "fresh",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T09:48:04.342Z",
+    "verb": "reconcile",
+    "from_phase": "complete",
+    "to_phase": "complete",
+    "forced": true,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "a0792874fc4022ae2a4f1a464edda85e55c0367873423c7e270e82016bb1daf8",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/ultragoal-state.json",
+      "computed_at": "2026-11-13T09:48:04.342Z"
+    }
+  },
+  "session_id": "01a1d3eb-5968-7687-8d96-9cbcf5493bf9",
+  "status": "complete",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "design-v3",
+      "status": "complete"
+    }
+  ],
+  "counts": {
+    "pending": 0,
+    "active": 0,
+    "complete": 1,
+    "failed": 0,
+    "blocked": 0,
+    "review_blocked": 0,
+    "superseded": 0
+  },
+  "ledger_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/ultragoal/ledger.jsonl",
+  "brief_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/ultragoal/brief.md",
+  "goals_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/ultragoal/goals.json",
+  "gjc_objective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "nudge_budget": 6,
+  "nudge_count": 0,
+  "nudge_remaining": 6,
+  "nudge_goal_id": "G001",
+  "nudge_target_kind": "final_aggregate_receipt",
+  "latestLedgerEvent": {
+    "event": "steering_accepted",
+    "timestamp": "2026-11-13T09:48:04.328Z",
+    "kind": "annotate_ledger",
+    "evidence": "goal-4 verified: node --test test/ = 78 tests, 78 pass, 0 fail; src/levels.js adds LEVEL2 (10x7) and LEVEL3 (11x9) from GAME_DESIGN.md 5장, LEVELS=[1,2,3]; user confirmed 9장 36-48 in the browser on 2026-11-13; GAME_DESIGN.md items 36-48 marked [x] (48/48 items checked, 14081 chars, item 48 ends at 13740 <= 13800, Tier B waived after check marks as planned); goal-5 on hold."
+  },
+  "state_revision": 7
+}

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "brief": "@goal: design-v3\nReplace GAME_DESIGN.md with the approved v3 draft from .gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/plans/ralplan/01a1d3eb-5968-7687-8d96-9cbcf5493bf9/pending-approval.md (section 8 draft; identical to /tmp/v3_final.md, 13795 chars). Only GAME_DESIGN.md changes (no src, test, AGENTS.md). Verify with /tmp/check_v3.mjs GAME_DESIGN.md (Tier A and B pass, all checks PASS), then commit as 'design-v3: ...'. goal-4 (levels 2/3 code) starts only after the human approves the design-v3 diff; goal-5 is on hold.",
+  "gjcGoalMode": "aggregate",
+  "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "design-v3",
+      "objective": "Replace GAME_DESIGN.md with the approved v3 draft from .gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/plans/ralplan/01a1d3eb-5968-7687-8d96-9cbcf5493bf9/pending-approval.md (section 8 draft; identical to /tmp/v3_final.md, 13795 chars). Only GAME_DESIGN.md changes (no src, test, AGENTS.md). Verify with /tmp/check_v3.mjs GAME_DESIGN.md (Tier A and B pass, all checks PASS), then commit as 'design-v3: ...'. goal-4 (levels 2/3 code) starts only after the human approves the design-v3 diff; goal-5 is on hold.",
+      "status": "complete",
+      "createdAt": "2026-11-13T09:15:44.305Z",
+      "updatedAt": "2026-11-13T09:20:19.577Z",
+      "startedAt": "2026-11-13T09:15:46.992Z",
+      "completedAt": "2026-11-13T09:20:19.577Z",
+      "evidence": "design-v3 committed as 70b8e99 (only GAME_DESIGN.md): 13795 chars (JS String.length), '## 9.' at 7732, item 48 ends 13454; check_v3.mjs all PASS; architect CLEAR/APPROVE; QA 51/51; terminal critic OKAY after ITERATE (missing commit) was resolved. goal-4 (levels 2/3 in src/levels.js, test/logic.test.js, commit 'goal-4: levels 2 and 3') pending human approval of the design-v3 diff; goal-5 on hold per user.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "7268af60-a99e-42d2-9893-872f9f199a6f",
+        "verifiedAt": "2026-11-13T09:20:19.577Z",
+        "goalId": "G001",
+        "receiptKind": "final-aggregate",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "70eabb570ca986b45b1a56f2a6001da169c9b949908d4d06fd8d12596b61f490",
+        "planGeneration": "d84fe6a1fa758b2fc5ecca2952f2ded29e898b90ca56f37a624b754d19ed77b4",
+        "basis": {
+          "planHashBeforeCheckpoint": "382650f03720507d3825bbb5967c72ea74f6fc709ca7b3b56fdaaee3a89bb59f",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "a071d038-e5d0-4444-8d5c-9723db145f11",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T09:20:19.577Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "cb81ac1eba17adb340cd98b0135685ade98928d67dfdf5846a421988b6a90a6f"
+        },
+        "checkpointLedgerEventId": "604b4153-016f-4a78-bbb1-809d1152e8f3"
+      }
+    }
+  ],
+  "createdAt": "2026-11-13T09:15:44.305Z",
+  "updatedAt": "2026-11-13T09:20:19.577Z",
+  "repositoryBinding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "29c3e5d7cc1ab929be8a80b8793fe0f09e9b3816",
+    "branch": "main"
+  },
+  "state_revision": 3
+}

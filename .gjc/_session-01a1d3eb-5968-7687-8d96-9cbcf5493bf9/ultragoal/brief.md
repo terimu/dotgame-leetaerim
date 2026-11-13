@@ -1,0 +1,2 @@
+@goal: design-v3
+Replace GAME_DESIGN.md with the approved v3 draft from .gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/plans/ralplan/01a1d3eb-5968-7687-8d96-9cbcf5493bf9/pending-approval.md (section 8 draft; identical to /tmp/v3_final.md, 13795 chars). Only GAME_DESIGN.md changes (no src, test, AGENTS.md). Verify with /tmp/check_v3.mjs GAME_DESIGN.md (Tier A and B pass, all checks PASS), then commit as 'design-v3: ...'. goal-4 (levels 2/3 code) starts only after the human approves the design-v3 diff; goal-5 is on hold.

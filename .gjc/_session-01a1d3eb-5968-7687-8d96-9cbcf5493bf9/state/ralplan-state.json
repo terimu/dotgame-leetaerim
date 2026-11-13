@@ -1,0 +1,63 @@
+{
+  "active": false,
+  "current_phase": "handoff",
+  "skill": "ralplan",
+  "version": 2,
+  "mode": "short",
+  "interactive": false,
+  "task": "R3 계획: GAME_DESIGN v3 (레벨 2·3, 사운드·저장·타이틀 도트, 8장 기술 스펙) + goal-4 레벨 2·3 + goal-5 사운드·최고점수·최종 화면·타이틀 도트",
+  "run_id": "01a1d3eb-5968-7687-8d96-9cbcf5493bf9",
+  "updated_at": "2026-11-13T09:15:37.257Z",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "29c3e5d7cc1ab929be8a80b8793fe0f09e9b3816",
+    "branch": "main"
+  },
+  "session_id": "01a1d3eb-5968-7687-8d96-9cbcf5493bf9",
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-state-cli",
+    "command": "gjc state ralplan handoff --to ultragoal",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/ralplan-state.json",
+    "mutated_at": "2026-11-13T09:15:37.257Z",
+    "fresh_until": "2026-11-13T09:45:37.257Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:handoff:ultragoal:2026-11-13T09:15:37.257Z",
+    "forced": false,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "e7710d8d9e213ff82908b5b61c7f249d0d5eba26fdd8fd8155fb4274bcfcaa2f",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/state/ralplan-state.json",
+      "computed_at": "2026-11-13T09:15:37.262Z"
+    }
+  },
+  "planner_subagent_id": "0-R3Planner",
+  "planner_resumable": true,
+  "architect_resumable": true,
+  "last_review_verdict": "OKAY",
+  "last_review_verdict_lane": "critic",
+  "last_review_verdict_stage_n": 2,
+  "critic_resumable": true,
+  "architect_id": "1-R3Architect",
+  "critic_id": "2-R3Critic",
+  "auto_handoff": {
+    "configuredTarget": "off",
+    "effectiveTarget": "off",
+    "degradationReason": null,
+    "source": "default"
+  },
+  "final_admission_phase_transition": {
+    "run_id": "01a1d3eb-5968-7687-8d96-9cbcf5493bf9",
+    "final_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d3eb-5968-7687-8d96-9cbcf5493bf9/plans/ralplan/01a1d3eb-5968-7687-8d96-9cbcf5493bf9/stage-03-final.md",
+    "final_sha256": "e1d7b7bda45c51828be194bf7349258c253a28df8b32a888eb7d37551f36600e",
+    "auto_handoff_sha256": "baf1bde06b9be0458d9d81bf55e067158d2cf07d30b198d609a3dec519b416b1"
+  },
+  "handoff_to": "ultragoal",
+  "handoff_at": "2026-11-13T09:15:37.257Z",
+  "state_revision": 2
+}

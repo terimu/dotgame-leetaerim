@@ -1,7 +1,8 @@
 // 기대값은 GAME_DESIGN.md v2의 숫자(2장·점수 표)와 5장 레벨 1 격자에서 손으로 가져왔다.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LEVEL1, LEVELS } from '../src/levels.js';
+import { readFileSync } from 'node:fs';
+import { LEVEL1, LEVEL2, LEVEL3, LEVELS } from '../src/levels.js';
 import {
   PALETTE,
   SPRITE_BEAR,
@@ -388,6 +389,8 @@ test('새 스프라이트: 곰 기절은 곰과 0·6행만 다르고, 켜진 등
 
 // ---- R2 (goal-3): 점수 마무리와 화면 전환 ----
 // 기대값은 2장 점수 표(100점/등불, 남은 시간 초 내림 × 10)와 3장 화면 흐름 표에서 손으로 가져왔다.
+// 레벨 1만 있는 순서: 레벨 1 클리어가 곧 엔딩인 R2 시나리오를 그대로 쓴다 (2장 맵 순서 일반형).
+const ONE = [LEVEL1];
 const playing = (level) => ({ screen: 'play', levelIndex: 0, level });
 // 등불 2개를 켠 상태에서 마지막 L (3,4) 위에 곰이 서 있고 갈매기는 멈춰 있는 레벨.
 const lastLamp = (extra = {}) =>
@@ -420,48 +423,44 @@ test('페이지를 열면 타이틀이고 level은 없다 (3장 타이틀)', () 
   assert.deepEqual(createGame(), { screen: 'title', levelIndex: 0, level: null });
 });
 
-test('R2에는 레벨 1뿐이다 (2장 맵 순서, 레벨 2·3은 R3)', () => {
-  assert.deepEqual(LEVELS, [LEVEL1]);
-});
-
 test('점수 합산: 경과 22 100 ms에 마지막 등불 → 300 + 370 = 670, 엔딩 화면 (점수 표)', () => {
-  const g = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
+  const g = pressKey(playing(lastLamp()), ' ', ONE, 22100);
   assert.equal(g.screen, 'ending');
   assert.equal(g.level.score, 670);
 });
 
 test('클리어 우선: 경과 정확히 60 000 ms에 마지막 등불 → 300 + 0 = 300 (2장 마지막 등불 vs 만료)', () => {
-  const g = pressKey(playing(lastLamp()), ' ', LEVELS, 60000);
+  const g = pressKey(playing(lastLamp()), ' ', ONE, 60000);
   assert.equal(g.screen, 'ending');
   assert.equal(g.level.score, 300);
 });
 
 test('실패 판은 보너스가 없다: 등불 2개 후 만료 → 실패 화면, 점수 200 (점수 표 실패)', () => {
-  const g = tick(playing(lastLamp()), LEVELS, 60001);
+  const g = tick(playing(lastLamp()), ONE, 60001);
   assert.equal(g.screen, 'fail');
   assert.equal(g.level.score, 200);
 });
 
 test('보너스는 한 번만 더해진다: ending에서 tick을 두 번 불러도 670 (점수 표)', () => {
-  let g = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
-  g = tick(tick(g, LEVELS, 30000), LEVELS, 90000);
+  let g = pressKey(playing(lastLamp()), ' ', ONE, 22100);
+  g = tick(tick(g, ONE, 30000), ONE, 90000);
   assert.equal(g.screen, 'ending');
   assert.equal(g.level.score, 670);
 });
 
 test('tick은 play가 아니면 그대로, 시간만 지나서 클리어되지는 않는다 (3장)', () => {
   const title = createGame();
-  assert.deepEqual(tick(title, LEVELS, 99999), title);
+  assert.deepEqual(tick(title, ONE, 99999), title);
   const g = playing(lastLamp());
-  assert.equal(tick(g, LEVELS, 1000).screen, 'play');
+  assert.equal(tick(g, ONE, 1000).screen, 'play');
 });
 
 test('새 판은 점수 0의 처음 상태: 실패 화면(200점) → 타이틀 → 스페이스 (점수 표 실패, 2장 맵 순서·승리·실패)', () => {
-  let g = tick(playing(lastLamp()), LEVELS, 60001);
+  let g = tick(playing(lastLamp()), ONE, 60001);
   assert.equal(g.level.score, 200);
-  g = pressKey(g, ' ', LEVELS, 70000);
+  g = pressKey(g, ' ', ONE, 70000);
   assert.deepEqual(g, createGame());
-  g = pressKey(g, ' ', LEVELS, 80000);
+  g = pressKey(g, ' ', ONE, 80000);
   assert.equal(g.screen, 'play');
   assert.equal(g.level.score, 0);
   assert.deepEqual(g.level.lit, []);
@@ -475,7 +474,7 @@ test('새 판은 점수 0의 처음 상태: 실패 화면(200점) → 타이틀 
 });
 
 test('같은 시드로 두 번 시작하면 같은 상태 (2장 난수)', () => {
-  const start = (t) => pressKey(createGame(), ' ', LEVELS, t).level;
+  const start = (t) => pressKey(createGame(), ' ', ONE, t).level;
   const a = start(5000);
   const b = start(5000);
   assert.deepEqual(a, b);
@@ -487,7 +486,7 @@ test('시작 점수 이월: createState(grid, now, 450).score === 450 (점수 �
 });
 
 test('타이머는 타이틀에서 스페이스를 누른 순간 시작한다 (9장 26번, 2장 제한시간)', () => {
-  const g = pressKey(createGame(), ' ', LEVELS, 10000);
+  const g = pressKey(createGame(), ' ', ONE, 10000);
   assert.equal(remainingSeconds(g.level, 10000), 60);
   assert.equal(remainingSeconds(g.level, 11000), 59);
 });
@@ -495,53 +494,53 @@ test('타이머는 타이틀에서 스페이스를 누른 순간 시작한다 (9
 test('타이틀: 스페이스만 시작, 방향키·엔터는 불변 (3장 타이틀)', () => {
   const title = createGame();
   for (const key of ['ArrowRight', 'ArrowUp', 'Enter', 'Escape', 'a']) {
-    assert.deepEqual(pressKey(title, key, LEVELS, 1000), title);
+    assert.deepEqual(pressKey(title, key, ONE, 1000), title);
   }
-  assert.equal(pressKey(title, ' ', LEVELS, 1000).screen, 'play');
+  assert.equal(pressKey(title, ' ', ONE, 1000).screen, 'play');
 });
 
 test('플레이 중 엔터·Esc는 상태 불변 (3장 플레이)', () => {
   const g = playing(calm({ col: 1, row: 1 }));
   for (const key of ['Enter', 'Escape', 'Shift']) {
-    assert.deepEqual(pressKey(g, key, LEVELS, 1000), g);
+    assert.deepEqual(pressKey(g, key, ONE, 1000), g);
   }
 });
 
 test('플레이 중 방향키는 이동, 스페이스는 점등 (3장 플레이)', () => {
   const g = playing(calm({ col: 1, row: 1 }));
-  assert.deepEqual(pressKey(g, 'ArrowRight', LEVELS, 1000).level.bear, { col: 2, row: 1 });
+  assert.deepEqual(pressKey(g, 'ArrowRight', ONE, 1000).level.bear, { col: 2, row: 1 });
   const onLamp = playing(calm({ col: 2, row: 2 }));
-  assert.equal(pressKey(onLamp, ' ', LEVELS, 1000).level.score, 100);
+  assert.equal(pressKey(onLamp, ' ', ONE, 1000).level.score, 100);
 });
 
 test('엔딩·실패: 스페이스는 타이틀로, 방향키·엔터는 불변 (3장 엔딩·실패)', () => {
-  const ending = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
-  const fail = tick(playing(lastLamp()), LEVELS, 60001);
+  const ending = pressKey(playing(lastLamp()), ' ', ONE, 22100);
+  const fail = tick(playing(lastLamp()), ONE, 60001);
   for (const g of [ending, fail]) {
     for (const key of ['ArrowDown', 'Enter', 'Escape']) {
-      assert.deepEqual(pressKey(g, key, LEVELS, 90000), g);
+      assert.deepEqual(pressKey(g, key, ONE, 90000), g);
     }
-    assert.deepEqual(pressKey(g, ' ', LEVELS, 90000), createGame());
+    assert.deepEqual(pressKey(g, ' ', ONE, 90000), createGame());
   }
 });
 
 test('keydown 소비: 스페이스 한 번은 한 화면 전환만 일으킨다 (3장 소비 규칙)', () => {
   // 엔딩 → 타이틀에서 멈춘다 (곧바로 플레이로 가지 않는다).
-  const ending = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
-  assert.equal(pressKey(ending, ' ', LEVELS, 23000).screen, 'title');
+  const ending = pressKey(playing(lastLamp()), ' ', ONE, 22100);
+  assert.equal(pressKey(ending, ' ', ONE, 23000).screen, 'title');
   // 마지막 등불을 켠 스페이스는 엔딩까지만 간다 (같은 입력이 타이틀로 넘기지 않는다).
-  assert.equal(pressKey(playing(lastLamp()), ' ', LEVELS, 22100).screen, 'ending');
+  assert.equal(pressKey(playing(lastLamp()), ' ', ONE, 22100).screen, 'ending');
   // 타이틀 → 플레이에서 같은 스페이스가 점등을 일으키지 않는다.
-  const started = pressKey(createGame(), ' ', LEVELS, 1000);
+  const started = pressKey(createGame(), ' ', ONE, 1000);
   assert.equal(started.level.score, 0);
   assert.deepEqual(started.level.lit, []);
 });
 
 test('만료로 실패 화면이 된 뒤 도착한 입력은 버린다 (3장 소비 규칙)', () => {
   const g = playing(calm({ col: 1, row: 1 }));
-  const after = pressKey(g, ' ', LEVELS, 60001);
+  const after = pressKey(g, ' ', ONE, 60001);
   assert.equal(after.screen, 'fail');
-  const afterMove = pressKey(g, 'ArrowRight', LEVELS, 60001);
+  const afterMove = pressKey(g, 'ArrowRight', ONE, 60001);
   assert.equal(afterMove.screen, 'fail');
   assert.deepEqual(afterMove.level.bear, { col: 1, row: 1 });
 });
@@ -561,8 +560,8 @@ test('같은 입력 스크립트를 두 번 재생하면 같은 게임 상태 (�
   const script = [[1000, ' '], [1200, 'ArrowRight'], [1500, 'ArrowDown'], [2000, ' '], [3000, 'ArrowRight']];
   const play = () => {
     let g = createGame();
-    for (const [t, key] of script) g = pressKey(g, key, LEVELS, t);
-    return tick(g, LEVELS, 70000);
+    for (const [t, key] of script) g = pressKey(g, key, ONE, t);
+    return tick(g, ONE, 70000);
   };
   const a = play();
   assert.deepEqual(a, play());
@@ -577,4 +576,196 @@ test('다음 레벨이 있으면 보너스를 더한 점수로 이어서 시작�
   assert.equal(g.level.score, 670);
   assert.equal(g.level.startMs, 22100);
   assert.deepEqual(g.level.lit, []);
+});
+
+// ---- R3 (goal-4): 레벨 2·3 ----
+// 기대값은 GAME_DESIGN.md 5장 격자와 2장 점수 표·맵 위치, 9장 36~48번에서 손으로 가져왔다.
+const cellKey = (c) => `${c.col},${c.row}`;
+const lampsOf = (grid) => lampCells(grid).map(cellKey);
+
+test('5장 격자 3개는 src/levels.js와 글자까지 같다 (5장, 스펙 R13)', () => {
+  const doc = readFileSync(new URL('../GAME_DESIGN.md', import.meta.url), 'utf8');
+  const chapter = doc.slice(doc.indexOf('## 5.'), doc.indexOf('## 6.'));
+  const blocks = [...chapter.matchAll(/```\n([\s\S]*?)```/g)].map((m) => m[1].trimEnd().split('\n'));
+  assert.deepEqual(blocks, [LEVEL1, LEVEL2, LEVEL3]);
+});
+
+test('맵 순서는 레벨 1 → 2 → 3이고 칸 수는 9×7, 10×7, 11×9 (2장 맵 칸 수·맵 순서)', () => {
+  assert.deepEqual(LEVELS, [LEVEL1, LEVEL2, LEVEL3]);
+  assert.deepEqual([LEVEL1, LEVEL2, LEVEL3].map((g) => [g[0].length, g.length]), [[9, 7], [10, 7], [11, 9]]);
+  for (const grid of LEVELS) for (const row of grid) assert.equal(row.length, grid[0].length);
+});
+
+test('등불 수는 3·4·5개이고 합 12 (2장 점수 표 1200점, 9장 37·42번 HUD)', () => {
+  assert.deepEqual(LEVELS.map((g) => lampCells(g).length), [3, 4, 5]);
+  assert.equal(lampTotal(createState(LEVEL2, 0)), 4);
+  assert.equal(lampTotal(createState(LEVEL3, 0)), 5);
+});
+
+test('레벨 2·3 등불 위치는 5장 격자의 L 칸 (9장 36·42번)', () => {
+  assert.deepEqual(lampsOf(LEVEL2), ['3,2', '8,2', '2,4', '7,4']);
+  assert.deepEqual(lampsOf(LEVEL3), ['2,2', '8,2', '4,4', '6,4', '2,6']);
+});
+
+test('곰은 왼쪽 위 안쪽 칸, 갈매기는 오른쪽 아래 안쪽 칸에서 시작한다 (2장 갈매기 배치, 9장 37·40·42번)', () => {
+  for (const [grid, gull] of [[LEVEL2, { col: 8, row: 5 }], [LEVEL3, { col: 9, row: 7 }]]) {
+    const s = createState(grid, 0);
+    assert.deepEqual(s.bear, { col: 1, row: 1 });
+    assert.deepEqual(s.gull, gull);
+    assert.equal(tileAt(grid, gull.col, gull.row), '.');
+  }
+});
+
+test('맵 위치: 레벨 2는 위 32 px·좌우 16 px 여백, 레벨 3은 352×288을 채운다 (2장 맵 위치, 9장 37·42번)', () => {
+  assert.deepEqual(mapOffset(10, 7), { x: 16, y: 32 });
+  assert.deepEqual(mapOffset(11, 9), { x: 0, y: 0 });
+});
+
+test('레벨 2·3에서 갈매기는 첫 이동(300 ms)에 곰에게 가까워지고 벽·맵 밖으로 나가지 않는다 (2장 갈매기 이동, 9장 40번)', () => {
+  for (const grid of [LEVEL2, LEVEL3]) {
+    let s = createState(grid, 0);
+    const dist = (g) => Math.abs(g.col - s.bear.col) + Math.abs(g.row - s.bear.row);
+    const before = dist(s.gull);
+    assert.equal(dist(advance(s, 300).gull), before - 1);
+    for (let t = 0; t <= 30000; t += 100) {
+      s = advance(s, t);
+      const tile = tileAt(grid, s.gull.col, s.gull.row);
+      assert.ok(tile !== null && tile !== '#', `t=${t}`);
+    }
+  }
+});
+
+test('레벨 2·3에서 곰이 갈매기 칸으로 걸어 들어가면 3 000 ms 기절한다 (2장 기절, 9장 41번)', () => {
+  for (const [grid, gull] of [[LEVEL2, { col: 8, row: 5 }], [LEVEL3, { col: 9, row: 7 }]]) {
+    const s = {
+      ...createState(grid, 0),
+      bear: { col: gull.col - 1, row: gull.row },
+      nextGullMoveMs: Infinity,
+    };
+    const stunned = pressMove(s, 'ArrowRight', 1000);
+    assert.equal(stunned.stunUntilMs, 4000);
+    assert.deepEqual(pressMove(stunned, 'ArrowLeft', 2000).bear, stunned.bear);
+    assert.equal(pressLight(stunned, 2000).lit.length, 0);
+  }
+});
+
+// 레벨마다 등불을 차례로 켜는 걷기 경로. L 왼쪽 위 (1,1)에서 출발, R/L/U/D = 방향키, * = 스페이스.
+// 각 칸은 5장 격자에서 손으로 따라가 확인했다.
+const PATHS = [
+  ['DR*', 'RRRR*', 'LLLDD*'],
+  ['RRD*', 'RRRRR*', 'LDD*', 'LLLLL*'],
+  ['RD*', 'RRRRRR*', 'LLDD*', 'LL*', 'LLDD*'],
+];
+const KEYS = { R: 'ArrowRight', L: 'ArrowLeft', U: 'ArrowUp', D: 'ArrowDown', '*': ' ' };
+
+// 갈매기를 멈춘 채 (경로 테스트가 갈매기 경로에 기대지 않도록) 레벨 하나의 경로를 걷는다.
+// lamps개만 켜고 마지막 등불은 clearAtMs에 켠다. 이동은 100 ms 간격이다.
+function walkLevel(game, levelIndex, startMs, lamps, clearAtMs) {
+  let g = { ...game, level: { ...game.level, nextGullMoveMs: Infinity } };
+  let t = startMs;
+  let lit = 0;
+  for (const seg of PATHS[levelIndex]) {
+    for (const ch of seg) {
+      if (ch === '*') {
+        lit += 1;
+        const isLast = lit === lampTotal(g.level);
+        g = pressKey(g, ' ', LEVELS, isLast ? clearAtMs : t);
+        if (lit === lamps) return g;
+      } else {
+        t += 100;
+        g = pressKey(g, KEYS[ch], LEVELS, t);
+      }
+    }
+  }
+  return g;
+}
+
+test('세 레벨을 걸어서 깨면 점수가 이어지고 레벨마다 시간이 60초로 돌아온다: 670 → 1360 → 2040 (2장 점수 표 계산 예, 9장 38·43·45번)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100); // 남은 37.9초 → 보너스 370
+  assert.equal(g.screen, 'play');
+  assert.equal(g.levelIndex, 1);
+  assert.equal(g.level.score, 670);
+  assert.equal(g.level.startMs, 22100);
+  assert.equal(remainingSeconds(g.level, 22100), 60);
+  assert.deepEqual(g.level.lit, []);
+  assert.equal(litCount(g.level), 0);
+  g = walkLevel(g, 1, 22100, 4, 52600); // 경과 30.5초, 남은 29.5초 → 290
+  assert.equal(g.levelIndex, 2);
+  assert.equal(g.level.score, 1360);
+  assert.equal(remainingSeconds(g.level, 52600), 60);
+  g = walkLevel(g, 2, 52600, 5, 94599); // 경과 41.999초, 남은 18.001초 → 180
+  assert.equal(g.screen, 'ending');
+  assert.equal(g.level.score, 2040);
+});
+
+test('점등마다 100점이 오른다: 레벨 2 첫 등불 670 → 770 (2장 점수 표, 9장 39번)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100);
+  g = walkLevel(g, 1, 22100, 1, 22100);
+  assert.equal(g.level.score, 770);
+  assert.equal(litCount(g.level), 1);
+});
+
+// 마지막 등불 칸에 곰을 놓고 나머지 등불을 켠 상태 (이동 쿨다운 때문에 걸어서는 경계 시각을 만들 수 없다).
+function atLastLamp(game) {
+  const cells = lampCells(LEVELS[game.levelIndex]);
+  const lit = cells.slice(0, -1);
+  const score = game.level.score + lit.length * 100;
+  return { ...game, level: { ...game.level, bear: cells[cells.length - 1], lit, score, nextGullMoveMs: Infinity } };
+}
+
+// 세 레벨 모두 레벨 시작 후 elapsedMs에 마지막 등불을 켠다. 엔딩 점수를 돌려준다.
+function clearAllAt(elapsedMs) {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  let start = 0;
+  for (let i = 0; i < 3; i++) {
+    g = pressKey(atLastLamp(g), ' ', LEVELS, start + elapsedMs);
+    start += elapsedMs;
+  }
+  assert.equal(g.screen, 'ending');
+  return g.level.score;
+}
+
+test('점수 경계: 모두 경과 1 ms → 2970, 모두 정확히 60 000 ms → 1200, 모두 경과 0 ms → 3000 상한 (2장 점수 표 맵 사이 합산)', () => {
+  assert.equal(clearAllAt(1), 2970);
+  assert.equal(clearAllAt(60000), 1200);
+  assert.equal(clearAllAt(0), 3000);
+});
+
+test('레벨 2·3 실패 점수는 이전 레벨 합 + 켠 등불 × 100: 870, 1660 (2장 점수 표 실패, 9장 46·47번)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100);
+  const l2 = walkLevel(g, 1, 22100, 2, 22100);
+  const fail2 = tick(l2, LEVELS, 22100 + 60001);
+  assert.equal(fail2.screen, 'fail');
+  assert.equal(fail2.level.score, 870);
+  g = walkLevel(g, 1, 22100, 4, 52600);
+  const l3 = walkLevel(g, 2, 52600, 3, 52600);
+  const fail3 = tick(l3, LEVELS, 52600 + 60001);
+  assert.equal(fail3.screen, 'fail');
+  assert.equal(fail3.level.score, 1660);
+});
+
+test('레벨 2·3의 실패 화면과 엔딩에서 스페이스 → 타이틀 → 스페이스는 항상 레벨 1 처음 상태 (9장 48번)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100);
+  const failed2 = tick(walkLevel(g, 1, 22100, 2, 22100), LEVELS, 100000);
+  g = walkLevel(g, 1, 22100, 4, 52600);
+  const failed3 = tick(walkLevel(g, 2, 52600, 3, 52600), LEVELS, 120000);
+  const ending = walkLevel(g, 2, 52600, 5, 94599);
+  for (const over of [failed2, failed3, ending]) {
+    const title = pressKey(over, ' ', LEVELS, 200000);
+    assert.deepEqual(title, createGame());
+    const again = pressKey(title, ' ', LEVELS, 210000);
+    assert.equal(again.screen, 'play');
+    assert.equal(again.levelIndex, 0);
+    assert.deepEqual(again.level, createState(LEVEL1, 210000, 0));
+  }
+});
+
+test('레벨 전환 keydown은 한 번만 쓰인다: 전환 직후 레벨은 새 레벨 그대로 (3장 소비 규칙)', () => {
+  const g = pressKey(atLastLamp(pressKey(createGame(), ' ', LEVELS, 0)), ' ', LEVELS, 5000);
+  assert.equal(g.levelIndex, 1);
+  assert.deepEqual(g.level, createState(LEVEL2, 5000, 300 + 550));
 });

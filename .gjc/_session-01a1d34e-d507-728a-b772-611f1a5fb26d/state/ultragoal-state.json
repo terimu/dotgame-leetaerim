@@ -5,7 +5,7 @@
   "active": false,
   "handoff_from": "ralplan",
   "handoff_at": "2026-11-13T06:42:12.691Z",
-  "updated_at": "2026-11-13T07:56:32.933Z",
+  "updated_at": "2026-11-13T07:56:55.989Z",
   "receipt": {
     "version": 1,
     "skill": "ultragoal",
@@ -13,19 +13,19 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/skill-active-state.json",
     "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/ultragoal-state.json",
-    "mutated_at": "2026-11-13T07:56:32.933Z",
-    "fresh_until": "2026-11-13T08:26:32.933Z",
+    "mutated_at": "2026-11-13T07:56:55.989Z",
+    "fresh_until": "2026-11-13T08:26:55.989Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-13T07:56:32.933Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T07:56:55.989Z",
     "verb": "reconcile",
-    "from_phase": "active",
+    "from_phase": "complete",
     "to_phase": "complete",
     "forced": true,
     "content_sha256": {
       "algorithm": "sha256",
-      "value": "115f7a7e1b0af16b7d602409f69a952b1231c6a264126d8d680786831bd71be7",
+      "value": "cb690de3cfba1ed41829be3c81f0534f2eb8ac6256af2a022eaf9a39c3705d5b",
       "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/ultragoal-state.json",
-      "computed_at": "2026-11-13T07:56:32.933Z"
+      "computed_at": "2026-11-13T07:56:55.989Z"
     }
   },
   "session_id": "01a1d34e-d507-728a-b772-611f1a5fb26d",
@@ -71,5 +71,5 @@
     "timestamp": "2026-11-13T07:56:32.921Z",
     "evidence": "goal-3 verified: node --test 65/65; cohort gen 1 (architect CLEAR/APPROVE, cleaner BLOCKING 0, QA 94 adversarial cases 0 fail); human browser-verified 9장 24~35번 on 2026-11-13 (human message: all correct); GAME_DESIGN.md 24~35번 marked [x]. Leader automation screenshots/transcript are supplementary, not the approval basis; the 4 submission screenshots remain the human's job."
   },
-  "state_revision": 19
+  "state_revision": 20
 }
