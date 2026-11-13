@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "brief": "R2 execution for 등대지기 곰. Authority: approved final plan .gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/plans/ralplan/01a1d34e-d507-728a-b772-611f1a5fb26d/pending-approval.md (stage-03-final, sha256 11e30dc470d9ed82caa39517a0aad15f682062ee44bfe8b7b7888b77916e9c30). GAME_DESIGN.md is the sole spec; AGENTS.md rules apply (no package.json, pure logic.js, 8 palette colors only, UI text in src/strings.js, never change spec numbers in code, tests' expected values come from the spec, same attempt at most 6 times).\nHUMAN GATES (hard): goal 2 (goal-2) may start only after the human approves the design-v2 diff; goal 3 (goal-3) may start only after the human has verified goal-2 in a browser against 9장 8~23번. Do not self-approve. A goal's completion = the human confirms the cited 9장 items in a browser; tests passing is not completion; fixture screenshots are not evidence. Commits: one per goal, messages design-v2: / goal-2: / goal-3:. Out of scope: levels 2·3, sound, score persistence, high score, leaderboard, anything in 10장.\n\n@goal: design-v2 — GAME_DESIGN.md only\nEdit ONLY GAME_DESIGN.md (v1 -> v2); zero changes under src/ or test/. Follow final plan sections 3 (3.1 2장 rule rows, 3.1b 점수 표, 3.2 R2 임시 구현 표기, 3.3 3장 화면 흐름, 3.4 4장 sprites, 3.5 6장 사용처 열, 3.6 9장), 4 (9장 8~35 draft), 5 (decisions D1~D32) and executor notes E1~E4: (E1) delete the vacuous clause at the end of 9장 25번 (\"그 스페이스바로 등불이 켜지거나 곰이 움직이지 않는다\"); (E2) HUD 남은 시간 올림 표기 is 사용자 확정 (relabel the source; drop any \"대안: HUD 내림\" wording; keep 29번 ±1초 근사 문구); (E3) compute the first 3 mulberry32 values for seed 20261113 with an independent one-line node command and write them in the 난수 행; (E4) don't list HUD 올림 vs 내림 as an open human-approval item. 9장 1~7번 must stay byte-identical (number, sentence, `[x] 사람 브라우저 확인 2026-11-13`); 8번부터 이어 붙여 총 35개 (goal-2 = 8~23, goal-3 = 24~35); 6장 hex 8개 unchanged (verify by extracting the 8 hex strings from `git show HEAD:GAME_DESIGN.md` and the working file in order and comparing; `-` lines may only differ in 사용처/이름 text, 인덱스 7 이름 = \"밝은 빛\"); no `localStorage` wording; 점수 저장 row says \"R3. R2에서는 만들지 않는다\". Every new 9장 item is a sentence a human can judge in a browser and cites its 장 numbers. Then run a critic (read-only) review of the diff, fix findings, commit `design-v2:` and STOP: report to the human that they must read the GAME_DESIGN.md diff (list the 에이전트 제안 items from the plan 9절) and approve before goal-2.\nAcceptance: `git diff --stat` shows GAME_DESIGN.md only; 9장 1~7 lines not in `-` diff; hex tokens identical before/after; critic OKAY; commit made; human approval requested.\n\n@goal: goal-2 — 목표물·위협·타이머 (9장 8~23번)\nStarts only after the human approves design-v2. Implement per the approved GAME_DESIGN.md v2 and final plan section 6 (goal-2): src/logic.js (pure: createState with required nowMs, lastMoveMs in level state, pressMove/pressLight/advance, mulberry32, 점수 점등분 +100, 기절, 갈매기 300 ms, 60 s timer, remainingSeconds ceil), src/main.js (rAF loop, preventDefault before event.repeat return, HUD), src/sprites.js (gull, lamp off/on, bear stunned; indices 0~7 only), src/strings.js (new), test/logic.test.js. At most 5 files. Expected values in tests come from the spec numbers, not from code. After implementation STOP and tell the human: open index.html (python3 -m http.server 8000) and check 9장 8~23번 (1~7 still hold).\n\n@goal: goal-3 — 승패와 화면 전환 (9장 24~35번)\nStarts only after the human browser-verified goal-2. Implement per approved GAME_DESIGN.md v2 and final plan section 6 (goal-3): title screen, play -> ending (level 1 clear, 스펙 원문 엔딩 문구 split into two strings in src/strings.js) / failure, 스페이스바 back to title, 클리어 보너스 floor(remaining s)*10 added once at the single play->ending transition, score reset to 0 on new run, keydown consumption rule. Files: logic.js, main.js, strings.js, levels.js, test/logic.test.js (max 5; stop and report if a 6th is needed). After implementation STOP and tell the human to check 9장 24~35번; the four submission screenshots (title/play/clear/fail) are taken by the human from real play.",
+  "gjcGoalMode": "aggregate",
+  "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "design-v2 — GAME_DESIGN.md only",
+      "objective": "Edit ONLY GAME_DESIGN.md (v1 -> v2); zero changes under src/ or test/. Follow final plan sections 3 (3.1 2장 rule rows, 3.1b 점수 표, 3.2 R2 임시 구현 표기, 3.3 3장 화면 흐름, 3.4 4장 sprites, 3.5 6장 사용처 열, 3.6 9장), 4 (9장 8~35 draft), 5 (decisions D1~D32) and executor notes E1~E4: (E1) delete the vacuous clause at the end of 9장 25번 (\"그 스페이스바로 등불이 켜지거나 곰이 움직이지 않는다\"); (E2) HUD 남은 시간 올림 표기 is 사용자 확정 (relabel the source; drop any \"대안: HUD 내림\" wording; keep 29번 ±1초 근사 문구); (E3) compute the first 3 mulberry32 values for seed 20261113 with an independent one-line node command and write them in the 난수 행; (E4) don't list HUD 올림 vs 내림 as an open human-approval item. 9장 1~7번 must stay byte-identical (number, sentence, `[x] 사람 브라우저 확인 2026-11-13`); 8번부터 이어 붙여 총 35개 (goal-2 = 8~23, goal-3 = 24~35); 6장 hex 8개 unchanged (verify by extracting the 8 hex strings from `git show HEAD:GAME_DESIGN.md` and the working file in order and comparing; `-` lines may only differ in 사용처/이름 text, 인덱스 7 이름 = \"밝은 빛\"); no `localStorage` wording; 점수 저장 row says \"R3. R2에서는 만들지 않는다\". Every new 9장 item is a sentence a human can judge in a browser and cites its 장 numbers. Then run a critic (read-only) review of the diff, fix findings, commit `design-v2:` and STOP: report to the human that they must read the GAME_DESIGN.md diff (list the 에이전트 제안 items from the plan 9절) and approve before goal-2.\nAcceptance: `git diff --stat` shows GAME_DESIGN.md only; 9장 1~7 lines not in `-` diff; hex tokens identical before/after; critic OKAY; commit made; human approval requested.",
+      "status": "complete",
+      "createdAt": "2026-11-13T06:42:35.379Z",
+      "updatedAt": "2026-11-13T06:59:48.882Z",
+      "startedAt": "2026-11-13T06:42:38.625Z",
+      "completedAt": "2026-11-13T06:59:48.882Z",
+      "evidence": "design-v2 committed as 36be48b (GAME_DESIGN.md only), critic OKAY, human approved 2026-11-13 15:59",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "ac914aba-043f-492a-8542-6d063bd11127",
+        "verifiedAt": "2026-11-13T06:59:48.882Z",
+        "goalId": "G001",
+        "receiptKind": "per-goal",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "29e1e3006ff6a05a919b055d5bed3e4786e138246777bb439230e217ad603c76",
+        "planGeneration": "074d19e2abb26cf590d7c1cd45cb9e222080058143384b5438dc37698ee9fc0c",
+        "basis": {
+          "planHashBeforeCheckpoint": "08494ee0ea0a2605f92ec9422121f4237d0fd47b2c9c0362027f90845dd1d1ef",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "b02ea790-27cb-4561-9d2c-b7a437f5db6a",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T06:59:48.882Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "8a67dddc7ef07f5f210a74dedcfc82191cad850cc74ca98bd9ee5c792acfbc28"
+        },
+        "checkpointLedgerEventId": "e3f73c1d-1273-4f37-86bd-f11acf5e75d0"
+      }
+    },
+    {
+      "id": "G002",
+      "title": "goal-2 — 목표물·위협·타이머 (9장 8~23번)",
+      "objective": "Starts only after the human approves design-v2. Implement per the approved GAME_DESIGN.md v2 and final plan section 6 (goal-2): src/logic.js (pure: createState with required nowMs, lastMoveMs in level state, pressMove/pressLight/advance, mulberry32, 점수 점등분 +100, 기절, 갈매기 300 ms, 60 s timer, remainingSeconds ceil), src/main.js (rAF loop, preventDefault before event.repeat return, HUD), src/sprites.js (gull, lamp off/on, bear stunned; indices 0~7 only), src/strings.js (new), test/logic.test.js. At most 5 files. Expected values in tests come from the spec numbers, not from code. After implementation STOP and tell the human: open index.html (python3 -m http.server 8000) and check 9장 8~23번 (1~7 still hold).",
+      "status": "complete",
+      "createdAt": "2026-11-13T06:42:35.379Z",
+      "updatedAt": "2026-11-13T07:15:59.904Z",
+      "startedAt": "2026-11-13T06:59:48.907Z",
+      "completedAt": "2026-11-13T07:15:59.904Z",
+      "evidence": "goal-2 verified: 41 tests pass; human browser-verified 9장 8~23번 2026-11-13",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "b522b709-c3c9-4ee6-b48a-282497394f11",
+        "verifiedAt": "2026-11-13T07:15:59.904Z",
+        "goalId": "G002",
+        "receiptKind": "per-goal",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "51b9f260459660b2bb3515811a51c44456ddb9d15f7d673b14c7d72c11b3de63",
+        "planGeneration": "e9e260e8d4f3d7fa5af63fa96065c8e9883981237be161a03706b6fd4800f2c8",
+        "basis": {
+          "planHashBeforeCheckpoint": "9950860230b2ccc9ae448c0a014832d9769f517eefa3c45f1d693eb26216ad69",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "2df8083d-9249-4986-b5fb-6317fa9d97c5",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T07:15:59.904Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G002"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "8ac54df310e1efae3e44703743ae146c01015f368e99b677b16a6cf916dd91c0"
+        },
+        "checkpointLedgerEventId": "8ee488b3-5a34-47c0-ba21-23c452a35400"
+      }
+    },
+    {
+      "id": "G003",
+      "title": "goal-3 — 승패와 화면 전환 (9장 24~35번)",
+      "objective": "Starts only after the human browser-verified goal-2. Implement per approved GAME_DESIGN.md v2 and final plan section 6 (goal-3): title screen, play -> ending (level 1 clear, 스펙 원문 엔딩 문구 split into two strings in src/strings.js) / failure, 스페이스바 back to title, 클리어 보너스 floor(remaining s)*10 added once at the single play->ending transition, score reset to 0 on new run, keydown consumption rule. Files: logic.js, main.js, strings.js, levels.js, test/logic.test.js (max 5; stop and report if a 6th is needed). After implementation STOP and tell the human to check 9장 24~35번; the four submission screenshots (title/play/clear/fail) are taken by the human from real play.",
+      "status": "active",
+      "createdAt": "2026-11-13T06:42:35.379Z",
+      "updatedAt": "2026-11-13T07:15:59.935Z",
+      "startedAt": "2026-11-13T07:15:59.935Z"
+    }
+  ],
+  "createdAt": "2026-11-13T06:42:35.379Z",
+  "updatedAt": "2026-11-13T07:15:59.935Z",
+  "repositoryBinding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "2d85a11e3ef8c73a62b3037288bcc20b02ba3201",
+    "branch": "main"
+  },
+  "state_revision": 6
+}

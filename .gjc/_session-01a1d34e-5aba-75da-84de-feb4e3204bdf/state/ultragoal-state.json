@@ -1,0 +1,28 @@
+{
+  "active": true,
+  "version": 2,
+  "current_phase": "goal-planning",
+  "skill": "ultragoal",
+  "cwd": "/Users/leetaerim/Downloads/dotgame-taerim",
+  "updated_at": "2026-11-13T05:08:28.310Z",
+  "session_id": "01a1d34e-5aba-75da-84de-feb4e3204bdf",
+  "receipt": {
+    "version": 1,
+    "skill": "ultragoal",
+    "owner": "gjc-hook",
+    "command": "gjc-skill-invocation",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-5aba-75da-84de-feb4e3204bdf/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-5aba-75da-84de-feb4e3204bdf/state/ultragoal-state.json",
+    "mutated_at": "2026-11-13T05:08:28.313Z",
+    "fresh_until": "2026-11-13T05:38:28.313Z",
+    "status": "fresh",
+    "mutation_id": "ultragoal:2026-11-13T05:08:28.313Z",
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "984602f0d48cc7d6debdacbd6271f849af94841ead6df5523e97351e16f13353",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-5aba-75da-84de-feb4e3204bdf/state/ultragoal-state.json",
+      "computed_at": "2026-11-13T05:08:28.313Z"
+    }
+  },
+  "state_revision": 1
+}
