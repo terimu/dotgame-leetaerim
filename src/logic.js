@@ -275,3 +275,54 @@ export function pressKey(game, key, levels, nowMs) {
   }
   return key === ' ' ? createGame() : g;
 }
+
+// ---- R4 (goal-5): 최고 점수·효과음·타이틀 배치 (GAME_DESIGN.md 2장 최고 점수, 4장 타이틀, 7장) ----
+
+export const BEST_SCORE_MAX = 3000;
+
+// 7장 최고 점수: 값은 0~3000 정수 십진 문자열. 없거나 정수가 아니거나 3000 초과면 0.
+export function parseBest(raw) {
+  if (typeof raw !== 'string' || !/^(0|[1-9][0-9]*)$/.test(raw)) return 0;
+  const n = Number(raw);
+  return n <= BEST_SCORE_MAX ? n : 0;
+}
+
+// 7장 최고 점수: 판 점수가 저장값보다 클 때만 저장한다.
+export function nextBest(stored, score) {
+  return { best: Math.max(stored, score), save: score > stored };
+}
+
+// 7장 효과음: 이전·다음 상태 한 쌍에서 사건 하나를 고른다. 순위 낮은 숫자 우선.
+export function soundEvent(prev, next) {
+  if (prev.screen !== 'play') return null;
+  if (next.screen === 'ending') return 'ending';
+  if (next.screen === 'fail') return 'fail';
+  if (next.screen !== 'play') return null;
+  if (next.levelIndex > prev.levelIndex) return 'clear';
+  if (next.level.stunUntilMs !== null && next.level.stunUntilMs !== prev.level.stunUntilMs) return 'stun';
+  if (next.level.lit.length > prev.level.lit.length) return 'lamp';
+  return null;
+}
+
+// 4장 타이틀 스프라이트: 이름 음절 5개(14×14점, 1점 = 3 px, 음절 사이 2점, "기"와 "곰" 사이 6점)를 가로 가운데에,
+// 키(44×12점, 1점 = 4 px)는 그 아래. 좌표는 이 함수가 4장 숫자에서 계산한다.
+export const TITLE_NAME_DOT = 3;
+export const TITLE_NAME_Y = 88;
+export const TITLE_KEY_DOT = 4;
+export const TITLE_KEY_Y = 176;
+
+export function titleLayout() {
+  const syllable = 14 * TITLE_NAME_DOT;
+  const gaps = [2, 2, 2, 6].map((dots) => dots * TITLE_NAME_DOT);
+  const width = 5 * syllable + gaps.reduce((sum, g) => sum + g, 0);
+  let x = (SCREEN_WIDTH - width) / 2;
+  const name = [];
+  for (let i = 0; i < 5; i += 1) {
+    name.push({ x, y: TITLE_NAME_Y });
+    x += syllable + (gaps[i] ?? 0);
+  }
+  return {
+    name,
+    key: { x: (SCREEN_WIDTH - 44 * TITLE_KEY_DOT) / 2, y: TITLE_KEY_Y },
+  };
+}

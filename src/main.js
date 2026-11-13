@@ -1,5 +1,5 @@
-// R2 임시 구현 (GAME_DESIGN.md 2장). 틱 루프·입력·렌더링 방식은 8장(R3)이 정한다.
-// requestAnimationFrame 루프가 performance.now() 하나로 상태를 진행하고 그린다. 게임 규칙은 logic.js에 있다.
+// 화면 그리기와 입력 연결 (GAME_DESIGN.md 8장). requestAnimationFrame 루프가 performance.now() 하나로 상태를 진행하고 그린다.
+// 게임 규칙은 logic.js, 효과음 재생은 sound.js, 최고 점수 저장은 storage.js에 있다.
 import { LEVELS } from './levels.js';
 import {
   PALETTE,
@@ -9,15 +9,16 @@ import {
   SPRITE_LAMP_OFF,
   SPRITE_LAMP_ON,
   SPRITE_SEAGULL,
+  SPRITE_TITLE_KEY,
   SPRITE_WALL,
+  TITLE_NAME_SPRITES,
 } from './sprites.js';
 import {
   ENDING_LINE_1,
   ENDING_LINE_2,
   FAIL_LINE,
   RESTART_HINT,
-  TITLE_NAME,
-  TITLE_PROMPT,
+  hudBest,
   hudLamps,
   hudScore,
   hudTime,
@@ -35,7 +36,13 @@ import {
   remainingSeconds,
   directionDelta,
   mapOffset,
+  soundEvent,
+  titleLayout,
+  TITLE_NAME_DOT,
+  TITLE_KEY_DOT,
 } from './logic.js';
+import { play, unlock } from './sound.js';
+import { recordBest } from './storage.js';
 
 const SPRITE_SCALE = TILE_SIZE / 16;
 const HUD_FONT = '16px monospace';
@@ -45,15 +52,34 @@ canvas.width = SCREEN_WIDTH;
 canvas.height = SCREEN_HEIGHT;
 const ctx = canvas.getContext('2d');
 
-let game = createGame();
+// localStorage 접근 자체가 던질 수 있다. 막히면 null이고 최고 점수는 이 방문 동안 메모리로만 유지한다 (7장).
+function openStore() {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
 
-function drawSprite(sprite, x, y) {
+const store = openStore();
+let game = createGame();
+let best = 0;
+
+// 상태 변경의 유일한 입구: 효과음과 최고 점수 저장은 이전·다음 상태 한 쌍으로 여기서만 일어난다.
+function commit(nextGame) {
+  const event = soundEvent(game, nextGame);
+  if (event !== null) play(event);
+  best = recordBest(store, best, game, nextGame);
+  game = nextGame;
+}
+
+function drawSprite(sprite, x, y, scale = SPRITE_SCALE) {
   for (let py = 0; py < sprite.length; py += 1) {
     for (let px = 0; px < sprite[py].length; px += 1) {
       const index = sprite[py][px];
       if (index === null) continue;
       ctx.fillStyle = PALETTE[index];
-      ctx.fillRect(x + px * SPRITE_SCALE, y + py * SPRITE_SCALE, SPRITE_SCALE, SPRITE_SCALE);
+      ctx.fillRect(x + px * scale, y + py * scale, scale, scale);
     }
   }
 }
@@ -106,14 +132,17 @@ function draw(nowMs) {
   ctx.fillStyle = PALETTE[0];
   ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   if (game.screen === 'title') {
-    drawText(TITLE_NAME, 130, 5, '32px monospace');
-    drawText(TITLE_PROMPT, 190, 7, HUD_FONT);
+    const layout = titleLayout();
+    layout.name.forEach((p, i) => drawSprite(TITLE_NAME_SPRITES[i], p.x, p.y, TITLE_NAME_DOT));
+    drawSprite(SPRITE_TITLE_KEY, layout.key.x, layout.key.y, TITLE_KEY_DOT);
   } else if (game.screen === 'play') {
     drawPlay(game.level, nowMs);
   } else if (game.screen === 'ending') {
     drawText(ENDING_LINE_1, 110, 7, HUD_FONT);
     drawText(ENDING_LINE_2, 140, 7, HUD_FONT);
     drawText(hudScore(game.level.score), 190, 7, HUD_FONT);
+    // goal-5 임시 줄: 7장 글자 규칙(도트 글리프)과 y는 goal-6에서 바뀐다.
+    drawText(hudBest(best), 210, 7, HUD_FONT);
     drawText(RESTART_HINT, 230, 7, HUD_FONT);
   } else {
     drawText(FAIL_LINE, 130, 7, HUD_FONT);
@@ -124,7 +153,7 @@ function draw(nowMs) {
 
 function frame() {
   const now = performance.now();
-  game = tick(game, LEVELS, now);
+  commit(tick(game, LEVELS, now));
   draw(now);
   requestAnimationFrame(frame);
 }
@@ -134,7 +163,8 @@ document.addEventListener('keydown', (event) => {
   const isLight = event.key === ' ';
   if (isLight || directionDelta(event.key) !== null) event.preventDefault();
   if (event.repeat) return;
-  game = pressKey(game, event.key, LEVELS, performance.now());
+  unlock();
+  commit(pressKey(game, event.key, LEVELS, performance.now()));
 });
 
 requestAnimationFrame(frame);

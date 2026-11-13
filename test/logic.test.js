@@ -11,15 +11,16 @@ import {
   SPRITE_LAMP_OFF,
   SPRITE_LAMP_ON,
   SPRITE_SEAGULL,
+  SPRITE_TITLE_KEY,
   SPRITE_WALL,
+  TITLE_NAME_SPRITES,
 } from '../src/sprites.js';
 import {
   ENDING_LINE_1,
   ENDING_LINE_2,
   FAIL_LINE,
   RESTART_HINT,
-  TITLE_NAME,
-  TITLE_PROMPT,
+  hudBest,
   hudLamps,
   hudScore,
   hudTime,
@@ -57,7 +58,14 @@ import {
   createGame,
   tick,
   pressKey,
+  BEST_SCORE_MAX,
+  parseBest,
+  nextBest,
+  soundEvent,
+  titleLayout,
 } from '../src/logic.js';
+import { BEST_KEY, loadBest, saveBest, recordBest } from '../src/storage.js';
+import { SOUND_TABLE, MASTER_GAIN, ATTACK_MS, RELEASE_MS } from '../src/sound.js';
 
 const at = (col, row) => ({ grid: LEVEL1, bear: { col, row } });
 
@@ -549,9 +557,7 @@ test('엔딩 문구 두 문자열을 공백 하나로 이으면 스펙 원문 (3
   assert.equal(`${ENDING_LINE_1} ${ENDING_LINE_2}`, '등대에 다시 불이 들어왔다. 곰은 아침까지 등불을 지킨다.');
 });
 
-test('타이틀·실패·안내 문구 (3장 R2 임시 문구)', () => {
-  assert.equal(TITLE_NAME, '등대지기 곰');
-  assert.equal(TITLE_PROMPT, '스페이스바로 시작');
+test('실패·안내 문구 (7장 실패 줄·엔딩 줄)', () => {
   assert.equal(FAIL_LINE, '밤이 끝났다.');
   assert.equal(RESTART_HINT, '스페이스바로 처음 화면');
 });
@@ -768,4 +774,276 @@ test('레벨 전환 keydown은 한 번만 쓰인다: 전환 직후 레벨은 새
   const g = pressKey(atLastLamp(pressKey(createGame(), ' ', LEVELS, 0)), ' ', LEVELS, 5000);
   assert.equal(g.levelIndex, 1);
   assert.deepEqual(g.level, createState(LEVEL2, 5000, 300 + 550));
+});
+
+// ---- R4 (goal-5): 최고 점수·효과음·타이틀 도트 ----
+// 기대값은 GAME_DESIGN.md 2장 최고 점수 행, 4장 타이틀 스프라이트, 7장 효과음 표·최고 점수에서 손으로 가져왔다.
+const doc = readFileSync(new URL('../GAME_DESIGN.md', import.meta.url), 'utf8');
+const chapter = (from, to) => doc.slice(doc.indexOf(from), doc.indexOf(to));
+
+test('GAME_DESIGN.md는 13 800자 이하다 (사용자 한도)', () => {
+  assert.ok([...doc].length <= 13800, `length ${[...doc].length}`);
+});
+
+test('parseBest: 0~3000 정수 십진 문자열만 읽고 나머지는 0 (7장 최고 점수)', () => {
+  for (const raw of [null, undefined, '', 'abc', '15.5', '1e3', '3001', '-5', '007']) assert.equal(parseBest(raw), 0);
+  assert.equal(parseBest('0'), 0);
+  assert.equal(parseBest('1500'), 1500);
+  assert.equal(parseBest('3000'), 3000);
+  assert.equal(BEST_SCORE_MAX, 3000);
+});
+
+test('nextBest: 판 점수가 저장값보다 클 때만 저장 (2장 최고 점수, 9장 52번)', () => {
+  assert.deepEqual(nextBest(0, 1500), { best: 1500, save: true });
+  assert.deepEqual(nextBest(2000, 1500), { best: 2000, save: false });
+  assert.deepEqual(nextBest(1500, 1500), { best: 1500, save: false });
+  assert.deepEqual(nextBest(1500, 2000), { best: 2000, save: true });
+});
+
+// 기록을 남기는 가짜 localStorage.
+function fakeStore(initial = {}, { throws = false } = {}) {
+  const data = { ...initial };
+  const calls = { get: 0, set: 0 };
+  return {
+    data,
+    calls,
+    getItem(key) {
+      calls.get += 1;
+      if (throws) throw new Error('blocked');
+      return Object.hasOwn(data, key) ? data[key] : null;
+    },
+    setItem(key, value) {
+      calls.set += 1;
+      if (throws) throw new Error('blocked');
+      data[key] = value;
+    },
+  };
+}
+
+test('저장 키는 lighthouse-bear-best 하나뿐이다 (7장 최고 점수, 9장 53번)', () => {
+  assert.equal(BEST_KEY, 'lighthouse-bear-best');
+  const store = fakeStore();
+  saveBest(store, 1700);
+  assert.deepEqual(store.data, { 'lighthouse-bear-best': '1700' });
+  assert.equal(loadBest(store), 1700);
+});
+
+test('store가 없거나 던져도 예외 없이 0을 읽고 쓰기를 건너뛴다 (7장 최고 점수)', () => {
+  for (const store of [null, fakeStore({}, { throws: true })]) {
+    assert.equal(loadBest(store), 0);
+    saveBest(store, 100);
+  }
+});
+
+function endingPair() {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100);
+  g = walkLevel(g, 1, 22100, 4, 52600);
+  const next = walkLevel(g, 2, 52600, 5, 94599);
+  assert.equal(next.screen, 'ending');
+  return { prev: g, next };
+}
+
+test('recordBest ① play→ending 진입 한 번: 저장 한 번, 새 최고값 반환 (2장 최고 점수, 9장 52번)', () => {
+  const { prev, next } = endingPair();
+  const store = fakeStore();
+  const best = recordBest(store, 0, prev, next);
+  assert.equal(best, 2040);
+  assert.equal(store.calls.set, 1);
+  assert.equal(store.data[BEST_KEY], '2040');
+});
+
+test('recordBest ② ending→ending 재호출은 store를 건드리지 않는다 (7장: 엔딩에 들어가는 순간 한 번)', () => {
+  const { next } = endingPair();
+  const store = fakeStore();
+  assert.equal(recordBest(store, 2040, next, next), 2040);
+  assert.deepEqual(store.calls, { get: 0, set: 0 });
+});
+
+test('recordBest ③ 실패 진입은 읽지도 쓰지도 않는다 (2장 최고 점수, 9장 54번)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  g = walkLevel(g, 0, 0, 3, 22100);
+  const fail = tick(walkLevel(g, 1, 22100, 2, 22100), LEVELS, 22100 + 60001);
+  assert.equal(fail.screen, 'fail');
+  const store = fakeStore({ [BEST_KEY]: '1000' });
+  assert.equal(recordBest(store, 1000, g, fail), 1000);
+  assert.deepEqual(store.calls, { get: 0, set: 0 });
+});
+
+test('recordBest ④ 저장값이 더 크면 저장하지 않고 큰 값을 돌려준다 (7장: 더 클 때만)', () => {
+  const { prev, next } = endingPair();
+  const store = fakeStore({ [BEST_KEY]: '2500' });
+  assert.equal(recordBest(store, 0, prev, next), 2500);
+  assert.equal(store.calls.set, 0);
+  assert.equal(store.data[BEST_KEY], '2500');
+});
+
+test('recordBest ⑤ store가 던지면 메모리 최고값만 갱신하고 예외가 없다 (7장: 막히면 메모리로 유지)', () => {
+  const { prev, next } = endingPair();
+  const store = fakeStore({}, { throws: true });
+  assert.equal(recordBest(store, 0, prev, next), 2040);
+  assert.equal(recordBest(null, 2100, prev, next), 2100);
+});
+
+test('hudBest 문구 (7장 엔딩 줄)', () => {
+  assert.equal(hudBest(1500), '최고 점수 1500');
+});
+
+// ---- 효과음 사건 (7장 표: 순위 낮은 숫자 하나, 무음 목록) ----
+const playLevel = (extra = {}) => ({ screen: 'play', levelIndex: 0, level: calm({ col: 2, row: 2 }, extra) });
+
+test('soundEvent: 새 등불 점등은 lamp (7장 순위 5)', () => {
+  const prev = playLevel();
+  const next = { ...prev, level: { ...prev.level, lit: [{ col: 2, row: 2 }], score: 100 } };
+  assert.equal(soundEvent(prev, next), 'lamp');
+});
+
+test('soundEvent: 이동·벽·켜진 등불 재입력·빈 칸 스페이스는 무음 (7장)', () => {
+  const prev = playLevel({ lit: [{ col: 2, row: 2 }], score: 100 });
+  assert.equal(soundEvent(prev, prev), null);
+  assert.equal(soundEvent(prev, pressKey(prev, ' ', LEVELS, 1000)), null);
+  assert.equal(soundEvent(prev, pressKey(prev, 'ArrowRight', LEVELS, 1000)), null);
+  assert.equal(soundEvent(prev, pressKey(prev, 'ArrowUp', LEVELS, 1000)), null);
+  const blank = playLevel();
+  const onFloor = { ...blank, level: { ...blank.level, bear: { col: 1, row: 1 } } };
+  assert.equal(soundEvent(onFloor, pressKey(onFloor, ' ', LEVELS, 1000)), null);
+});
+
+test('soundEvent: 기절 시작은 stun, 기절 중 유지는 무음 (7장 순위 4)', () => {
+  const prev = playLevel();
+  const stunned = { ...prev, level: { ...prev.level, stunUntilMs: 4000 } };
+  assert.equal(soundEvent(prev, stunned), 'stun');
+  assert.equal(soundEvent(stunned, stunned), null);
+  const wokeUp = { ...stunned, level: { ...stunned.level, stunUntilMs: null } };
+  assert.equal(soundEvent(stunned, wokeUp), null);
+});
+
+test('soundEvent: 레벨 1·2 클리어는 clear, 레벨 3 클리어는 ending, 만료는 fail (7장 순위 1~3)', () => {
+  let g = pressKey(createGame(), ' ', LEVELS, 0);
+  const l1 = atLastLamp(g);
+  const after1 = pressKey(l1, ' ', LEVELS, 5000);
+  assert.equal(soundEvent(l1, after1), 'clear');
+  const l2 = atLastLamp(after1);
+  const after2 = pressKey(l2, ' ', LEVELS, 6000);
+  assert.equal(after2.levelIndex, 2);
+  assert.equal(soundEvent(l2, after2), 'clear');
+  const l3 = atLastLamp(after2);
+  const ending = pressKey(l3, ' ', LEVELS, 7000);
+  assert.equal(ending.screen, 'ending');
+  assert.equal(soundEvent(l3, ending), 'ending');
+  const fail = tick(after2, LEVELS, 6000 + 60001);
+  assert.equal(fail.screen, 'fail');
+  assert.equal(soundEvent(after2, fail), 'fail');
+});
+
+test('soundEvent: 마지막 등불은 점등음이 아니라 클리어음·엔딩음, 점등과 기절이 겹치면 순위 낮은 숫자 (7장)', () => {
+  const g = pressKey(createGame(), ' ', LEVELS, 0);
+  const prev = atLastLamp(g);
+  assert.equal(soundEvent(prev, pressKey(prev, ' ', LEVELS, 5000)), 'clear');
+  const both = {
+    ...prev,
+    level: { ...prev.level, lit: [...prev.level.lit, { col: 3, row: 4 }], stunUntilMs: 9000 },
+  };
+  assert.equal(soundEvent(prev, both), 'stun');
+});
+
+test('soundEvent: 타이틀 시작·엔딩/실패에서 타이틀 복귀는 무음 (7장)', () => {
+  const title = createGame();
+  const started = pressKey(title, ' ', LEVELS, 0);
+  assert.equal(soundEvent(title, started), null);
+  assert.equal(soundEvent(title, title), null);
+  const { next: ending } = endingPair();
+  assert.equal(soundEvent(ending, pressKey(ending, ' ', LEVELS, 99999)), null);
+  assert.equal(soundEvent(ending, ending), null);
+});
+
+// ---- 효과음 표: 7장이 기준 ----
+test('SOUND_TABLE은 7장 효과음 표와 같다 (순위·파형·Hz×ms)', () => {
+  const ch7 = chapter('## 7.', '## 8.');
+  const names = { 엔딩: 'ending', 실패: 'fail', '레벨 1·2 클리어': 'clear', '기절 시작': 'stun', '새 등불 점등': 'lamp' };
+  const rows = [...ch7.matchAll(/^\| ([1-5]) \| ([^|]+?) \| (\w+) \| ([^|]+?) \|$/gm)];
+  assert.equal(rows.length, 5);
+  const order = [];
+  for (const [, rank, label, wave, notes] of rows) {
+    const key = names[label];
+    assert.ok(key, label);
+    order[Number(rank) - 1] = key;
+    const parsed = notes.split(', ').map((n) => n.split('×').map(Number));
+    assert.equal(SOUND_TABLE[key].wave, wave);
+    assert.deepEqual(SOUND_TABLE[key].notes, parsed);
+  }
+  assert.deepEqual(order, ['ending', 'fail', 'clear', 'stun', 'lamp']);
+  assert.deepEqual(Object.keys(SOUND_TABLE).sort(), [...order].sort());
+});
+
+test('마스터 게인·어택·릴리즈는 7장 문장과 같다', () => {
+  const ch7 = chapter('## 7.', '## 8.');
+  const m = ch7.match(/마스터 게인 ([0-9.]+), 음마다 ([0-9]+) ms 어택·([0-9]+) ms 릴리즈/);
+  assert.ok(m, '7장에 마스터 게인 문장이 없다');
+  assert.equal(MASTER_GAIN, Number(m[1]));
+  assert.equal(ATTACK_MS, Number(m[2]));
+  assert.equal(RELEASE_MS, Number(m[3]));
+});
+
+test('음 규칙: 엔딩·클리어는 올라가고 실패는 내려가며 엔딩 마지막 음이 가장 길다 (7장, 9장 51번)', () => {
+  const hz = (name) => SOUND_TABLE[name].notes.map(([f]) => f);
+  const ms = (name) => SOUND_TABLE[name].notes.map(([, d]) => d);
+  const rising = (a) => a.every((v, i) => i === 0 || v > a[i - 1]);
+  assert.ok(rising(hz('ending')) && rising(hz('clear')));
+  assert.ok(hz('fail').every((v, i, a) => i === 0 || v < a[i - 1]));
+  assert.equal(SOUND_TABLE.ending.notes.length, 4);
+  assert.equal(SOUND_TABLE.clear.notes.length, 3);
+  assert.equal(SOUND_TABLE.fail.notes.length, 3);
+  assert.equal(Math.max(...ms('ending')), ms('ending').at(-1));
+});
+
+// ---- 타이틀 스프라이트 (4장) ----
+test('타이틀 이름은 14×14 음절 5개이고 값은 null 또는 5, 키는 44×12 (4장)', () => {
+  assert.equal(TITLE_NAME_SPRITES.length, 5);
+  for (const sprite of TITLE_NAME_SPRITES) {
+    assert.equal(sprite.length, 14);
+    for (const row of sprite) {
+      assert.equal(row.length, 14);
+      for (const v of row) assert.ok(v === null || v === 5);
+    }
+  }
+  assert.equal(SPRITE_TITLE_KEY.length, 12);
+  for (const row of SPRITE_TITLE_KEY) assert.equal(row.length, 44);
+});
+
+test('titleLayout: 음절 x는 53·101·149·197·257, y 88, 키는 (88, 176) (4장 타이틀 스프라이트)', () => {
+  const layout = titleLayout();
+  assert.deepEqual(layout.name.map((p) => p.x), [53, 101, 149, 197, 257]);
+  assert.ok(layout.name.every((p) => p.y === 88));
+  assert.deepEqual(layout.key, { x: 88, y: 176 });
+});
+
+test('스프라이트마다 쓰는 인덱스는 4장이 선언한 집합과 정확히 같다 (4장 사용 인덱스, 6장)', () => {
+  const ch4 = chapter('## 4.', '## 5.');
+  const used = (sprite) => new Set(sprite.flat().filter((v) => v !== null));
+  const sentence = ch4.match(/사용 인덱스: (.+?)\. 16칸/s);
+  assert.ok(sentence, '4장에 사용 인덱스 문장이 없다');
+  const declared = new Map();
+  for (const item of sentence[1].replace(/\([^)]*\)/g, '').split(', ')) {
+    const m = item.trim().match(/^(.+) ([0-9](?:·[0-9])*)$/);
+    assert.ok(m, `형식이 다르다: ${item}`);
+    declared.set(m[1], new Set(m[2].split('·').map(Number)));
+  }
+  const sprites = {
+    곰: SPRITE_BEAR,
+    '곰 기절': SPRITE_BEAR_STUNNED,
+    바닥: SPRITE_FLOOR,
+    벽: SPRITE_WALL,
+    갈매기: SPRITE_SEAGULL,
+    '등불 꺼짐': SPRITE_LAMP_OFF,
+    '등불 켜짐': SPRITE_LAMP_ON,
+  };
+  assert.deepEqual([...declared.keys()].sort(), Object.keys(sprites).sort());
+  for (const [name, sprite] of Object.entries(sprites)) assert.deepEqual(used(sprite), declared.get(name), name);
+  const title = ch4.slice(ch4.indexOf('타이틀 스프라이트:'));
+  const nameIndex = title.match(/색 인덱스 ([0-9]),/);
+  const keyIndexes = title.match(/인덱스 ([0-9](?:·[0-9])+),/);
+  assert.ok(nameIndex && keyIndexes, '4장 타이틀 단락에 인덱스가 없다');
+  for (const sprite of TITLE_NAME_SPRITES) assert.deepEqual(used(sprite), new Set([Number(nameIndex[1])]));
+  assert.deepEqual(used(SPRITE_TITLE_KEY), new Set(keyIndexes[1].split('·').map(Number)));
 });
