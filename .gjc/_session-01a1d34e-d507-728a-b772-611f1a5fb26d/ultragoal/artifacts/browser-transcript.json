@@ -1,0 +1,97 @@
+{
+ "kind": "browser-automation-transcript",
+ "tool": "gjc browser (puppeteer, headless Chromium)",
+ "url": "http://127.0.0.1:8000/index.html",
+ "schemaVersion": 1,
+ "actions": [
+  {
+   "action": "goto",
+   "result": "canvas 352x320, no pageerror (only a 404, favicon)",
+   "type": "goto",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "screenshot 1-title.png",
+   "result": "title: 등대지기 곰 / 스페이스바로 시작",
+   "type": "screenshot",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press Enter",
+   "result": "title unchanged",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press Space",
+   "result": "play screen, 등불 0/3, 점수 0, 남은 시간 60",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press ArrowRight, ArrowDown, Space",
+   "result": "등불 1/3, 점수 100 (3-one-lamp.png)",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "walk to 3 lamps and press Space at each",
+   "result": "ending screen with two-line text, 점수 880 (5-clear-attempt6.png)",
+   "type": "walk",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press ArrowDown, Enter, Escape on ending",
+   "result": "canvas pixel signature unchanged",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press Space on ending",
+   "result": "title (6-title-after-ending.png), still title after 300 ms (no auto start)",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press Space, wait 61 s idle",
+   "result": "restart shows 점수 0, 남은 시간 60 (7-restart.png); then fail screen 밤이 끝났다. 점수 0 (8-fail.png)",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press ArrowRight, Enter on fail",
+   "result": "canvas pixel signature unchanged",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.869411+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  },
+  {
+   "action": "press Space on fail",
+   "result": "title (9-title-after-fail.png)",
+   "type": "press",
+   "timestamp": "2026-11-13T16:31:32.943564+09:00",
+   "url": "http://127.0.0.1:8000/index.html",
+   "selector": "canvas#game"
+  }
+ ],
+ "timestampNote": "Approximate: per-action times were not logged; all but the last action carry the first screenshot file mtime, the last carries the last screenshot mtime. Actual run 2026-11-13 ~16:31 local."
+}

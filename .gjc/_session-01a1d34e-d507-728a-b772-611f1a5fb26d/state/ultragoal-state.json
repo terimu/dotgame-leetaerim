@@ -1,11 +1,11 @@
 {
   "version": 2,
   "skill": "ultragoal",
-  "current_phase": "active",
-  "active": true,
+  "current_phase": "complete",
+  "active": false,
   "handoff_from": "ralplan",
   "handoff_at": "2026-11-13T06:42:12.691Z",
-  "updated_at": "2026-11-13T07:15:59.956Z",
+  "updated_at": "2026-11-13T07:56:32.933Z",
   "receipt": {
     "version": 1,
     "skill": "ultragoal",
@@ -13,23 +13,23 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/skill-active-state.json",
     "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/ultragoal-state.json",
-    "mutated_at": "2026-11-13T07:15:59.956Z",
-    "fresh_until": "2026-11-13T07:45:59.956Z",
+    "mutated_at": "2026-11-13T07:56:32.933Z",
+    "fresh_until": "2026-11-13T08:26:32.933Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-13T07:15:59.956Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T07:56:32.933Z",
     "verb": "reconcile",
     "from_phase": "active",
-    "to_phase": "active",
+    "to_phase": "complete",
     "forced": true,
     "content_sha256": {
       "algorithm": "sha256",
-      "value": "7b0c910e4f76d8cd90e4e002e792c594a692bdf772679ada225e4fbefdc0ea3d",
+      "value": "115f7a7e1b0af16b7d602409f69a952b1231c6a264126d8d680786831bd71be7",
       "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/state/ultragoal-state.json",
-      "computed_at": "2026-11-13T07:15:59.956Z"
+      "computed_at": "2026-11-13T07:56:32.933Z"
     }
   },
   "session_id": "01a1d34e-d507-728a-b772-611f1a5fb26d",
-  "status": "active",
+  "status": "complete",
   "goals": [
     {
       "id": "G001",
@@ -44,13 +44,13 @@
     {
       "id": "G003",
       "title": "goal-3 — 승패와 화면 전환 (9장 24~35번)",
-      "status": "active"
+      "status": "complete"
     }
   ],
   "counts": {
     "pending": 0,
-    "active": 1,
-    "complete": 2,
+    "active": 0,
+    "complete": 3,
     "failed": 0,
     "blocked": 0,
     "review_blocked": 0,
@@ -59,17 +59,17 @@
   "ledger_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/ultragoal/ledger.jsonl",
   "brief_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/ultragoal/brief.md",
   "goals_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d34e-d507-728a-b772-611f1a5fb26d/ultragoal/goals.json",
-  "active_goal_id": "G003",
   "gjc_objective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
   "nudge_budget": 6,
-  "nudge_count": 0,
-  "nudge_remaining": 6,
+  "nudge_count": 6,
+  "nudge_remaining": 0,
   "nudge_goal_id": "G003",
-  "nudge_target_kind": "story",
+  "nudge_target_kind": "final_aggregate_receipt",
   "latestLedgerEvent": {
-    "event": "goal_started",
+    "event": "goal_checkpointed",
     "goalId": "G003",
-    "timestamp": "2026-11-13T07:15:59.945Z"
+    "timestamp": "2026-11-13T07:56:32.921Z",
+    "evidence": "goal-3 verified: node --test 65/65; cohort gen 1 (architect CLEAR/APPROVE, cleaner BLOCKING 0, QA 94 adversarial cases 0 fail); human browser-verified 9장 24~35번 on 2026-11-13 (human message: all correct); GAME_DESIGN.md 24~35번 marked [x]. Leader automation screenshots/transcript are supplementary, not the approval basis; the 4 submission screenshots remain the human's job."
   },
-  "state_revision": 14
+  "state_revision": 19
 }

@@ -1,7 +1,7 @@
 // 기대값은 GAME_DESIGN.md v2의 숫자(2장·점수 표)와 5장 레벨 1 격자에서 손으로 가져왔다.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LEVEL1 } from '../src/levels.js';
+import { LEVEL1, LEVELS } from '../src/levels.js';
 import {
   PALETTE,
   SPRITE_BEAR,
@@ -12,7 +12,17 @@ import {
   SPRITE_SEAGULL,
   SPRITE_WALL,
 } from '../src/sprites.js';
-import { hudLamps, hudScore, hudTime } from '../src/strings.js';
+import {
+  ENDING_LINE_1,
+  ENDING_LINE_2,
+  FAIL_LINE,
+  RESTART_HINT,
+  TITLE_NAME,
+  TITLE_PROMPT,
+  hudLamps,
+  hudScore,
+  hudTime,
+} from '../src/strings.js';
 import {
   MOVE_COOLDOWN_MS,
   TILE_SIZE,
@@ -25,6 +35,7 @@ import {
   SEAGULL_MOVE_INTERVAL_MS,
   RNG_SEED,
   LAMP_SCORE,
+  CLEAR_BONUS_PER_SECOND,
   createState,
   tileAt,
   moveBear,
@@ -40,6 +51,11 @@ import {
   litCount,
   lampTotal,
   remainingSeconds,
+  clearBonus,
+  afterClear,
+  createGame,
+  tick,
+  pressKey,
 } from '../src/logic.js';
 
 const at = (col, row) => ({ grid: LEVEL1, bear: { col, row } });
@@ -368,4 +384,197 @@ test('새 스프라이트: 곰 기절은 곰과 0·6행만 다르고, 켜진 등
   const differing = (a, b) => a.flatMap((row, i) => (JSON.stringify(row) === JSON.stringify(b[i]) ? [] : [i]));
   assert.deepEqual(differing(SPRITE_BEAR, SPRITE_BEAR_STUNNED), [0, 6]);
   assert.deepEqual(differing(SPRITE_LAMP_OFF, SPRITE_LAMP_ON), [4, 5, 6, 7, 8, 9]);
+});
+
+// ---- R2 (goal-3): 점수 마무리와 화면 전환 ----
+// 기대값은 2장 점수 표(100점/등불, 남은 시간 초 내림 × 10)와 3장 화면 흐름 표에서 손으로 가져왔다.
+const playing = (level) => ({ screen: 'play', levelIndex: 0, level });
+// 등불 2개를 켠 상태에서 마지막 L (3,4) 위에 곰이 서 있고 갈매기는 멈춰 있는 레벨.
+const lastLamp = (extra = {}) =>
+  calm({ col: 3, row: 4 }, { lit: [{ col: 2, row: 2 }, { col: 6, row: 2 }], score: 200, ...extra });
+
+test('문서 숫자 대조: 보너스 초당 10점 (2장 점수 표)', () => {
+  assert.equal(CLEAR_BONUS_PER_SECOND, 10);
+});
+
+test('클리어 보너스: 남은 시간 초 내림 × 10 (2장 점수 표 예시와 경계)', () => {
+  assert.equal(clearBonus(37900), 370);
+  assert.equal(clearBonus(400), 0);
+  assert.equal(clearBonus(0), 0);
+  assert.equal(clearBonus(60000), 600);
+  assert.equal(clearBonus(59999), 590);
+  assert.equal(clearBonus(999), 0);
+  assert.equal(clearBonus(1000), 10);
+  assert.equal(clearBonus(1999), 10);
+  assert.equal(clearBonus(2000), 20);
+});
+
+test('맵 순서 일반형: 레벨 1만 있으면 엔딩, 3개면 레벨 3에서만 엔딩 (2장 맵 순서·승리·실패)', () => {
+  assert.equal(afterClear(0, 1), 'ending');
+  assert.equal(afterClear(0, 3), 'next');
+  assert.equal(afterClear(1, 3), 'next');
+  assert.equal(afterClear(2, 3), 'ending');
+});
+
+test('페이지를 열면 타이틀이고 level은 없다 (3장 타이틀)', () => {
+  assert.deepEqual(createGame(), { screen: 'title', levelIndex: 0, level: null });
+});
+
+test('R2에는 레벨 1뿐이다 (2장 맵 순서, 레벨 2·3은 R3)', () => {
+  assert.deepEqual(LEVELS, [LEVEL1]);
+});
+
+test('점수 합산: 경과 22 100 ms에 마지막 등불 → 300 + 370 = 670, 엔딩 화면 (점수 표)', () => {
+  const g = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
+  assert.equal(g.screen, 'ending');
+  assert.equal(g.level.score, 670);
+});
+
+test('클리어 우선: 경과 정확히 60 000 ms에 마지막 등불 → 300 + 0 = 300 (2장 마지막 등불 vs 만료)', () => {
+  const g = pressKey(playing(lastLamp()), ' ', LEVELS, 60000);
+  assert.equal(g.screen, 'ending');
+  assert.equal(g.level.score, 300);
+});
+
+test('실패 판은 보너스가 없다: 등불 2개 후 만료 → 실패 화면, 점수 200 (점수 표 실패)', () => {
+  const g = tick(playing(lastLamp()), LEVELS, 60001);
+  assert.equal(g.screen, 'fail');
+  assert.equal(g.level.score, 200);
+});
+
+test('보너스는 한 번만 더해진다: ending에서 tick을 두 번 불러도 670 (점수 표)', () => {
+  let g = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
+  g = tick(tick(g, LEVELS, 30000), LEVELS, 90000);
+  assert.equal(g.screen, 'ending');
+  assert.equal(g.level.score, 670);
+});
+
+test('tick은 play가 아니면 그대로, 시간만 지나서 클리어되지는 않는다 (3장)', () => {
+  const title = createGame();
+  assert.deepEqual(tick(title, LEVELS, 99999), title);
+  const g = playing(lastLamp());
+  assert.equal(tick(g, LEVELS, 1000).screen, 'play');
+});
+
+test('새 판은 점수 0의 처음 상태: 실패 화면(200점) → 타이틀 → 스페이스 (점수 표 실패, 2장 맵 순서·승리·실패)', () => {
+  let g = tick(playing(lastLamp()), LEVELS, 60001);
+  assert.equal(g.level.score, 200);
+  g = pressKey(g, ' ', LEVELS, 70000);
+  assert.deepEqual(g, createGame());
+  g = pressKey(g, ' ', LEVELS, 80000);
+  assert.equal(g.screen, 'play');
+  assert.equal(g.level.score, 0);
+  assert.deepEqual(g.level.lit, []);
+  assert.deepEqual(g.level.bear, { col: 1, row: 1 });
+  assert.deepEqual(g.level.gull, { col: 7, row: 5 });
+  assert.equal(g.level.startMs, 80000);
+  assert.equal(g.level.rng, 20261113);
+  assert.equal(g.level.lastMoveMs, -Infinity);
+  assert.equal(g.level.status, 'playing');
+  assert.equal(g.level.stunUntilMs, null);
+});
+
+test('같은 시드로 두 번 시작하면 같은 상태 (2장 난수)', () => {
+  const start = (t) => pressKey(createGame(), ' ', LEVELS, t).level;
+  const a = start(5000);
+  const b = start(5000);
+  assert.deepEqual(a, b);
+  assert.deepEqual(advance(a, 15000), advance(b, 15000));
+});
+
+test('시작 점수 이월: createState(grid, now, 450).score === 450 (점수 표 맵 사이 합산)', () => {
+  assert.equal(createState(LEVEL1, 0, 450).score, 450);
+});
+
+test('타이머는 타이틀에서 스페이스를 누른 순간 시작한다 (9장 26번, 2장 제한시간)', () => {
+  const g = pressKey(createGame(), ' ', LEVELS, 10000);
+  assert.equal(remainingSeconds(g.level, 10000), 60);
+  assert.equal(remainingSeconds(g.level, 11000), 59);
+});
+
+test('타이틀: 스페이스만 시작, 방향키·엔터는 불변 (3장 타이틀)', () => {
+  const title = createGame();
+  for (const key of ['ArrowRight', 'ArrowUp', 'Enter', 'Escape', 'a']) {
+    assert.deepEqual(pressKey(title, key, LEVELS, 1000), title);
+  }
+  assert.equal(pressKey(title, ' ', LEVELS, 1000).screen, 'play');
+});
+
+test('플레이 중 엔터·Esc는 상태 불변 (3장 플레이)', () => {
+  const g = playing(calm({ col: 1, row: 1 }));
+  for (const key of ['Enter', 'Escape', 'Shift']) {
+    assert.deepEqual(pressKey(g, key, LEVELS, 1000), g);
+  }
+});
+
+test('플레이 중 방향키는 이동, 스페이스는 점등 (3장 플레이)', () => {
+  const g = playing(calm({ col: 1, row: 1 }));
+  assert.deepEqual(pressKey(g, 'ArrowRight', LEVELS, 1000).level.bear, { col: 2, row: 1 });
+  const onLamp = playing(calm({ col: 2, row: 2 }));
+  assert.equal(pressKey(onLamp, ' ', LEVELS, 1000).level.score, 100);
+});
+
+test('엔딩·실패: 스페이스는 타이틀로, 방향키·엔터는 불변 (3장 엔딩·실패)', () => {
+  const ending = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
+  const fail = tick(playing(lastLamp()), LEVELS, 60001);
+  for (const g of [ending, fail]) {
+    for (const key of ['ArrowDown', 'Enter', 'Escape']) {
+      assert.deepEqual(pressKey(g, key, LEVELS, 90000), g);
+    }
+    assert.deepEqual(pressKey(g, ' ', LEVELS, 90000), createGame());
+  }
+});
+
+test('keydown 소비: 스페이스 한 번은 한 화면 전환만 일으킨다 (3장 소비 규칙)', () => {
+  // 엔딩 → 타이틀에서 멈춘다 (곧바로 플레이로 가지 않는다).
+  const ending = pressKey(playing(lastLamp()), ' ', LEVELS, 22100);
+  assert.equal(pressKey(ending, ' ', LEVELS, 23000).screen, 'title');
+  // 마지막 등불을 켠 스페이스는 엔딩까지만 간다 (같은 입력이 타이틀로 넘기지 않는다).
+  assert.equal(pressKey(playing(lastLamp()), ' ', LEVELS, 22100).screen, 'ending');
+  // 타이틀 → 플레이에서 같은 스페이스가 점등을 일으키지 않는다.
+  const started = pressKey(createGame(), ' ', LEVELS, 1000);
+  assert.equal(started.level.score, 0);
+  assert.deepEqual(started.level.lit, []);
+});
+
+test('만료로 실패 화면이 된 뒤 도착한 입력은 버린다 (3장 소비 규칙)', () => {
+  const g = playing(calm({ col: 1, row: 1 }));
+  const after = pressKey(g, ' ', LEVELS, 60001);
+  assert.equal(after.screen, 'fail');
+  const afterMove = pressKey(g, 'ArrowRight', LEVELS, 60001);
+  assert.equal(afterMove.screen, 'fail');
+  assert.deepEqual(afterMove.level.bear, { col: 1, row: 1 });
+});
+
+test('엔딩 문구 두 문자열을 공백 하나로 이으면 스펙 원문 (3장 R2 임시 문구, 스펙 F10)', () => {
+  assert.equal(`${ENDING_LINE_1} ${ENDING_LINE_2}`, '등대에 다시 불이 들어왔다. 곰은 아침까지 등불을 지킨다.');
+});
+
+test('타이틀·실패·안내 문구 (3장 R2 임시 문구)', () => {
+  assert.equal(TITLE_NAME, '등대지기 곰');
+  assert.equal(TITLE_PROMPT, '스페이스바로 시작');
+  assert.equal(FAIL_LINE, '밤이 끝났다.');
+  assert.equal(RESTART_HINT, '스페이스바로 처음 화면');
+});
+
+test('같은 입력 스크립트를 두 번 재생하면 같은 게임 상태 (타이틀부터 실패까지)', () => {
+  const script = [[1000, ' '], [1200, 'ArrowRight'], [1500, 'ArrowDown'], [2000, ' '], [3000, 'ArrowRight']];
+  const play = () => {
+    let g = createGame();
+    for (const [t, key] of script) g = pressKey(g, key, LEVELS, t);
+    return tick(g, LEVELS, 70000);
+  };
+  const a = play();
+  assert.deepEqual(a, play());
+  assert.equal(a.screen, 'fail');
+});
+
+test('다음 레벨이 있으면 보너스를 더한 점수로 이어서 시작한다 (점수 표 맵 사이 합산, 일반형 순서)', () => {
+  const two = [LEVEL1, LEVEL1];
+  const g = pressKey(playing(lastLamp()), ' ', two, 22100);
+  assert.equal(g.screen, 'play');
+  assert.equal(g.levelIndex, 1);
+  assert.equal(g.level.score, 670);
+  assert.equal(g.level.startMs, 22100);
+  assert.deepEqual(g.level.lit, []);
 });

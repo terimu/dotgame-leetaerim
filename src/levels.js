@@ -8,3 +8,6 @@ export const LEVEL1 = [
   '#.......#',
   '#########',
 ];
+
+// 2장 "맵 순서·승리·실패": 레벨 순서. R2에는 레벨 1뿐이다 (레벨 2·3은 R3).
+export const LEVELS = [LEVEL1];

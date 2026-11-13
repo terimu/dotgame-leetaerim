@@ -13,6 +13,7 @@ export const STUN_MS = 3000;
 export const SEAGULL_MOVE_INTERVAL_MS = 300;
 export const RNG_SEED = 20261113;
 export const LAMP_SCORE = 100;
+export const CLEAR_BONUS_PER_SECOND = 10;
 
 const DIRECTIONS = {
   ArrowUp: { dc: 0, dr: -1 },
@@ -219,4 +220,58 @@ export function mapOffset(cols, rows) {
     x: (SCREEN_WIDTH - cols * TILE_SIZE) / 2,
     y: (MAP_AREA_HEIGHT - rows * TILE_SIZE) / 2,
   };
+}
+
+// ---- 화면 흐름과 점수 마무리 (GAME_DESIGN.md 2장 점수 표, 3장) ----
+
+// 2장 점수 표 "클리어 시간 보너스": 남은 시간(ms)을 초 단위로 내림한 값 × 10점.
+export function clearBonus(remainingMs) {
+  if (remainingMs <= 0) return 0;
+  return Math.floor(remainingMs / 1000) * CLEAR_BONUS_PER_SECOND;
+}
+
+// 2장 "맵 순서·승리·실패": 레벨 N 클리어 → N+1, 마지막 레벨 클리어 → 엔딩.
+export function afterClear(levelIndex, levelCount) {
+  return levelIndex + 1 < levelCount ? 'next' : 'ending';
+}
+
+export function createGame() {
+  return { screen: 'title', levelIndex: 0, level: null };
+}
+
+// 클리어 순간의 남은 시간으로 보너스를 더한다. tick의 클리어 전환 한 지점에서만 호출한다.
+function settleClear(level) {
+  return { ...level, score: level.score + clearBonus(remainingMs(level, level.endMs)) };
+}
+
+// play 화면의 시간을 진행하고 클리어·실패에 따라 화면을 바꾼다. 다른 화면은 그대로.
+export function tick(game, levels, nowMs) {
+  if (game.screen !== 'play') return game;
+  const level = advance(game.level, nowMs);
+  if (level.status === 'failed') return { ...game, screen: 'fail', level };
+  if (level.status === 'cleared') {
+    const settled = settleClear(level);
+    if (afterClear(game.levelIndex, levels.length) === 'ending') {
+      return { ...game, screen: 'ending', level: settled };
+    }
+    const levelIndex = game.levelIndex + 1;
+    return { screen: 'play', levelIndex, level: createState(levels[levelIndex], nowMs, settled.score) };
+  }
+  return { ...game, level };
+}
+
+// 3장 "화면 전환 keydown 소비 규칙": 한 keydown은 하나의 효과만 낸다. 먼저 시간을 진행해 화면이 바뀌었으면 입력은 버린다.
+export function pressKey(game, key, levels, nowMs) {
+  const g = tick(game, levels, nowMs);
+  if (g.screen !== game.screen || g.levelIndex !== game.levelIndex) return g;
+  if (g.screen === 'title') {
+    if (key !== ' ') return g;
+    return { screen: 'play', levelIndex: 0, level: createState(levels[0], nowMs, 0) };
+  }
+  if (g.screen === 'play') {
+    if (key === ' ') return tick({ ...g, level: pressLight(g.level, nowMs) }, levels, nowMs);
+    if (directionDelta(key) === null) return g;
+    return tick({ ...g, level: pressMove(g.level, key, nowMs) }, levels, nowMs);
+  }
+  return key === ' ' ? createGame() : g;
 }

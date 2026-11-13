@@ -74,14 +74,40 @@
       "id": "G003",
       "title": "goal-3 — 승패와 화면 전환 (9장 24~35번)",
       "objective": "Starts only after the human browser-verified goal-2. Implement per approved GAME_DESIGN.md v2 and final plan section 6 (goal-3): title screen, play -> ending (level 1 clear, 스펙 원문 엔딩 문구 split into two strings in src/strings.js) / failure, 스페이스바 back to title, 클리어 보너스 floor(remaining s)*10 added once at the single play->ending transition, score reset to 0 on new run, keydown consumption rule. Files: logic.js, main.js, strings.js, levels.js, test/logic.test.js (max 5; stop and report if a 6th is needed). After implementation STOP and tell the human to check 9장 24~35번; the four submission screenshots (title/play/clear/fail) are taken by the human from real play.",
-      "status": "active",
+      "status": "complete",
       "createdAt": "2026-11-13T06:42:35.379Z",
-      "updatedAt": "2026-11-13T07:15:59.935Z",
-      "startedAt": "2026-11-13T07:15:59.935Z"
+      "updatedAt": "2026-11-13T07:56:32.900Z",
+      "startedAt": "2026-11-13T07:15:59.935Z",
+      "completedAt": "2026-11-13T07:56:32.900Z",
+      "evidence": "goal-3 verified: node --test 65/65; cohort gen 1 (architect CLEAR/APPROVE, cleaner BLOCKING 0, QA 94 adversarial cases 0 fail); human browser-verified 9장 24~35번 on 2026-11-13 (human message: all correct); GAME_DESIGN.md 24~35번 marked [x]. Leader automation screenshots/transcript are supplementary, not the approval basis; the 4 submission screenshots remain the human's job.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "e106468d-fd06-4437-83ad-cc34ed59eb70",
+        "verifiedAt": "2026-11-13T07:56:32.900Z",
+        "goalId": "G003",
+        "receiptKind": "final-aggregate",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "2ae85816380366b62f0f9541056d61652d9d05059a593b8ae462121bc688285c",
+        "planGeneration": "52307a47eaf8ff64e4a483af497b06b8e0bd2348cf31decdcd3d7efc91765ede",
+        "basis": {
+          "planHashBeforeCheckpoint": "8e8a66da5b6fb63b796e49b84e61441aa8d02106c63af6352aaa43e1609403be",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "03694a6d-c66a-45cd-bdae-82f998ea9e34",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T07:56:32.900Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001",
+            "G002",
+            "G003"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "9682569b5ab217498bd8db8fe9d4fdbc9f5b0d61fd92181a6a133cd19db39833"
+        },
+        "checkpointLedgerEventId": "2260caf8-b158-4ea7-8915-89133786eccd"
+      }
     }
   ],
   "createdAt": "2026-11-13T06:42:35.379Z",
-  "updatedAt": "2026-11-13T07:15:59.935Z",
+  "updatedAt": "2026-11-13T07:56:32.900Z",
   "repositoryBinding": {
     "schema": "gjc.repository_binding.v1",
     "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
@@ -90,5 +116,5 @@
     "head": "2d85a11e3ef8c73a62b3037288bcc20b02ba3201",
     "branch": "main"
   },
-  "state_revision": 6
+  "state_revision": 7
 }
