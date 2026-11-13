@@ -36,10 +36,49 @@
         },
         "checkpointLedgerEventId": "604b4153-016f-4a78-bbb1-809d1152e8f3"
       }
+    },
+    {
+      "id": "G002",
+      "title": "goal-4: levels 2 and 3",
+      "objective": "Levels 2 and 3 from GAME_DESIGN.md 5장 added to src/levels.js (LEVELS=[1,2,3]), tests updated; already implemented and committed as 910e0a7; this story records the checkpoint only.",
+      "status": "complete",
+      "createdAt": "2026-11-13T09:56:22.098Z",
+      "updatedAt": "2026-11-13T10:13:34.364Z",
+      "steering": {
+        "kind": "add_subgoal",
+        "evidence": "commit 910e0a7 goal-4: levels 2 and 3; node --test test/ 78/78 pass; user confirmed 9장 36-48 in browser 2026-11-13",
+        "rationale": "goal-4 was executed after the run closed and exists only as an annotate_ledger note; register it as G002 for a durable audit trail."
+      },
+      "startedAt": "2026-11-13T09:56:29.461Z",
+      "completedAt": "2026-11-13T10:13:34.364Z",
+      "evidence": "goal-4 levels 2 and 3 committed as 910e0a7 (src/levels.js LEVEL2 10x7 + LEVEL3 11x9 from GAME_DESIGN.md 5장, test/logic.test.js, items 36-48 marked); node --test test/ 78/78 pass; GAME_DESIGN.md 9장 items 36-48 human browser confirmation 2026-11-13; no new implementation in this checkpoint; goal-5 on hold.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "4d8033d9-4bc3-493d-aba9-7be7ac97b4b2",
+        "verifiedAt": "2026-11-13T10:13:34.364Z",
+        "goalId": "G002",
+        "receiptKind": "final-aggregate",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "c1c169accd9406f18e0df6923d036878b780064f6afeb528be248cc03bde9ab4",
+        "planGeneration": "a4f9051b0e52bd1d30ccb81b703170ab40225b2004832d6e30ba9a5a92baa6a3",
+        "basis": {
+          "planHashBeforeCheckpoint": "d441a29490c28e3866e9386b183ba7053640179af97710063be2bb3c31394671",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "b06a9163-e423-48f6-978e-ecee005f1c0b",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T10:13:34.364Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001",
+            "G002"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "f14efceb94fd27c1ea294559c3d5cd6e410a84d566d0b3bffc5624a85c56cef4"
+        },
+        "checkpointLedgerEventId": "2dea918b-c7b2-42af-b12f-6d238a9023e1"
+      }
     }
   ],
   "createdAt": "2026-11-13T09:15:44.305Z",
-  "updatedAt": "2026-11-13T09:20:19.577Z",
+  "updatedAt": "2026-11-13T10:13:34.364Z",
   "repositoryBinding": {
     "schema": "gjc.repository_binding.v1",
     "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
@@ -48,5 +87,5 @@
     "head": "29c3e5d7cc1ab929be8a80b8793fe0f09e9b3816",
     "branch": "main"
   },
-  "state_revision": 3
+  "state_revision": 6
 }

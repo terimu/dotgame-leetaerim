@@ -1,0 +1,123 @@
+PASS spec has 3 grids
+PASS L1 grid verbatim vs GAME_DESIGN 5장
+PASS L1 dims 9x7
+PASS L1 lamp count 3
+PASS L1 bear start (1,1)
+PASS L1 offset 32,32
+PASS L2 grid verbatim vs GAME_DESIGN 5장
+PASS L2 dims 10x7
+PASS L2 lamp count 4
+PASS L2 bear start (1,1)
+PASS L2 gull start 8,5
+PASS L2 offset 16,32
+PASS L3 grid verbatim vs GAME_DESIGN 5장
+PASS L3 dims 11x9
+PASS L3 lamp count 5
+PASS L3 bear start (1,1)
+PASS L3 gull start 9,7
+PASS L3 offset 0,0
+PASS start -> play L1 score0 timer 60
+PASS L1 clear@22.1s -> L2 play, score 670
+PASS L2 timer reset to 60 at transition
+PASS L2 first frame HUD 59 at +1ms
+PASS L2 clear@30.5s -> L3 play, score 1360
+PASS L3 timer 60, lit 0
+PASS L3 clear@41.999s -> ending, score 2040
+PASS ending space -> title
+PASS title space -> L1 score0 lit0 timer 60 grid L1
+PASS all levels clear at elapsed 1ms -> 2970
+PASS all levels clear at elapsed 60000ms -> 1200
+PASS all levels clear at elapsed 0ms -> 3000
+PASS all levels clear at elapsed 59999ms -> 1200
+PASS elapsed 1000ms each -> 1200+3*590=2970
+PASS elapsed 1001ms each -> remaining 58.999 -> 580 each => 2940
+PASS L1 last lamp at 60000 -> cleared (no fail), bonus 0
+PASS L1 last lamp at 60001 -> fail, score = prev + lit*100 (no lamp)
+PASS L1 tick at 60000 still play
+PASS L1 tick at 60001 fail
+PASS L2 last lamp at 60000 -> cleared (no fail), bonus 0
+PASS L2 last lamp at 60001 -> fail, score = prev + lit*100 (no lamp)
+PASS L2 tick at 60000 still play
+PASS L2 tick at 60001 fail
+PASS L3 last lamp at 60000 -> cleared (no fail), bonus 0
+PASS L3 last lamp at 60001 -> fail, score = prev + lit*100 (no lamp)
+PASS L3 tick at 60000 still play
+PASS L3 tick at 60001 fail
+PASS L2 fail: 670 + 2*100 = 870
+PASS L3 fail: 1360 + 3*100 = 1660
+PASS fail space -> title -> play L1 score 0
+PASS fail screen ignores non-space
+PASS fail keeps score after huge later tick
+PASS L1 duplicate space on lit lamp: +100 once, lit=1
+PASS L1 space on plain floor: nothing
+PASS L2 duplicate space on lit lamp: +100 once, lit=1
+PASS L2 space on plain floor: nothing
+PASS L3 duplicate space on lit lamp: +100 once, lit=1
+PASS L3 space on plain floor: nothing
+PASS L2 gull steps onto bear at s+300 -> stunned until s+3300
+PASS L2 gull relocated to farthest cell
+PASS L2 input during stun ignored
+PASS L2 space at stunUntil-1 ignored
+PASS L2 space at stunUntil lit (>= boundary)
+PASS L2 timer continues during stun
+PASS L2 fail during stun at 60001
+PASS L3 gull steps onto bear at s+300 -> stunned until s+3300
+PASS L3 gull relocated to farthest cell
+PASS L3 input during stun ignored
+PASS L3 space at stunUntil-1 ignored
+PASS L3 space at stunUntil lit (>= boundary)
+PASS L3 timer continues during stun
+PASS L3 fail during stun at 60001
+PASS L1->next transition: space lights exactly last lamp, next lit 0, bear at start
+PASS L1 space at 60001 -> fail, not light
+PASS fail keydown does not also restart
+PASS L2->next transition: space lights exactly last lamp, next lit 0, bear at start
+PASS L1 space at 60001 -> fail, not light
+PASS fail keydown does not also restart
+PASS L3 clearing space -> ending (not title)
+PASS arrow at expiry: fail, bear unmoved
+PASS new level: first move accepted at same ms (cooldown reset)
+PASS unknown key "Enter" no effect
+PASS unknown key "Escape" no effect
+PASS unknown key "a" no effect
+PASS unknown key "" no effect
+PASS unknown key undefined no effect
+PASS unknown key null no effect
+PASS unknown key "ArrowUpp" no effect
+PASS unknown key "arrowup" no effect
+PASS unknown key "constructor" no effect
+PASS unknown key "__proto__" no effect
+PASS unknown key "toString" no effect
+PASS unknown key "hasOwnProperty" no effect
+PASS unknown key "Spacebar" no effect
+PASS unknown key "  " no effect
+PASS unknown key 42 no effect
+PASS title ignores Enter
+PASS ending/fail ignore Enter
+PASS title ignores x
+PASS ending/fail ignore x
+PASS title ignores constructor
+PASS ending/fail ignore constructor
+PASS title ignores __proto__
+PASS ending/fail ignore __proto__
+PASS huge nowMs 1000000000 -> fail, terminates fast (0ms)
+PASS huge nowMs 1000000000: remainingSeconds 0, endMs capped
+PASS huge nowMs 1000000000000000 -> fail, terminates fast (0ms)
+PASS huge nowMs 1000000000000000: remainingSeconds 0, endMs capped
+PASS huge nowMs 9007199254740991 -> fail, terminates fast (0ms)
+PASS huge nowMs 9007199254740991: remainingSeconds 0, endMs capped
+PASS huge nowMs Infinity -> fail, terminates fast (0ms)
+PASS huge nowMs Infinity: remainingSeconds 0, endMs capped
+PASS nowMs backwards (9000 < start 10000): no throw, no crash; move gated by cooldown (negative delta)
+PASS tick backwards: state consistent, stays play, no gull events
+PASS remainingSeconds clamps to <=60 when now<start
+PASS advance split == advance whole (L1, 15000/30000)
+PASS L2 advance split == whole (stun/gull events)
+PASS L3 advance split == whole (stun/gull events)
+PASS L2 gull stays on floor for 60s
+PASS L3 gull stays on floor for 60s
+
+SUMMARY: 118/118 passed, 0 failed
+
+INFO (outside spec domain, not a contradiction): pressKey/tick/advance with nowMs=NaN or undefined never returns (advance loop: 'eventMs > NaN' is false forever). Repro: timeout 10 node /tmp/qa-goal4/nan.mjs -> exit 124.
+NOTE: check 'L2 first frame HUD' is vacuous (|| true); ignore.
