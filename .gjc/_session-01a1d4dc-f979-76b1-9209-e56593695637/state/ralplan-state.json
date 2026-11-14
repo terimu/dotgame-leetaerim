@@ -1,0 +1,61 @@
+{
+  "active": true,
+  "version": 2,
+  "current_phase": "handoff",
+  "skill": "ralplan",
+  "cwd": "/Users/leetaerim/Downloads/dotgame-taerim",
+  "updated_at": "2026-11-13T15:08:57.002Z",
+  "session_id": "01a1d4dc-f979-76b1-9209-e56593695637",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "150a053a5e3665ddd0cde79f30131b53a6a8d701",
+    "branch": "r4-goal5"
+  },
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-state-cli",
+    "command": "gjc state ralplan write",
+    "state_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/state/skill-active-state.json",
+    "storage_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/state/ralplan-state.json",
+    "mutated_at": "2026-11-13T15:08:57.002Z",
+    "fresh_until": "2026-11-13T15:38:57.002Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:2026-11-13T15:08:57.002Z",
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "a8bcefd502590f9ecbb1262e70e6574285bc2718256bb4fa480440a47036f86d",
+      "covered_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/state/ralplan-state.json",
+      "computed_at": "2026-11-13T15:08:57.005Z"
+    }
+  },
+  "run_id": "01a1d4dc-f979-76b1-9209-e56593695637",
+  "planner_subagent_id": "1-R4PlannerRev2",
+  "planner_resumable": true,
+  "planner_fallback_reason": "not_found",
+  "planner_fallback_attempted_id": "0-R4Planner",
+  "planner_fallback_stage_n": 2,
+  "architect_id": "2-R4Architect",
+  "architect_resumable": true,
+  "last_review_verdict": "OKAY",
+  "last_review_verdict_lane": "critic",
+  "last_review_verdict_stage_n": 3,
+  "critic_id": "4-R4CriticL",
+  "critic_resumable": true,
+  "auto_handoff": {
+    "configuredTarget": "off",
+    "effectiveTarget": "off",
+    "degradationReason": null,
+    "source": "default"
+  },
+  "final_admission_phase_transition": {
+    "run_id": "01a1d4dc-f979-76b1-9209-e56593695637",
+    "final_path": "/Users/leetaerim/Downloads/dotgame-taerim/.gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/plans/ralplan/01a1d4dc-f979-76b1-9209-e56593695637/stage-03-final.md",
+    "final_sha256": "82bf77e10ed0794343559afc4fb81c3d12a5dd1971ed8b2b8345efc8d3d2ff71",
+    "auto_handoff_sha256": "baf1bde06b9be0458d9d81bf55e067158d2cf07d30b198d609a3dec519b416b1"
+  },
+  "state_revision": 2
+}

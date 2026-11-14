@@ -1,0 +1,66 @@
+Serving HTTP on 127.0.0.1 port 8797 (http://127.0.0.1:8797/) ...
+127.0.0.1 - - [14/Nov/2026 14:15:22] "HEAD /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /fonts/Galmuri9.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:15:26] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:15:26] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:15:35] "GET /src/logic.js HTTP/1.1" 304 -
+127.0.0.1 - - [14/Nov/2026 14:15:44] "GET /src/logic.js HTTP/1.1" 304 -
+127.0.0.1 - - [14/Nov/2026 14:15:54] "GET /src/logic.js HTTP/1.1" 304 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /fonts/Galmuri9.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:04] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:16:04] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /fonts/Galmuri9.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:07] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:16:07] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /fonts/Galmuri9.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:49] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:16:49] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:17:19] "GET /src/logic.js HTTP/1.1" 304 -
+127.0.0.1 - - [14/Nov/2026 14:17:19] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:17:19] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:17:37] "GET /src/logic.js HTTP/1.1" 304 -
+127.0.0.1 - - [14/Nov/2026 14:17:37] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:17:37] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /fonts/Galmuri9.woff2 HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:17:55] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:17:55] "GET /favicon.ico HTTP/1.1" 404 -

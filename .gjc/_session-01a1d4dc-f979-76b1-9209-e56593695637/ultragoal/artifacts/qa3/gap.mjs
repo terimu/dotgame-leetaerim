@@ -1,0 +1,6 @@
+import fs from 'node:fs'; import zlib from 'node:zlib';
+function dec(p){const b=fs.readFileSync(p);let o=8,w,h,ct,id=[];while(o<b.length){const l=b.readUInt32BE(o),t=b.toString('ascii',o+4,o+8),d=b.subarray(o+8,o+8+l);if(t==='IHDR'){w=d.readUInt32BE(0);h=d.readUInt32BE(4);ct=d[9]}if(t==='IDAT')id.push(d);o+=12+l}
+const bpp=ct===6?4:3,raw=zlib.inflateSync(Buffer.concat(id)),st=w*bpp,px=Buffer.alloc(h*st);for(let y=0;y<h;y++){const f=raw[y*(st+1)];for(let x=0;x<st;x++){const c=raw[y*(st+1)+1+x],a=x>=bpp?px[y*st+x-bpp]:0,u=y?px[(y-1)*st+x]:0,ul=(y&&x>=bpp)?px[(y-1)*st+x-bpp]:0;let v;if(f===0)v=c;else if(f===1)v=c+a;else if(f===2)v=c+u;else if(f===3)v=c+((a+u)>>1);else{const pp=a+u-ul,pa=Math.abs(pp-a),pb=Math.abs(pp-u),pc=Math.abs(pp-ul);v=c+(pa<=pb&&pa<=pc?a:pb<=pc?u:ul)}px[y*st+x]=v&255}}return{w,h,bpp,px}}
+const {w,h,bpp,px}=dec(process.argv[2]);const cols=[];for(let x=0;x<w;x++){let on=false;for(let y=290;y<h;y++){const i=(y*w+x)*bpp;if(!(px[i]===0x0b&&px[i+1]===0x0e&&px[i+2]===0x1a)){on=true;break}}cols.push(on)}
+const runs=[];let s=null;cols.forEach((c,x)=>{if(c&&s===null)s=x;if(!c&&s!==null){runs.push([s,x-1]);s=null}});if(s!==null)runs.push([s,w-1]);
+console.log(process.argv[2],'ink col runs',JSON.stringify(runs));const gaps=runs.slice(1).map((r,i)=>r[0]-runs[i][1]-1);console.log('gaps',gaps.join(','),'max gap',Math.max(...gaps))

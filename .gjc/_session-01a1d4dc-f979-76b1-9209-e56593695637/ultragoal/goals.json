@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "brief": "R4 for \"등대지기 곰\" (repo /Users/leetaerim/Downloads/dotgame-taerim, branch r4-goal5). Approved plan (single source of truth for steps, tests, risks): .gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/plans/ralplan/01a1d4dc-f979-76b1-9209-e56593695637/pending-approval.md (= stage-03-final.md, sha256 82bf77e10ed0794343559afc4fb81c3d12a5dd1971ed8b2b8345efc8d3d2ff71). Read it fully before each goal; section numbers below refer to it. User approved in chat: \"승인, 날짜 (나) 맞음\".\n\nGlobal constraints (AGENTS.md + user): no code change before design-v4 is committed; GAME_DESIGN.md is the only spec; no package.json/npm/bundler/framework/external lib; no font, image or external audio files; 6장 palette 8 hex unchanged; no glyph grids in GAME_DESIGN.md; document must stay <= 13,800 chars (wc -m); do not change numbers in the spec from code; UI strings only in src/strings.js; logic.js never touches canvas/DOM/storage/AudioContext; test expectations come from spec numbers, never mirror code behavior. Test command: `node --test test/`. \"Tests pass\" is not completion: each goal ends only when the human confirms the listed 9장 items in a browser (`python3 -m http.server 8000`, zoom 100%). Human confirmation dates (49번~) go in commit messages and REPORT.md, NOT in the 9장 legend. Never repeat the same attempt more than 6 times in one goal; if blocked, stop and report where. Commits: one per goal, messages `design-v4:` / `goal-5:` / `goal-6:` / `fix-N:`. Do not put .gjc/ in .gitignore. When waiting for the human (diff approval or browser confirmation) classify the blocker as human_blocked; do not nudge-loop.\n\n@goal: design-v4 (GAME_DESIGN.md only)\nExecute plan §2. Replace GAME_DESIGN.md with the reviewed candidate /tmp/r4/GAME_DESIGN_v4_candidate.md (title v4; 4장 sprite grids removed, only 7 sprite names/16x16/used palette indices + title sprite lines; 2장 RNG formula line removed; 2장/3장/7장/8장/10장 rewritten per §2.1-§2.7; 9장 head legend `[x] = 사람 브라우저 확인 2026-11-13`; items 1~48 keep number, sentence, evidence citation and per-item `[x]` (only the trailing suffix removed); items 49~58 appended with `[ ]`, 49~54 = goal-5, 55~58 = goal-6). If /tmp/r4 is gone, rebuild from plan §2 text. Verify: `wc -m GAME_DESIGN.md` == 13,766 (must be <= 13,800); items 1~48 identical to HEAD except the removed suffix (diff); 5장 and 6장 byte-identical to HEAD; no code/test file touched. Then show the human `git diff GAME_DESIGN.md` highlights and the measured length and STOP for explicit human approval of the diff (human_blocked gate). After approval: `git add GAME_DESIGN.md` and commit `design-v4: ...`. Completion = human-approved diff + design-v4 commit exists with only GAME_DESIGN.md changed. Do not start goal-5 before this.\n\n@goal: goal-5 (효과음 · 최고 점수 · 타이틀 도트)\nExecute plan §3 (steps 5a→5d, each <=5 files, node --test after each step): 5a best score (logic.js parseBest/nextBest/BEST_SCORE_MAX=3000; storage.js BEST_KEY `lighthouse-bear-best`, loadBest/saveBest/recordBest(store, memoryBest, prevGame, nextGame); strings.js hudBest; main.js single `commit(nextGame)`; test that GAME_DESIGN.md length <= 13,800), 5b sound (logic.js soundEvent(prev,next) using next.level.*, sound.js SOUND_TABLE/MASTER_GAIN/ATTACK_MS/RELEASE_MS/unlock/play, no AudioContext at import), 5c title (sprites.js 5 syllable sprites 14x14 index 5 + key sprite 44x12 indices 4/6/7 no text, logic.js titleLayout, remove TITLE_NAME/TITLE_PROMPT from strings.js and fix test imports/tests, per-sprite used-index test parsed from 4장, refresh now-false comments in sprites.js/main.js/strings.js), 5d finish (index.html `image-rendering: pixelated`, README 보류 section replaced; GAME_DESIGN.md only `[ ]`->`[x]` on 49~54 after human confirmation). Best score is saved/shown only when entering the ending; failures neither saved nor shown. The goal-5 ending `최고 점수` line is a temporary monospace 16px line at y=210 replaced in goal-6; the completion report must say: \"7장 글자 규칙·55~58번은 goal-6 범위, 임시 최고 점수 줄은 goal-6에서 삭제\". Human completion condition = 9장 49~54번 confirmed in a browser (title dot name + key sprite; sounds for lamp/stun/clear/fail/ending with speakers on, last lamp of a level plays the clear/ending sound not the lamp sound; ending `최고 점수 m`; Local Storage only `lighthouse-bear-best`; failure screen has no best-score line and does not change storage). Tell the human exactly which 9장 numbers to check and how (plan §3.5). Commit `goal-5: ...` only after the human confirms; record the confirmation date in the commit message and REPORT.md.\n\n@goal: goal-6 (글자 도트화)\nExecute plan §4 (steps 6a→6b). Draw every character of the bottom HUD (`등불 n/m`, `점수 n`, `남은 시간 s`) and of the ending and failure screens as dot glyphs; no fillText and no font in src/. Glyph data lives in src/sprites.js as palette-index arrays (GLYPHS keyed by character; only the 47 used glyphs: 35 hangul 등 불 점 수 남 은 시 간 대 에 다 이 들 어 왔 곰 아 침 까 지 을 킨 밤 끝 났 스 페 바 로 처 음 화 면 최 고, digits 0~9, `/`, `.`; no unused glyphs such as 기·작), strings.js keeps the phrases unchanged, layout/width math is pure code in logic.js following 7장 numbers (1 dot = 2 px, hangul picture 10x10 in an 11-dot cell, digits 4-dot picture in 5-dot cell, space 3 dots, HUD top y=294, left x from 6, middle centered at x=176, right ends at x=346, ending line tops y 80·110·160·190·240, failure line tops y 100·150·200, `점수 3000` and `남은 시간 60` at least 5 px apart). Tests per plan §4.3 (glyph key set equals both strings.js phrase characters and the 7장 list parsed from the document; each glyph has >=1 dot and all 47 pictures are distinct; values null or 7; HUD worst-case spacing; ending/failure line widths <= 352 and y+20 <= 320; fillText absent from main.js added only in 6b). Remove the goal-5 temporary monospace best-score line. Human completion condition = 9장 55~58번 confirmed in a browser (HUD dot glyphs and values change as in 12~14; level 3 four-digit score does not overlap; ending 5 lines + failure 3 lines all dot glyphs and every hangul readable without blanks/boxes; Network tab shows only html/js, favicon excluded). Tell the human exactly which numbers to check (plan §4.4). Start only after goal-5 is human-confirmed and committed. Commit `goal-6: ...` only after the human confirms; record the date in the commit message and REPORT.md. Then update REPORT.md/README as the plan §4 says.",
+  "gjcGoalMode": "aggregate",
+  "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "design-v4 (GAME_DESIGN.md only)",
+      "objective": "Execute plan §2. Replace GAME_DESIGN.md with the reviewed candidate /tmp/r4/GAME_DESIGN_v4_candidate.md (title v4; 4장 sprite grids removed, only 7 sprite names/16x16/used palette indices + title sprite lines; 2장 RNG formula line removed; 2장/3장/7장/8장/10장 rewritten per §2.1-§2.7; 9장 head legend `[x] = 사람 브라우저 확인 2026-11-13`; items 1~48 keep number, sentence, evidence citation and per-item `[x]` (only the trailing suffix removed); items 49~58 appended with `[ ]`, 49~54 = goal-5, 55~58 = goal-6). If /tmp/r4 is gone, rebuild from plan §2 text. Verify: `wc -m GAME_DESIGN.md` == 13,766 (must be <= 13,800); items 1~48 identical to HEAD except the removed suffix (diff); 5장 and 6장 byte-identical to HEAD; no code/test file touched. Then show the human `git diff GAME_DESIGN.md` highlights and the measured length and STOP for explicit human approval of the diff (human_blocked gate). After approval: `git add GAME_DESIGN.md` and commit `design-v4: ...`. Completion = human-approved diff + design-v4 commit exists with only GAME_DESIGN.md changed. Do not start goal-5 before this.",
+      "status": "complete",
+      "createdAt": "2026-11-13T15:09:41.363Z",
+      "updatedAt": "2026-11-13T15:27:45.456Z",
+      "startedAt": "2026-11-13T15:09:44.739Z",
+      "completedAt": "2026-11-13T15:27:45.456Z",
+      "evidence": "design-v4 commit df5327d (GAME_DESIGN.md only, 13,766 chars). Human approved diff in chat 2026-11-14.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "b3add3e6-4963-480d-85e4-ae4419dae574",
+        "verifiedAt": "2026-11-13T15:27:45.456Z",
+        "goalId": "G001",
+        "receiptKind": "per-goal",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "95986b2912382a84eb7ec93f4e030438600f854b2277f477e92cf98e9865e328",
+        "planGeneration": "b21d7fa8d311ff5e3e850326e3c70b400f8308efbfcee6b8f5aacb0f1104fe22",
+        "basis": {
+          "planHashBeforeCheckpoint": "bf8988c6264fd5347a1e3604f01359e33bca5b80ea2339f80a8892a238d9c898",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "a9f9022a-8e36-4bef-8286-aeee96ce9601",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T15:27:45.456Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G001"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "713d78ed1ec726ce086112b6d4f8c173104c7a32b76fa855db5cfca9dfb2cb6d"
+        },
+        "checkpointLedgerEventId": "6cd46981-e7f1-4db7-8c18-87e64f38ec0f"
+      }
+    },
+    {
+      "id": "G002",
+      "title": "goal-5 (효과음 · 최고 점수 · 타이틀 도트)",
+      "objective": "Execute plan §3 (steps 5a→5d, each <=5 files, node --test after each step): 5a best score (logic.js parseBest/nextBest/BEST_SCORE_MAX=3000; storage.js BEST_KEY `lighthouse-bear-best`, loadBest/saveBest/recordBest(store, memoryBest, prevGame, nextGame); strings.js hudBest; main.js single `commit(nextGame)`; test that GAME_DESIGN.md length <= 13,800), 5b sound (logic.js soundEvent(prev,next) using next.level.*, sound.js SOUND_TABLE/MASTER_GAIN/ATTACK_MS/RELEASE_MS/unlock/play, no AudioContext at import), 5c title (sprites.js 5 syllable sprites 14x14 index 5 + key sprite 44x12 indices 4/6/7 no text, logic.js titleLayout, remove TITLE_NAME/TITLE_PROMPT from strings.js and fix test imports/tests, per-sprite used-index test parsed from 4장, refresh now-false comments in sprites.js/main.js/strings.js), 5d finish (index.html `image-rendering: pixelated`, README 보류 section replaced; GAME_DESIGN.md only `[ ]`->`[x]` on 49~54 after human confirmation). Best score is saved/shown only when entering the ending; failures neither saved nor shown. The goal-5 ending `최고 점수` line is a temporary monospace 16px line at y=210 replaced in goal-6; the completion report must say: \"7장 글자 규칙·55~58번은 goal-6 범위, 임시 최고 점수 줄은 goal-6에서 삭제\". Human completion condition = 9장 49~54번 confirmed in a browser (title dot name + key sprite; sounds for lamp/stun/clear/fail/ending with speakers on, last lamp of a level plays the clear/ending sound not the lamp sound; ending `최고 점수 m`; Local Storage only `lighthouse-bear-best`; failure screen has no best-score line and does not change storage). Tell the human exactly which 9장 numbers to check and how (plan §3.5). Commit `goal-5: ...` only after the human confirms; record the confirmation date in the commit message and REPORT.md.",
+      "status": "complete",
+      "createdAt": "2026-11-13T15:09:41.363Z",
+      "updatedAt": "2026-11-13T15:43:56.676Z",
+      "startedAt": "2026-11-13T15:27:45.481Z",
+      "completedAt": "2026-11-13T15:43:56.676Z",
+      "evidence": "goal-5 committed; human confirmed 9장 49~54 in a browser 2026-11-14; node --test 101/101.",
+      "completionVerification": {
+        "schemaVersion": 1,
+        "receiptId": "b3ef2b3f-97a6-4384-9ce4-69b621c3f545",
+        "verifiedAt": "2026-11-13T15:43:56.676Z",
+        "goalId": "G002",
+        "receiptKind": "per-goal",
+        "goalStatusBeforeCheckpoint": "active",
+        "gjcGoalMode": "aggregate",
+        "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+        "qualityGateHash": "1802426e7b68fee1ed2bc668a7b65b2e1773fbb940b1f4ef07967f204abfdd9f",
+        "planGeneration": "75300e7892fb0111112e9a21411afa3ae350a819ec504d89d56548aea0e553ae",
+        "basis": {
+          "planHashBeforeCheckpoint": "b79c426b364fb0e0d2797d3202c4d1ed8bde5a73b8bfbfe0f93126f913adf1e5",
+          "latestRelevantLedgerEventIdBeforeCheckpoint": "ce129cee-2069-4147-8b42-dfd65cd6bca1",
+          "goalUpdatedAtBeforeCheckpoint": "2026-11-13T15:43:56.676Z",
+          "relevantGoalIdsBeforeCheckpoint": [
+            "G002"
+          ],
+          "requiredGoalSetHashBeforeCheckpoint": "269c9189692958e98fec7a2440d9b7723de0d3607a8535ad9b13e20bc261e6b9"
+        },
+        "checkpointLedgerEventId": "b76d0ebf-d66e-4f09-a7fc-4f362778bd32"
+      }
+    },
+    {
+      "id": "G003",
+      "title": "goal-6 (글자 도트화)",
+      "objective": "Execute plan §4 (steps 6a→6b). Draw every character of the bottom HUD (`등불 n/m`, `점수 n`, `남은 시간 s`) and of the ending and failure screens as dot glyphs; no fillText and no font in src/. Glyph data lives in src/sprites.js as palette-index arrays (GLYPHS keyed by character; only the 47 used glyphs: 35 hangul 등 불 점 수 남 은 시 간 대 에 다 이 들 어 왔 곰 아 침 까 지 을 킨 밤 끝 났 스 페 바 로 처 음 화 면 최 고, digits 0~9, `/`, `.`; no unused glyphs such as 기·작), strings.js keeps the phrases unchanged, layout/width math is pure code in logic.js following 7장 numbers (1 dot = 2 px, hangul picture 10x10 in an 11-dot cell, digits 4-dot picture in 5-dot cell, space 3 dots, HUD top y=294, left x from 6, middle centered at x=176, right ends at x=346, ending line tops y 80·110·160·190·240, failure line tops y 100·150·200, `점수 3000` and `남은 시간 60` at least 5 px apart). Tests per plan §4.3 (glyph key set equals both strings.js phrase characters and the 7장 list parsed from the document; each glyph has >=1 dot and all 47 pictures are distinct; values null or 7; HUD worst-case spacing; ending/failure line widths <= 352 and y+20 <= 320; fillText absent from main.js added only in 6b). Remove the goal-5 temporary monospace best-score line. Human completion condition = 9장 55~58번 confirmed in a browser (HUD dot glyphs and values change as in 12~14; level 3 four-digit score does not overlap; ending 5 lines + failure 3 lines all dot glyphs and every hangul readable without blanks/boxes; Network tab shows only html/js, favicon excluded). Tell the human exactly which numbers to check (plan §4.4). Start only after goal-5 is human-confirmed and committed. Commit `goal-6: ...` only after the human confirms; record the date in the commit message and REPORT.md. Then update REPORT.md/README as the plan §4 says.",
+      "status": "review_blocked",
+      "createdAt": "2026-11-13T15:09:41.363Z",
+      "updatedAt": "2026-11-14T05:19:40.093Z",
+      "startedAt": "2026-11-13T15:43:56.700Z",
+      "evidence": "QA gen3 artifact qa4_hudgap_result.json in .gjc/_session-01a1d4dc-f979-76b1-9209-e56593695637/ultragoal/artifacts/qa3/: reachableMinGap 1 at [2040,44], reachableCountGapLt5 307, reachableCountOverlap 0, minLampsToScoreGap 38. Second finding (advisory): ink-box margins of title name 68/72 and prompt 92/94 come from Galmuri9 right bearing; advance boxes are exactly centered as 7장 specifies."
+    },
+    {
+      "id": "G004",
+      "title": "Resolve HUD digit-width gap (7장 spec change needs human approval)",
+      "objective": "Galmuri9 digit 4 advances 14 px, not 12 as 7장 states; for reachable level-3 states (e.g. 점수 2040 with 남은 시간 44; 2440/44 touches) the score->time ink gap falls below 5 px (307 reachable combos <5, min 1 px, no overlap). 7장 only names 점수 3000/남은 시간 60 (6 px) so the written contract holds, but the intent (9장 56: no overlap in띠) is at risk. Fix requires a 7장 number change (e.g. HUD center x or digit width wording) which must be shown to the human first (AGENTS.md: spec before code).",
+      "status": "pending",
+      "createdAt": "2026-11-14T05:19:40.118Z",
+      "updatedAt": "2026-11-14T05:19:40.118Z",
+      "steering": {
+        "kind": "review_blocker",
+        "blockedGoalId": "G003"
+      }
+    }
+  ],
+  "createdAt": "2026-11-13T15:09:41.363Z",
+  "updatedAt": "2026-11-14T05:19:40.118Z",
+  "repositoryBinding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "commonDir": "/Users/leetaerim/Downloads/dotgame-taerim/.git",
+    "displayPath": "/Users/leetaerim/Downloads/dotgame-taerim",
+    "head": "150a053a5e3665ddd0cde79f30131b53a6a8d701",
+    "branch": "r4-goal5"
+  },
+  "state_revision": 8
+}

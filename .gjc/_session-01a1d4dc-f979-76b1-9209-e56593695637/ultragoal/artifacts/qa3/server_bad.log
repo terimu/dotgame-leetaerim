@@ -1,0 +1,14 @@
+Serving HTTP on 127.0.0.1 port 8798 (http://127.0.0.1:8798/) ...
+127.0.0.1 - - [14/Nov/2026 14:15:22] "HEAD /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/levels.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/strings.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/logic.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/sprites.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/sound.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /src/storage.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /fonts/MISSING.woff2 HTTP/1.1" 404 -
+127.0.0.1 - - [14/Nov/2026 14:16:00] code 404, message File not found
+127.0.0.1 - - [14/Nov/2026 14:16:00] "GET /favicon.ico HTTP/1.1" 404 -
