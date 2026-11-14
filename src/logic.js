@@ -317,10 +317,10 @@ export const ENDING_LINE_Y = [80, 110, 160, 190, 240];
 export const FAIL_LINE_Y = [100, 150, 200];
 export const ALPHA_CUTOFF = 128;
 
-// 글자 왼쪽 x: align이 left면 anchor가 왼쪽 끝, center면 가운데, right면 오른쪽 칸 끝.
+// 글자 왼쪽 x(정수 px): align이 left면 anchor가 왼쪽 끝, center면 가운데, right면 오른쪽 끝(글자 폭 끝). 비트맵이 반 픽셀에 놓여 가장자리가 섞이지 않게 반올림한다.
 export function alignedX(align, anchorX, widthPx) {
   if (align === 'left') return anchorX;
-  if (align === 'center') return anchorX - widthPx / 2;
+  if (align === 'center') return Math.round(anchorX - widthPx / 2);
   if (align === 'right') return anchorX - widthPx;
   throw new RangeError(`unknown align ${align}`);
 }

@@ -787,8 +787,8 @@ test('레벨 전환 keydown은 한 번만 쓰인다: 전환 직후 레벨은 새
   assert.deepEqual(g.level, createState(LEVEL2, 5000, 300 + 550));
 });
 
-// ---- R4 (goal-5): 최고 점수·효과음·타이틀 도트 ----
-// 기대값은 GAME_DESIGN.md 2장 최고 점수 행, 4장 타이틀 스프라이트, 7장 효과음 표·최고 점수에서 손으로 가져왔다.
+// ---- 최고 점수·효과음 (2장 최고 점수, 7장) ----
+// 기대값은 GAME_DESIGN.md 2장 최고 점수 행, 4장 타이틀 이름, 7장 효과음 표·최고 점수에서 손으로 가져왔다.
 const doc = readFileSync(new URL('../GAME_DESIGN.md', import.meta.url), 'utf8');
 const chapter = (from, to) => doc.slice(doc.indexOf(from), doc.indexOf(to));
 
@@ -1062,6 +1062,7 @@ test('alignedX: 왼쪽·가운데·오른쪽 기준 (7장 HUD 배치)', () => {
   assert.equal(alignedX('left', 6, 80), 6);
   assert.equal(alignedX('center', 176, 96), 128);
   assert.equal(alignedX('right', 348, 120), 228);
+  assert.equal(alignedX('center', 176, 95), 129, '폭이 홀수여도 정수 x');
   assert.throws(() => alignedX('top', 0, 1), RangeError);
 });
 
