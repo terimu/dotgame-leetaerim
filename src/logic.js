@@ -325,14 +325,16 @@ export function alignedX(align, anchorX, widthPx) {
   throw new RangeError(`unknown align ${align}`);
 }
 
-// 7장: 캔버스에 쓴 글자의 반투명 가장자리는 알파 절반 이상이면 불투명, 아니면 투명으로 정리한다. RGBA 배열을 새로 돌려준다.
-export function cleanAlpha(rgba) {
+// 7장: 캔버스에 쓴 글자의 반투명 가장자리는 알파 절반 이상이면 팔레트 색 그대로 불투명, 아니면 투명으로 정리한다.
+// 반투명 픽셀의 RGB는 곱해진 알파 때문에 부정확하므로 읽은 RGB를 쓰지 않고 글자 색 hex를 쓴다. RGBA 배열을 새로 돌려준다.
+export function cleanAlpha(rgba, hex) {
+  const color = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
   const out = new Uint8ClampedArray(rgba.length);
   for (let i = 0; i < rgba.length; i += 4) {
     if (rgba[i + 3] < ALPHA_CUTOFF) continue;
-    out[i] = rgba[i];
-    out[i + 1] = rgba[i + 1];
-    out[i + 2] = rgba[i + 2];
+    out[i] = color[0];
+    out[i + 1] = color[1];
+    out[i + 2] = color[2];
     out[i + 3] = 255;
   }
   return out;

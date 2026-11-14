@@ -26,7 +26,6 @@ import {
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-  MAP_AREA_HEIGHT,
   TILE_SIZE,
   createGame,
   tick,
@@ -113,7 +112,7 @@ function textBitmap(text, px, colorIndex) {
     layerCtx.fillStyle = PALETTE[colorIndex];
     layerCtx.fillText(text, TEXT_PAD, TEXT_PAD);
     const image = layerCtx.getImageData(0, 0, layer.width, layer.height);
-    layerCtx.putImageData(new ImageData(cleanAlpha(image.data), layer.width, layer.height), 0, 0);
+    layerCtx.putImageData(new ImageData(cleanAlpha(image.data, PALETTE[colorIndex]), layer.width, layer.height), 0, 0);
     bitmap = { canvas: layer, width };
     textBitmaps.set(key, bitmap);
   }

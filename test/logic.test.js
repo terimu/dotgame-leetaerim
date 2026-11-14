@@ -1094,10 +1094,11 @@ test('줄 y: 모든 줄이 화면 안에서 글자 높이 20 px가 들어가고 
   assert.ok(HUD_TEXT_Y >= 288 && HUD_TEXT_Y + TEXT_PX <= 320);
 });
 
-test('cleanAlpha: 알파 128 이상은 불투명, 미만은 투명, 색은 유지 (7장 가장자리 정리)', () => {
-  const rgba = new Uint8ClampedArray([208, 138, 60, 255, 208, 138, 60, 128, 208, 138, 60, 127, 208, 138, 60, 0, 1, 2, 3, 10]);
-  assert.deepEqual([...cleanAlpha(rgba)], [208, 138, 60, 255, 208, 138, 60, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  assert.equal(rgba[7], 128, '입력은 바뀌지 않는다');
+test('cleanAlpha: 알파 128 이상은 글자 색 hex 그대로 불투명, 미만은 투명, 읽은 RGB 오차는 버린다 (7장 가장자리 정리)', () => {
+  // 둘째·셋째 픽셀의 RGB(207, 137, 59)는 반투명 읽기 오차이고 결과에는 쓰지 않는다.
+  const rgba = new Uint8ClampedArray([208, 138, 60, 255, 207, 137, 59, 128, 207, 137, 59, 127, 208, 138, 60, 0]);
+  assert.deepEqual([...cleanAlpha(rgba, '#d08a3c')], [208, 138, 60, 255, 208, 138, 60, 255, 0, 0, 0, 0, 0, 0, 0, 0]);
+  assert.equal(rgba[4], 207, '입력은 바뀌지 않는다');
 });
 
 test('글꼴 파일: fonts/에 Galmuri9.woff2와 OFL.txt만 있고 index.html은 그 woff2 하나만 불러온다 (7장, 9장 58번)', () => {
