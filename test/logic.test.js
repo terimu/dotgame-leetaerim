@@ -1,7 +1,7 @@
 // 기대값은 GAME_DESIGN.md v2의 숫자(2장·점수 표)와 5장 레벨 1 격자에서 손으로 가져왔다.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { LEVEL1, LEVEL2, LEVEL3, LEVELS } from '../src/levels.js';
 import {
   PALETTE,
@@ -11,15 +11,15 @@ import {
   SPRITE_LAMP_OFF,
   SPRITE_LAMP_ON,
   SPRITE_SEAGULL,
-  SPRITE_TITLE_KEY,
   SPRITE_WALL,
-  TITLE_NAME_SPRITES,
 } from '../src/sprites.js';
 import {
   ENDING_LINE_1,
   ENDING_LINE_2,
   FAIL_LINE,
   RESTART_HINT,
+  TITLE_NAME,
+  TITLE_PROMPT,
   hudBest,
   hudLamps,
   hudScore,
@@ -62,7 +62,18 @@ import {
   parseBest,
   nextBest,
   soundEvent,
-  titleLayout,
+  alignedX,
+  cleanAlpha,
+  TEXT_PX,
+  TITLE_NAME_PX,
+  TITLE_NAME_Y,
+  TITLE_LINE_Y,
+  HUD_TEXT_Y,
+  HUD_LEFT_X,
+  HUD_CENTER_X,
+  HUD_RIGHT_X,
+  ENDING_LINE_Y,
+  FAIL_LINE_Y,
 } from '../src/logic.js';
 import { BEST_KEY, loadBest, saveBest, recordBest } from '../src/storage.js';
 import { SOUND_TABLE, MASTER_GAIN, ATTACK_MS, RELEASE_MS } from '../src/sound.js';
@@ -997,27 +1008,6 @@ test('음 규칙: 엔딩·클리어는 올라가고 실패는 내려가며 엔�
   assert.equal(Math.max(...ms('ending')), ms('ending').at(-1));
 });
 
-// ---- 타이틀 스프라이트 (4장) ----
-test('타이틀 이름은 14×14 음절 5개이고 값은 null 또는 5, 키는 44×12 (4장)', () => {
-  assert.equal(TITLE_NAME_SPRITES.length, 5);
-  for (const sprite of TITLE_NAME_SPRITES) {
-    assert.equal(sprite.length, 14);
-    for (const row of sprite) {
-      assert.equal(row.length, 14);
-      for (const v of row) assert.ok(v === null || v === 5);
-    }
-  }
-  assert.equal(SPRITE_TITLE_KEY.length, 12);
-  for (const row of SPRITE_TITLE_KEY) assert.equal(row.length, 44);
-});
-
-test('titleLayout: 음절 x는 53·101·149·197·257, y 88, 키는 (88, 176) (4장 타이틀 스프라이트)', () => {
-  const layout = titleLayout();
-  assert.deepEqual(layout.name.map((p) => p.x), [53, 101, 149, 197, 257]);
-  assert.ok(layout.name.every((p) => p.y === 88));
-  assert.deepEqual(layout.key, { x: 88, y: 176 });
-});
-
 test('스프라이트마다 쓰는 인덱스는 4장이 선언한 집합과 정확히 같다 (4장 사용 인덱스, 6장)', () => {
   const ch4 = chapter('## 4.', '## 5.');
   const used = (sprite) => new Set(sprite.flat().filter((v) => v !== null));
@@ -1040,10 +1030,94 @@ test('스프라이트마다 쓰는 인덱스는 4장이 선언한 집합과 정�
   };
   assert.deepEqual([...declared.keys()].sort(), Object.keys(sprites).sort());
   for (const [name, sprite] of Object.entries(sprites)) assert.deepEqual(used(sprite), declared.get(name), name);
-  const title = ch4.slice(ch4.indexOf('타이틀 스프라이트:'));
-  const nameIndex = title.match(/색 인덱스 ([0-9]),/);
-  const keyIndexes = title.match(/인덱스 ([0-9](?:·[0-9])+),/);
-  assert.ok(nameIndex && keyIndexes, '4장 타이틀 단락에 인덱스가 없다');
-  for (const sprite of TITLE_NAME_SPRITES) assert.deepEqual(used(sprite), new Set([Number(nameIndex[1])]));
-  assert.deepEqual(used(SPRITE_TITLE_KEY), new Set(keyIndexes[1].split('·').map(Number)));
+});
+
+// ---- R4 (goal-6): 웹폰트 글자 ----
+// 기대값은 GAME_DESIGN.md 4장 타이틀 이름 규칙, 7장 글자 규칙(20 px, 폭 20·12·8, HUD x·y, 줄 y), 9장 55~59번에서 손으로 가져왔다.
+const ch7 = () => doc.slice(doc.indexOf('## 7.'), doc.indexOf('## 8.'));
+const numbers = (text) => text.split('·').map(Number);
+
+test('글자 크기·위치 상수는 문서 7장·4장의 숫자와 같다 (7장 글자 규칙, 4장 타이틀 이름)', () => {
+  const rule = ch7();
+  assert.equal(TEXT_PX, Number(rule.match(/글자는 ([0-9]+) px/)[1]));
+  const hud = rule.match(/HUD 글자 위쪽 y=([0-9]+), 왼쪽 글자 x=([0-9]+)부터, 가운데 글자 가운데 x=([0-9]+), 오른쪽 글자 칸 끝 x=([0-9]+)/);
+  assert.ok(hud, '7장에 HUD 글자 배치 문장이 없다');
+  assert.deepEqual([HUD_TEXT_Y, HUD_LEFT_X, HUD_CENTER_X, HUD_RIGHT_X], hud.slice(1).map(Number));
+  const lines = rule.match(/줄 위쪽 y: 타이틀 ([0-9]+), 엔딩 ([0-9·]+), 실패 ([0-9·]+)/);
+  assert.ok(lines, '7장에 줄 y 문장이 없다');
+  assert.equal(TITLE_LINE_Y, Number(lines[1]));
+  assert.deepEqual(ENDING_LINE_Y, numbers(lines[2]));
+  assert.deepEqual(FAIL_LINE_Y, numbers(lines[3]));
+  const ch4 = doc.slice(doc.indexOf('## 4.'), doc.indexOf('## 5.'));
+  const name = ch4.match(/타이틀 이름: "([^"]+)"은 Galmuri9 ([0-9]+) px\(점 하나 ([0-9]+) px\), 색 인덱스 ([0-9]), 가로 가운데, 위쪽 y=([0-9]+)/);
+  assert.ok(name, '4장에 타이틀 이름 규칙이 없다');
+  assert.equal(TITLE_NAME, name[1]);
+  assert.equal(TITLE_NAME_PX, Number(name[2]));
+  assert.equal(TITLE_NAME_PX / 10, Number(name[3]));
+  assert.equal(Number(name[4]), 5);
+  assert.equal(TITLE_NAME_Y, Number(name[5]));
+});
+
+test('alignedX: 왼쪽·가운데·오른쪽 기준 (7장 HUD 배치)', () => {
+  assert.equal(alignedX('left', 6, 80), 6);
+  assert.equal(alignedX('center', 176, 96), 128);
+  assert.equal(alignedX('right', 348, 120), 228);
+  assert.throws(() => alignedX('top', 0, 1), RangeError);
+});
+
+test('HUD 최악 문자열 간격: 폭 한글 20·숫자 12·띄어쓰기 8 px에서 묶음 사이 5 px 이상, 띠 안 (7장, 9장 56번)', () => {
+  const HANGUL = 20;
+  const DIGIT = 12;
+  const SPACE = 8;
+  const RIGHT_BEARING = 2; // 7장: 칸 끝 348 → 그림 끝 346
+  const lamps = 2 * HANGUL + SPACE + 3 * DIGIT; // 등불 5/5
+  const score = 2 * HANGUL + SPACE + 4 * DIGIT; // 점수 3000
+  const time = 4 * HANGUL + 2 * SPACE + 2 * DIGIT; // 남은 시간 60
+  const lampsEnd = alignedX('left', HUD_LEFT_X, lamps) + lamps;
+  const scoreStart = alignedX('center', HUD_CENTER_X, score);
+  const scoreEnd = scoreStart + score;
+  const timeStart = alignedX('right', HUD_RIGHT_X, time);
+  assert.ok(scoreStart - lampsEnd >= 5);
+  assert.ok(timeStart - (scoreEnd - RIGHT_BEARING) >= 5);
+  assert.equal(HUD_RIGHT_X - RIGHT_BEARING, 346);
+  assert.ok(HUD_LEFT_X >= 0 && HUD_RIGHT_X <= 352);
+});
+
+test('줄 y: 모든 줄이 화면 안에서 글자 높이 20 px가 들어가고 줄 사이가 겹치지 않는다 (7장)', () => {
+  for (const ys of [ENDING_LINE_Y, FAIL_LINE_Y, [TITLE_NAME_Y, TITLE_LINE_Y]]) {
+    for (let i = 0; i < ys.length; i += 1) {
+      assert.ok(ys[i] + TEXT_PX <= SCREEN_HEIGHT);
+      if (i > 0) assert.ok(ys[i] - ys[i - 1] >= TEXT_PX);
+    }
+  }
+  assert.ok(TITLE_NAME_Y + TITLE_NAME_PX <= TITLE_LINE_Y);
+  assert.ok(HUD_TEXT_Y >= 288 && HUD_TEXT_Y + TEXT_PX <= 320);
+});
+
+test('cleanAlpha: 알파 128 이상은 불투명, 미만은 투명, 색은 유지 (7장 가장자리 정리)', () => {
+  const rgba = new Uint8ClampedArray([208, 138, 60, 255, 208, 138, 60, 128, 208, 138, 60, 127, 208, 138, 60, 0, 1, 2, 3, 10]);
+  assert.deepEqual([...cleanAlpha(rgba)], [208, 138, 60, 255, 208, 138, 60, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  assert.equal(rgba[7], 128, '입력은 바뀌지 않는다');
+});
+
+test('글꼴 파일: fonts/에 Galmuri9.woff2와 OFL.txt만 있고 index.html은 그 woff2 하나만 불러온다 (7장, 9장 58번)', () => {
+  assert.deepEqual(readdirSync(new URL('../fonts/', import.meta.url)).sort(), ['Galmuri9.woff2', 'OFL.txt']);
+  const woff2 = readFileSync(new URL('../fonts/Galmuri9.woff2', import.meta.url));
+  assert.equal(woff2.subarray(0, 4).toString('latin1'), 'wOF2');
+  assert.match(readFileSync(new URL('../fonts/OFL.txt', import.meta.url), 'utf8'), /SIL Open Font License/);
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.equal(html.match(/@font-face/g).length, 1);
+  assert.deepEqual([...html.matchAll(/url\(([^)]*)\)/g)].map((m) => m[1]), ['fonts/Galmuri9.woff2']);
+  for (const word of ['<img', '<audio', 'http://', 'https://']) assert.ok(!html.includes(word), word);
+});
+
+test('소스 규칙: src는 .js만이고 글리프·이름 스프라이트·외부 주소가 없다 (7장, 10장, 9장 58번)', () => {
+  const files = readdirSync(new URL('../src/', import.meta.url));
+  for (const file of files) {
+    assert.match(file, /\.js$/);
+    const source = readFileSync(new URL(`../src/${file}`, import.meta.url), 'utf8');
+    for (const word of ['GLYPH', 'TITLE_NAME_SPRITES', 'monospace', 'http://', 'https://']) {
+      assert.ok(!source.includes(word), `${file}: ${word}`);
+    }
+  }
 });

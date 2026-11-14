@@ -9,15 +9,15 @@ import {
   SPRITE_LAMP_OFF,
   SPRITE_LAMP_ON,
   SPRITE_SEAGULL,
-  SPRITE_TITLE_KEY,
   SPRITE_WALL,
-  TITLE_NAME_SPRITES,
 } from './sprites.js';
 import {
   ENDING_LINE_1,
   ENDING_LINE_2,
   FAIL_LINE,
   RESTART_HINT,
+  TITLE_NAME,
+  TITLE_PROMPT,
   hudBest,
   hudLamps,
   hudScore,
@@ -37,15 +37,23 @@ import {
   directionDelta,
   mapOffset,
   soundEvent,
-  titleLayout,
-  TITLE_NAME_DOT,
-  TITLE_KEY_DOT,
+  alignedX,
+  cleanAlpha,
+  TEXT_PX,
+  TITLE_NAME_PX,
+  TITLE_NAME_Y,
+  TITLE_LINE_Y,
+  HUD_TEXT_Y,
+  HUD_LEFT_X,
+  HUD_CENTER_X,
+  HUD_RIGHT_X,
+  ENDING_LINE_Y,
+  FAIL_LINE_Y,
 } from './logic.js';
 import { play, unlock } from './sound.js';
 import { recordBest } from './storage.js';
 
 const SPRITE_SCALE = TILE_SIZE / 16;
-const HUD_FONT = '16px monospace';
 
 const canvas = document.getElementById('game');
 canvas.width = SCREEN_WIDTH;
@@ -84,17 +92,44 @@ function drawSprite(sprite, x, y, scale = SPRITE_SCALE) {
   }
 }
 
+// 7장 글자: 웹폰트 Galmuri9로 쓴 글자의 반투명 가장자리를 정리한 비트맵을 문자열마다 한 번 만들어 둔다.
+const FONT_FAMILY = 'Galmuri9';
+const TEXT_PAD = 2;
+const textBitmaps = new Map();
+
+function textBitmap(text, px, colorIndex) {
+  const key = `${px}|${colorIndex}|${text}`;
+  let bitmap = textBitmaps.get(key);
+  if (bitmap === undefined) {
+    const font = `${px}px ${FONT_FAMILY}`;
+    ctx.font = font;
+    const width = Math.ceil(ctx.measureText(text).width);
+    const layer = document.createElement('canvas');
+    layer.width = width + TEXT_PAD * 2;
+    layer.height = px + TEXT_PAD * 2;
+    const layerCtx = layer.getContext('2d');
+    layerCtx.font = font;
+    layerCtx.textBaseline = 'top';
+    layerCtx.fillStyle = PALETTE[colorIndex];
+    layerCtx.fillText(text, TEXT_PAD, TEXT_PAD);
+    const image = layerCtx.getImageData(0, 0, layer.width, layer.height);
+    layerCtx.putImageData(new ImageData(cleanAlpha(image.data), layer.width, layer.height), 0, 0);
+    bitmap = { canvas: layer, width };
+    textBitmaps.set(key, bitmap);
+  }
+  return bitmap;
+}
+
+function drawText(text, align, anchorX, y, px = TEXT_PX, colorIndex = 7) {
+  const bitmap = textBitmap(text, px, colorIndex);
+  const x = alignedX(align, anchorX, bitmap.width);
+  ctx.drawImage(bitmap.canvas, x - TEXT_PAD, y - TEXT_PAD);
+}
+
 function drawHud(state, nowMs) {
-  ctx.fillStyle = PALETTE[7];
-  ctx.font = HUD_FONT;
-  ctx.textBaseline = 'middle';
-  const y = MAP_AREA_HEIGHT + (SCREEN_HEIGHT - MAP_AREA_HEIGHT) / 2;
-  ctx.textAlign = 'left';
-  ctx.fillText(hudLamps(litCount(state), lampTotal(state)), 8, y);
-  ctx.textAlign = 'center';
-  ctx.fillText(hudScore(state.score), SCREEN_WIDTH / 2, y);
-  ctx.textAlign = 'right';
-  ctx.fillText(hudTime(remainingSeconds(state, nowMs)), SCREEN_WIDTH - 8, y);
+  drawText(hudLamps(litCount(state), lampTotal(state)), 'left', HUD_LEFT_X, HUD_TEXT_Y);
+  drawText(hudScore(state.score), 'center', HUD_CENTER_X, HUD_TEXT_Y);
+  drawText(hudTime(remainingSeconds(state, nowMs)), 'right', HUD_RIGHT_X, HUD_TEXT_Y);
 }
 
 function drawPlay(state, nowMs) {
@@ -119,35 +154,23 @@ function drawPlay(state, nowMs) {
   drawHud(state, nowMs);
 }
 
-// 3장 화면 흐름: 타이틀·엔딩·실패는 `배경`색 위의 가운데 정렬 글자다.
-function drawText(text, y, colorIndex, font) {
-  ctx.fillStyle = PALETTE[colorIndex];
-  ctx.font = font;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, SCREEN_WIDTH / 2, y);
-}
+// 3장 화면 흐름: 타이틀·엔딩·실패의 글자 줄은 `배경`색 위의 가로 가운데 정렬 글자다 (7장 줄 y).
+const SCREEN_CENTER_X = SCREEN_WIDTH / 2;
 
 function draw(nowMs) {
   ctx.fillStyle = PALETTE[0];
   ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   if (game.screen === 'title') {
-    const layout = titleLayout();
-    layout.name.forEach((p, i) => drawSprite(TITLE_NAME_SPRITES[i], p.x, p.y, TITLE_NAME_DOT));
-    drawSprite(SPRITE_TITLE_KEY, layout.key.x, layout.key.y, TITLE_KEY_DOT);
+    drawText(TITLE_NAME, 'center', SCREEN_CENTER_X, TITLE_NAME_Y, TITLE_NAME_PX, 5);
+    drawText(TITLE_PROMPT, 'center', SCREEN_CENTER_X, TITLE_LINE_Y);
   } else if (game.screen === 'play') {
     drawPlay(game.level, nowMs);
   } else if (game.screen === 'ending') {
-    drawText(ENDING_LINE_1, 110, 7, HUD_FONT);
-    drawText(ENDING_LINE_2, 140, 7, HUD_FONT);
-    drawText(hudScore(game.level.score), 190, 7, HUD_FONT);
-    // goal-5 임시 줄: 7장 글자 규칙(도트 글리프)과 y는 goal-6에서 바뀐다.
-    drawText(hudBest(best), 210, 7, HUD_FONT);
-    drawText(RESTART_HINT, 230, 7, HUD_FONT);
+    const lines = [ENDING_LINE_1, ENDING_LINE_2, hudScore(game.level.score), hudBest(best), RESTART_HINT];
+    lines.forEach((text, i) => drawText(text, 'center', SCREEN_CENTER_X, ENDING_LINE_Y[i]));
   } else {
-    drawText(FAIL_LINE, 130, 7, HUD_FONT);
-    drawText(hudScore(game.level.score), 175, 7, HUD_FONT);
-    drawText(RESTART_HINT, 215, 7, HUD_FONT);
+    const lines = [FAIL_LINE, hudScore(game.level.score), RESTART_HINT];
+    lines.forEach((text, i) => drawText(text, 'center', SCREEN_CENTER_X, FAIL_LINE_Y[i]));
   }
 }
 
@@ -167,4 +190,17 @@ document.addEventListener('keydown', (event) => {
   commit(pressKey(game, event.key, LEVELS, performance.now()));
 });
 
-requestAnimationFrame(frame);
+// 7장: 폰트를 불러온 뒤 첫 화면을 그린다. 불러오지 못하면 브라우저 기본 글꼴로 계속한다.
+async function start() {
+  try {
+    await Promise.all([
+      document.fonts.load(`${TEXT_PX}px ${FONT_FAMILY}`, hudLamps(0, 0)),
+      document.fonts.load(`${TITLE_NAME_PX}px ${FONT_FAMILY}`, TITLE_NAME),
+    ]);
+  } catch {
+    // 글꼴 없이 계속한다.
+  }
+  requestAnimationFrame(frame);
+}
+
+start();

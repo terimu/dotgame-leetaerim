@@ -304,25 +304,36 @@ export function soundEvent(prev, next) {
   return null;
 }
 
-// 4장 타이틀 스프라이트: 이름 음절 5개(14×14점, 1점 = 3 px, 음절 사이 2점, "기"와 "곰" 사이 6점)를 가로 가운데에,
-// 키(44×12점, 1점 = 4 px)는 그 아래. 좌표는 이 함수가 4장 숫자에서 계산한다.
-export const TITLE_NAME_DOT = 3;
+// ---- R4 (goal-6): 웹폰트 글자 배치 (GAME_DESIGN.md 4장 타이틀 이름, 7장 글자 규칙) ----
+export const TEXT_PX = 20;
+export const TITLE_NAME_PX = 40;
 export const TITLE_NAME_Y = 88;
-export const TITLE_KEY_DOT = 4;
-export const TITLE_KEY_Y = 176;
+export const TITLE_LINE_Y = 176;
+export const HUD_TEXT_Y = 295;
+export const HUD_LEFT_X = 6;
+export const HUD_CENTER_X = 176;
+export const HUD_RIGHT_X = 348;
+export const ENDING_LINE_Y = [80, 110, 160, 190, 240];
+export const FAIL_LINE_Y = [100, 150, 200];
+export const ALPHA_CUTOFF = 128;
 
-export function titleLayout() {
-  const syllable = 14 * TITLE_NAME_DOT;
-  const gaps = [2, 2, 2, 6].map((dots) => dots * TITLE_NAME_DOT);
-  const width = 5 * syllable + gaps.reduce((sum, g) => sum + g, 0);
-  let x = (SCREEN_WIDTH - width) / 2;
-  const name = [];
-  for (let i = 0; i < 5; i += 1) {
-    name.push({ x, y: TITLE_NAME_Y });
-    x += syllable + (gaps[i] ?? 0);
+// 글자 왼쪽 x: align이 left면 anchor가 왼쪽 끝, center면 가운데, right면 오른쪽 칸 끝.
+export function alignedX(align, anchorX, widthPx) {
+  if (align === 'left') return anchorX;
+  if (align === 'center') return anchorX - widthPx / 2;
+  if (align === 'right') return anchorX - widthPx;
+  throw new RangeError(`unknown align ${align}`);
+}
+
+// 7장: 캔버스에 쓴 글자의 반투명 가장자리는 알파 절반 이상이면 불투명, 아니면 투명으로 정리한다. RGBA 배열을 새로 돌려준다.
+export function cleanAlpha(rgba) {
+  const out = new Uint8ClampedArray(rgba.length);
+  for (let i = 0; i < rgba.length; i += 4) {
+    if (rgba[i + 3] < ALPHA_CUTOFF) continue;
+    out[i] = rgba[i];
+    out[i + 1] = rgba[i + 1];
+    out[i + 2] = rgba[i + 2];
+    out[i + 3] = 255;
   }
-  return {
-    name,
-    key: { x: (SCREEN_WIDTH - 44 * TITLE_KEY_DOT) / 2, y: TITLE_KEY_Y },
-  };
+  return out;
 }

@@ -5,6 +5,8 @@ export const hudTime = (seconds) => `남은 시간 ${seconds}`;
 
 export const hudBest = (score) => `최고 점수 ${score}`;
 
+export const TITLE_NAME = '등대지기 곰';
+export const TITLE_PROMPT = '스페이스바로 시작';
 // 엔딩 문구 원문은 두 문자열을 공백 하나로 이은 것이다 (스펙 F10).
 export const ENDING_LINE_1 = '등대에 다시 불이 들어왔다.';
 export const ENDING_LINE_2 = '곰은 아침까지 등불을 지킨다.';
